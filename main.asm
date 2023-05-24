@@ -4,7 +4,7 @@
 .386
 
 .DATA
-;Segment Data
+	;Title Screen Data
 	TIT1 DB 13,10,13,10,13,10,"                               .'`~~~~~~~~~~~`'.                        ","$"
 	TIT2 DB 13,10,"                               (  .'11 12 1'.  )                        ","$"
 	TIT3 DB 13,10,"                               |  :10 \|   2:  |                        ","$"
@@ -21,9 +21,14 @@
    TIT14 DB 13,10,"                   | Q |             | W +             | E |            ","$"
    TIT15 DB 13,10,"                    +++               +++               +++             ","$"
    TIT16 DB 13,10,"                   ALARM            COOLDOWN         STOPWATCH          ","$"
-                                  
+
+	;User Input Variables
+	INPUT DB 128 (?) ; User input
+	STOR DW 0                       
 .CODE
 include utils.inc
+include notes.inc
+
 .STARTUP 
 	; Sets Cursor Position at (0,0)
 	MOV AX, 0003h

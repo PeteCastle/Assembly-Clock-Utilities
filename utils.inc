@@ -25,3 +25,39 @@ DELAY PROC
         ; Note that since delay is 4, it would take 4 loops before this procedure ends.
     RET
 DELAY ENDP
+
+; sets up the keyboard buffer by initializing the head and tail pointers to the appropriate values, allowing the system to track keyboard input.
+CLR_KEYB PROC ;NEAR
+    PUSH    ES                      ; Save ES
+    PUSH    DI                      ; Save DI
+    MOV     AX, 40H                 ; Load BIOS segment into AX
+    MOV     ES, AX                  ; Transfer to ES
+    MOV     AX, 1AH                 ; Load keyboard pointer into AX
+    MOV     DI, AX                  ; Store in DI
+    MOV     AX, 1EH                 ; Load keyboard buffer start into AX
+    MOV     ES: WORD PTR [DI], AX   ; Move to the head pointer
+    INC     DI                      ; Move pointer to the keyboard tail pointer
+    INC     DI                      
+    MOV     ES: WORD PTR [DI], AX   ; Move to the tail pointer
+    POP     DI                      ; Restore DI
+    POP     ES                      ; Restore ES
+    RET                             ; Return from the procedure
+CLR_KEYB ENDP
+
+; controlling the PC speaker to generate a sound of a specific frequency
+SOUNDER PROC ;NEAR
+    MOV     AL, 0B6H        ;Load control value into AL
+    OUT     43H, AL         ;Send control value to port 43H
+    MOV     AX, STOR        ;Load frequency value into AX
+    OUT     42H, AL         ;Send LSB of frequency to port 42H
+    MOV     AL, AH          ;Move MSB of frequency to AL
+    OUT     42H, AL         ;Send MSB of frequency to port 42H
+    IN      AL, 061H        ;Read the state of port 61H
+    OR      AL, 03H         ;Turn on the speaker by setting the appropriate bits
+    OUT     61H, AL         ;Turn on the speaker by sending the updated state to port 61H
+    CALL    DELAY           ;Delay for a certain period of time
+    AND     AL, 0FCH        ;Turn off the speaker by clearing the appropriate bits
+    OUT     61H, AL         ;Turn off the speaker by sending the updated state to port 61H
+    CALL    CLR_KEYB        ;Call the function to clear the keyboard buffer
+    RET
+SOUNDER ENDP
