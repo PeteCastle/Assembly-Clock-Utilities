@@ -61,3 +61,15 @@ SOUNDER PROC ;NEAR
     CALL    CLR_KEYB        ;Call the function to clear the keyboard buffer
     RET
 SOUNDER ENDP
+
+CLRSCR PROC
+    MOV AH, 06h ; Scroll up window
+    MOV AL, 00h ; Clears entire window
+    MOV BH, 07h
+    MOV CX, 0     ; Top left corner of the screen
+    MOV DX, 184Fh ; Bottom right corner of the screen
+    
+    INT 10h       ; Call BIOS interrupt to clear the screen
+    
+    RET
+CLRSCR ENDP
