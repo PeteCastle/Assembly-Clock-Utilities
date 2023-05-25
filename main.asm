@@ -35,6 +35,8 @@ include notes.inc
 	MOV BX, 0
 	MOV DX, 0000h
 	INT 10H
+
+	call color
 	
 	; Print title screen
 	TITSCR:
