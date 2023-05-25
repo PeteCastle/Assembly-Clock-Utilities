@@ -1,4 +1,4 @@
-CURS_OFF PROC ;NEAR
+ CURS_OFF PROC ;NEAR
     MOV     CH, 10h         ;Hides cursor
     MOV     AH, 01H         ;Interrupt for set text-mode sursor shape
     INT     10h             
@@ -74,7 +74,7 @@ CLRSCR PROC
     RET
 CLRSCR ENDP
 
-color proc
+COLOR proc
     MOV AH, 06h    ; Scroll up function
     XOR AL, AL     ; Clear entire screen
     XOR CX, CX     ; Upper left corner CH=row, CL=column
@@ -82,4 +82,18 @@ color proc
     MOV BH, 74H   ; white and red
     INT 10H
     ret
-color endp
+COLOR endp
+
+GETKIN PROC ;Get Key Input -> Stores input in INPUT variable (AL)
+    MOV AH, 08H         ;Interrupt for get keyboard input
+    MOV INPUT, AL
+    INT 21H
+    ret
+GETKIN ENDP
+
+ENDPROG PROC
+    ; MOV AH, 08H
+    INT 20H
+    ; RET
+ENDPROG ENDP
+

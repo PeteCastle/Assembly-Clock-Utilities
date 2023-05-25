@@ -1,9 +1,7 @@
 
 .model small
 .stack 100h
-
 .code
-        
     start:
     mov cx, 10      ; Loop Counter
 
@@ -16,4 +14,4 @@
     mov ah, 4Ch    ; Exit program
     int 21h
 
-end start
+end START

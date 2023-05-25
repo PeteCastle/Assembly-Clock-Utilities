@@ -2,9 +2,9 @@
 .stack 100h
 
 .data
-    soundFrequency dw 440          ; Frequency for sound (A4)
-    backgroundColor dw 2          ; Background color (green and red)
-    buttonClicked db 0            ; Flag to check if button is clicked
+    SFQ dw 440          ; Frequency for sound (A4)
+    BGC dw 2          ; Background color (green and red)
+    BTC db 0            ; Flag to check if button is clicked
     currentTime db 8, 0, 8 dup ('$') ; Current time string
 
 .code
@@ -27,7 +27,7 @@
         ; Set background color
         mov ah, 0Bh     ; Set background color function
         mov bh, 0       ; Page number
-        mov bl, backgroundColor ; Color (green and red)
+        mov bl, BGC ; Color (green and red)
         int 10h
 
         ; Print initial time
@@ -39,18 +39,18 @@
         mov cx, 0       ; Disable mouse
         int 33h
 
-    mainLoop:
+    ML:
         ; Check for button click
         mov ax, 0000h   ; Function 0, check button status
         int 33h
         test bx, 01h    ; Check if left button is clicked
-        jnz buttonClicked
+        jnz BTC
 
         ; Update current time every second
         mov ah, 2ch     ; Get system time function
         int 21h
         cmp ch, 0       ; Check if seconds is zero
-        jnz mainLoop    ; If not zero, continue waiting
+        jnz ML    ; If not zero, continue waiting
 
         ; Play sound
         call playSound
@@ -58,16 +58,16 @@
         ; Print current time
         call printTime
 
-        jmp mainLoop    ; Repeat the main loop
+        jmp ML    ; Repeat the main loop
 
-    buttonClicked:
+    BTC:
         ; Your method trigger code here
         ; For example, print a string
         mov ah, 09h     ; Print string function
         lea dx, clickMessage    ; Message string
         int 21h
 
-        jmp mainLoop    ; Return to the main loop
+        jmp ML    ; Return to the main loop
 
     printTime:
         ; Get current time
@@ -94,8 +94,8 @@
     playSound:
         ; Play sound
         mov al, 0B6h    ; Sound command
-        mov bl, soundFrequency  ; Frequency (low byte)
-        mov bh, soundFrequency  ; Frequency (high byte)
+        mov bl, SFQ  ; Frequency (low byte)
+        mov bh, SFQ  ; Frequency (high byte)
         mov cx, 1       ; Duration in ticks
         int 10h
 

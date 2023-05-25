@@ -5,9 +5,10 @@
 
 .DATA
 	;Title Screen Data
+	
 	TIT1 DB 13,10,13,10,13,10,"                               .'`~~~~~~~~~~~`'.                        ","$"
 	TIT2 DB 13,10,"                               (  .'11 12 1'.  )                        ","$"
-	TIT3 DB 13,10,"                               |  :10 \|   2:  |                        ","$"
+	TIT3 DB 13,10,"                               |  :10 \|   2:  |                        ","$" ;HAHAHAHA
 	TIT4 DB 13,10,"                               |  :9   @   3:  |                        ","$"
 	TIT5 DB 13,10,"                               |  :8       4;  |                        ","$"
 	TIT6 DB 13,10,"                               '. '..7 6 5..' .'                        ","$"
@@ -20,7 +21,7 @@
    TIT13 DB 13,10,13,10,13,10,"                    +++               +++               +++             ","$"
    TIT14 DB 13,10,"                   | Q |             | W +             | E |            ","$"
    TIT15 DB 13,10,"                    +++               +++               +++             ","$"
-   TIT16 DB 13,10,"                   ALARM            COOLDOWN         STOPWATCH          ","$"
+   TIT16 DB 13,10,"                   CLOCK            COOLDOWN         STOPWATCH          ",13,10,13,10,13,10,"$"
 
 	;User Input Variables
 	INPUT DB 128 (?) ; User input
@@ -28,6 +29,11 @@
 .CODE
 include utils.inc
 include notes.inc
+include timer.inc
+include swatch.inc
+include alarm.inc
+include datetime.inc
+include clock.inc
 
 .STARTUP 
 	; Sets Cursor Position at (0,0)
@@ -37,9 +43,12 @@ include notes.inc
 	INT 10H
 
 	call color
-	
+
+	MOV AH, 08H
+	INT 16
 	; Print title screen
 	TITSCR:
+
 		LEA DX, TIT1
 		MOV AH, 09H
 		INT 21H
@@ -104,17 +113,46 @@ include notes.inc
 		MOV AH, 09H
 		INT 21H
 
-		MOV AH, 08H
-		INT 21H
+
+	TITIN:
+		CALL GETKIN
+
+		CMP AL,"q"
+		JE CLK_WIN
+
+		CMP AL,"w"
+		JE TIM_WIN
+
+		CMP AL,"e"
+		JE SWA_WIN
+
+		CMP AL,"r"
+		JNE TITIN
 	
-		CALL CLRSCR
-		CALL NTE_DO
-		CALL NTE_RE
-		CALL NTE_MI
-		CALL NTE_FA
-		CALL NTE_SO
-		CALL NTE_LA
-		CALL NTE_TI
-		CALL NTE_DO2
+		; CALL CLRSCR
+		; CALL NTE_DO
+		; CALL NTE_RE
+		; CALL NTE_MI
+		; CALL NTE_FA
+		; CALL NTE_SO
+		; CALL NTE_LA
+		; CALL NTE_TI
+		; CALL NTE_DO2
+	
+		; CALL ENDPROG
+	ALA_WIN:
+
+		CALL ALARM
+		
+		JMP TITSCR
+	TIM_WIN:
+		CALL TIMER
+		JMP TITSCR
+	SWA_WIN:
+		CALL SWATCH
+		JMP TITSCR
+	CLK_WIN:
+		CALL CLOCK
+		JMP TITSCR
    .EXIT
 END
