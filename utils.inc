@@ -94,6 +94,14 @@ GETKIN ENDP
 ENDPROG PROC
     ; MOV AH, 08H
     INT 20H
-    ; RET
+    RET
 ENDPROG ENDP
 
+RST_CRSR PROC
+    ; Sets Cursor Position at (0,0)
+	MOV AX, 0003h
+	MOV BX, 0
+	MOV DX, 0000h
+	INT 10H
+    RET
+RST_CRSR ENDP

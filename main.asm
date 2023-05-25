@@ -18,10 +18,10 @@
    TIT10 DB 13,10,"      /    \/ (_/\/    \ )   // \/ \      ( (__ / (_/\(  O )( (__  )  ( ",'$'
    TIT11 DB 13,10,"      \_/\_/\____/\_/\_/(__\_)\_)(_/       \___)\____/ \__/  \___)(__\_)",'$'
    TIT12 DB 13,10,13,10,"               Made by: Aparici, Cayco, Morales J, Soliven, Villar           ","$"
-   TIT13 DB 13,10,13,10,13,10,"                    +++               +++               +++             ","$"
-   TIT14 DB 13,10,"                   | Q |             | W +             | E |            ","$"
-   TIT15 DB 13,10,"                    +++               +++               +++             ","$"
-   TIT16 DB 13,10,"                   CLOCK            COOLDOWN         STOPWATCH          ",13,10,13,10,13,10,"$"
+   TIT13 DB 13,10,13,10,13,10,"       +++            +++             +++             +++           +++ ","$"
+   TIT14 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
+   TIT15 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
+   TIT16 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE",13,10,13,10,13,10,"$"
 
 	;User Input Variables
 	INPUT DB 128 (?) ; User input
@@ -36,16 +36,10 @@ include datetime.inc
 include clock.inc
 
 .STARTUP 
-	; Sets Cursor Position at (0,0)
-	MOV AX, 0003h
-	MOV BX, 0
-	MOV DX, 0000h
-	INT 10H
 
+	CALL RST_CRSR
 	call color
 
-	MOV AH, 08H
-	INT 16
 	; Print title screen
 	TITSCR:
 
@@ -121,10 +115,16 @@ include clock.inc
 		JE CLK_WIN
 
 		CMP AL,"w"
-		JE TIM_WIN
+		JE ALA_WIN
 
 		CMP AL,"e"
+		JE TIM_WIN
+
+		CMP AL,"r"
 		JE SWA_WIN
+
+		CMP AL, "t"
+		JE ENDPROG
 
 		CMP AL,"r"
 		JNE TITIN
@@ -141,9 +141,7 @@ include clock.inc
 	
 		; CALL ENDPROG
 	ALA_WIN:
-
 		CALL ALARM
-		
 		JMP TITSCR
 	TIM_WIN:
 		CALL TIMER
