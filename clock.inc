@@ -1,14 +1,25 @@
 CLOCK PROC
     START:
+        CALL DELAY
         CALL CLRSCR
-        ; MOVE MO YUNG CURSOR DITO
+
+        MOV DX, 0508H
+        CALL SET_CRSR
         CALL PRNT_TME
-        ; GANON DIND ITO
+
+        MOV DX, 0608H
+        CALL SET_CRSR
         CALL PRNT_DTE
-        ; GANON DIN DITO
+
+        MOV DX, 0708H
+        CALL SET_CRSR
         CALL PRNT_DOW
 
-        CALL GETKIN
+        CALL GETKINAS
+
+        JZ START
+
+
         ; MOV AH, 01H
         ; INT 16H
         ; CALL ENDPROG

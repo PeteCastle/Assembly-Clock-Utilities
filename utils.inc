@@ -84,12 +84,26 @@ COLOR proc
     ret
 COLOR endp
 
-GETKIN PROC ;Get Key Input -> Stores input in INPUT variable (AL)
+GETKIN PROC ;Get Key Input ( blocking; synchronous) -> Stores input in INPUT variable (AL)
     MOV AH, 08H         ;Interrupt for get keyboard input
     MOV INPUT, AL
     INT 21H
     ret
 GETKIN ENDP
+
+GETKINAS PROC
+    ;Get Key input (non blocking; asynchronous)
+    ; INT 16h / AH = 01h - check for keystroke in the keyboard buffer.
+        ; return:
+        ; ZF = 1 if keystroke is not available.
+        ; ZF = 0 if keystroke available.
+        ; AH = BIOS scan code.
+        ; AL = ASCII character.
+        ; (if a keystroke is present, it is not removed from the keyboard buffer).
+    MOV AH, 01H
+    INT 16H
+    ret
+GETKINAS ENDP
 
 ENDPROG PROC
     ; MOV AH, 08H
@@ -105,3 +119,13 @@ RST_CRSR PROC
 	INT 10H
     RET
 RST_CRSR ENDP
+
+SET_CRSR PROC
+    ; Sets Cursor Position at (X,Y)
+    ; Required Args: DH = row, DL = column
+    MOV AX, 0200h
+    MOV BX, 0
+    
+    INT 10H
+    RET
+SET_CRSR ENDP
