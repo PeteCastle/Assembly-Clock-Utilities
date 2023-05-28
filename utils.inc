@@ -84,6 +84,10 @@ COLOR proc
     ret
 COLOR endp
 
+COL_RED PROC ; Red Text Only
+
+COL_RED ENDP
+
 GETKIN PROC ;Get Key Input ( blocking; synchronous) -> Stores input in INPUT variable (AL)
     MOV AH, 08H         ;Interrupt for get keyboard input
     MOV INPUT, AL
@@ -99,7 +103,6 @@ GETKINAS PROC
         ; ZF = 0 if keystroke available.
         ; AH = BIOS scan code.
         ; AL = ASCII character.
-        ; (if a keystroke is present, it is not removed from the keyboard buffer).
     MOV AH, 01H
     INT 16H
     ret

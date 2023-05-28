@@ -19,92 +19,590 @@
     ALRM18 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
     ALRM19 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
     ALRM20 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE",13,10,13,10,13,10,"$"
-             
+
+	;TEMP ONLY REMOVE LATER
+	TEST1 DB "value is true","$"
+	TEST2 DB "value is false","$"
+
+	STAT_ON DB "ALARM ON ","$"
+	STAT_OF DB "ALARM OFF","$"
+
+	SET_ALARM DB 0 ; Set alarm
+	SET_WKDAY DB 0 ; Set weekday
+		;Uses bitwise operations to retrieve value
+			;Bit 0 = Sunday
+			;Bit 6 = Saturday
+	SET_HOUR DB 4
+	SET_MIN DB 11
+	SET_MDDAY DB 0 ; Set midday : Binary 0 = AM, 1 = PM
+
+
 .CODE
-ALARM PROC
-        CALL RST_CRSR
-        CALL CLRSCR
 
-    	LEA DX, ALRM1
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM2
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM3
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM4
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM5
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM6
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM7
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM8
-		MOV AH, 09H
-		INT 21H
+AL_MAIN PROC
+		INIT:
+			CALL RST_CRSR
+			CALL CLRSCR
 
-		LEA DX, ALRM9
-		MOV AH, 09H
-		INT 21H
+			MOV DH,5 ;Row and Column (DL) for Hour
+			MOV DL,40
+			CALL SET_CRSR
+			MOV AH, 0
+			MOV AL, byte ptr [SET_HOUR]
+			CALL DISP_DT	
 
-		LEA DX, ALRM10
-		MOV AH, 09H
-		INT 21H
+			MOV DH,5 ;Row and Column (DL) for Minute
+			MOV DL,50
+			CALL SET_CRSR
+			MOV AH, 0
+			MOV AL, byte ptr [SET_MIN]
+			CALL DISP_DT
 
-		LEA DX, ALRM11
-		MOV AH, 09H
-		INT 21H
+			MOV DH,5 ;Row and Column (DL) for Midday
+			MOV DL,60
+			CALL SET_CRSR
+			mov dl, 'A'     ; To print /
+			mov ah, 02h
+			int 21h
+			mov dl, 'M'     ; To print /
+			mov ah, 02h
+			int 21h
 
-		LEA DX, ALRM12
-		MOV AH, 09H
-		INT 21H
-		
-		LEA DX, ALRM13
-		MOV AH, 09H
-		INT 21H
+			MOV CX, 6
+			MOV BP, offset SUN
+			MOV DL, 10 ; Row and Column (DL) for sun 
+			MOV DH, 7	
 
-		LEA DX, ALRM14
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF
+			MOV CX, 6
+			MOV BP, offset MON
+			MOV DL, 10 ; Row and Column (DL) for Monday
+			MOV DH, 8
 
-		LEA DX, ALRM15
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF
+			MOV CX, 7
+			MOV BP, offset TUE
+			MOV DL, 10 ; Row and Column (DL) for TUE
+			MOV DH, 9
 
-        LEA DX, ALRM16
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF 
+			MOV CX, 9
+			MOV BP, offset WED
+			MOV DL, 10 ; Row and Column (DL) for WED
+			MOV DH, 10
 
-        LEA DX, ALRM17
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF
+			MOV CX, 8
+			MOV BP, offset THU
+			MOV DL, 10 ; Row and Column (DL) for WED
+			MOV DH, 11
 
-        LEA DX, ALRM18
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF
+			MOV CX, 6
+			MOV BP, offset FRI
+			MOV DL, 10 ; Row and Column (DL) for WED
+			MOV DH, 12
 
-        LEA DX, ALRM19
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF
+			MOV CX, 8
+			MOV BP, offset SAT
+			MOV DL, 10 ; Row and Column (DL) for SAT
+			MOV DH, 13
 
-        LEA DX, ALRM20
-		MOV AH, 09H
-		INT 21H
+			CALL DISP_OFF
+			
+			MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
+			MOV DH, 1	
+			MOV CX, 9
+			MOV BP, offset STAT_OF
+			CALL DISP_OFF
 
+
+		ALARM:
+			CALL DELAY
+			CALL GETKIN
+
+			CMP AL, ';'
+			JE SEMICLN
+
+			CMP AL, '.'
+			JE PERIOD
+
+		; Note that apostrophe may not work for JSDOS TASM
+		; But works for DOSBOX TASM
+		CMP AL, 39 ; Apostrophe
+		JE APSTPHE
+
+		CMP AL, '/'
+		JE SLASH
+
+		CMP AL, 'P'
+		JE KEY_P
+		CMP AL, 'p'
+		JE KEY_P
+
+		CMP AL, ' ' ; Space
+		JE KEY_SPCE
+
+		CMP AL, 'A'
+		JE KEY_A
+		CMP AL, 'a'
+		JE KEY_A
+
+		CMP AL, 'S'
+		JE KEY_S
+		CMP AL, 's'
+		JE KEY_S
+
+		CMP AL, 'D'
+		JE KEY_D
+		CMP AL, 'd'
+		JE KEY_D
+
+		CMP AL, 'F'
+		JE KEY_F
+		CMP AL, 'f'
+		JE KEY_F
+
+		CMP AL, 'g'
+		JE KEY_G
+		CMP AL, 'G'
+		JE KEY_G
+
+		CMP AL, 'H'
+		JE KEY_H
+		CMP AL, 'h'
+		JE KEY_H
+
+		CMP AL, 'J'
+		JE KEY_J
+		CMP AL, 'j'
+		JE KEY_J
+
+		JMP ALARM
+
+		PERIOD:
+			MOV DH,5 ;Row and Column (DL) for Hour
+			MOV DL,40
+			CALL SET_CRSR
+
+			MOV AL, byte ptr [SET_HOUR]
+			SUB AL, 1
+			JZ HR_NEGA
+			MOV byte ptr [SET_HOUR], AL
+			CALL DISP_DT
+			JMP ALARM
+			HR_NEGA:
+				MOV AL, 12
+				MOV byte ptr [SET_HOUR], AL
+				CALL DISP_DT
+				JMP ALARM	 
+
+		SEMICLN:
+			MOV DH,5 ;Row and Column (DL) for Hour
+			MOV DL,40
+			CALL SET_CRSR
+
+			MOV AL, byte ptr [SET_HOUR]
+			ADD AL, 1
+			CMP AL, 12
+			JG ABV_12
+			MOV byte ptr [SET_HOUR], AL
+			CALL DISP_DT
+			JMP ALARM
+			ABV_12:
+				MOV AL, 1
+				MOV byte ptr [SET_HOUR], AL
+				CALL DISP_DT
+				JMP ALARM
+			
+		APSTPHE: 
+			MOV DH,5 ;Row and Column (DL) for Minute
+			MOV DL,50
+			CALL SET_CRSR
+
+			MOV AL, byte ptr [SET_MIN]
+			ADD AL, 1
+			CMP AL, 59
+			JG ABV_59
+			MOV byte ptr [SET_MIN], AL
+			CALL DISP_DT
+			JMP ALARM
+			ABV_59:
+				MOV AL, 0
+				MOV byte ptr [SET_MIN], AL
+				CALL DISP_DT
+				JMP ALARM
+		SLASH:
+			MOV DH,5 ;Row and Column (DL) for Minute
+			MOV DL,50
+			CALL SET_CRSR
+			
+			MOV AL, byte ptr [SET_MIN]
+			SUB AL, 1
+			JS MN_NEGA
+			MOV byte ptr [SET_MIN], AL
+			CALL DISP_DT
+			JMP ALARM
+			MN_NEGA:
+				MOV AL, 59
+				MOV byte ptr [SET_MIN], AL
+				CALL DISP_DT
+				JMP ALARM	
+		KEY_P:
+			MOV DH,5 ;Row and Column (DL) for Midday
+			MOV DL,60
+			CALL SET_CRSR
+
+			MOV AL, byte ptr [SET_MDDAY]
+			NOT AL
+			MOV byte ptr [SET_MDDAY], AL
+			
+			MOV AL, byte ptr [SET_MDDAY]
+			CMP AL, 0FFh
+			JE MD_PM
+			mov dl, 'A'     ; To print /
+			mov ah, 02h
+			int 21h
+
+			mov dl, 'M'     ; To print /
+			mov ah, 02h
+			int 21h
+			JMP ALARM
+			MD_PM:
+				mov dl, 'P'     ; To print /
+				mov ah, 02h
+				int 21h
+
+				mov dl, 'M'     ; To print /
+				mov ah, 02h
+				int 21h
+				JMP ALARM
+		KEY_SPCE: 
+			MOV AL, byte ptr [SET_ALARM]
+			NOT AL
+			MOV byte ptr [SET_ALARM], AL
+
+			MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
+			MOV DH, 1	
+			MOV CX, 9
+
+			MOV AL, byte ptr [SET_ALARM]
+			CMP AL, 0FFh
+			JE ALRM_ON
+
+			
+			MOV BP, offset STAT_OF
+			CALL DISP_OFF
+			JMP ALARM
+			ALRM_ON:
+	
+				MOV BP, offset STAT_ON
+				CALL DISP_ON
+				JMP ALARM
+	
+		KEY_A:
+			MOV CX, 0	
+			CALL A_WD_BIT
+
+			MOV CX, 6
+			MOV BP, offset SUN
+			MOV DL, 10 ; Row and Column (DL) for sun 
+			MOV DH, 7	
+
+			JMP WK_COND 
+		KEY_S:
+			MOV CX, 1
+			CALL A_WD_BIT
+
+			MOV CX, 6
+			MOV BP, offset MON
+			MOV DL, 10 ; Row and Column (DL) for Monday
+			MOV DH, 8
+
+			JMP WK_COND 
+		KEY_D:
+			MOV CX, 2
+			CALL A_WD_BIT
+
+			MOV CX, 7
+			MOV BP, offset TUE
+			MOV DL, 10 ; Row and Column (DL) for TUE
+			MOV DH, 9
+
+			JMP WK_COND 
+		KEY_F:
+			MOV CX, 3
+			CALL A_WD_BIT
+
+			MOV CX, 9
+			MOV BP, offset WED
+			MOV DL, 10 ; Row and Column (DL) for WED
+			MOV DH, 10
+
+			JMP WK_COND 
+
+		KEY_G:
+			MOV CX, 4
+			CALL A_WD_BIT
+
+			MOV CX, 8
+			MOV BP, offset THU
+			MOV DL, 10 ; Row and Column (DL) for WED
+			MOV DH, 11
+
+			JMP WK_COND 
+		KEY_H:
+			MOV CX, 5
+			CALL A_WD_BIT
+
+			MOV CX, 6
+			MOV BP, offset FRI
+			MOV DL, 10 ; Row and Column (DL) for WED
+			MOV DH, 12
+
+			JMP WK_COND 
+
+		KEY_J:
+			MOV CX, 6
+			CALL A_WD_BIT
+
+			MOV CX, 8
+			MOV BP, offset SAT
+			MOV DL, 10 ; Row and Column (DL) for SAT
+			MOV DH, 13
+
+			JMP WK_COND 
+
+		WK_COND: ;Standard weekday conditions
+			CMP AL, 1
+			JE IS_EQU
+			CALL DISP_OFF
+			JMP ALARM
+			IS_EQU:
+				CALL DISP_ON
+				JMP ALARM
         CALL GETKIN
     RET
-ALARM ENDP
+AL_MAIN ENDP
+
+A_WD_BIT PROC ;Inverts and reads weekday bits
+	MOV AH, 0
+	MOV AL, byte ptr [SET_WKDAY]
+	CALL INV_BIT
+	MOV byte ptr [SET_WKDAY], AL
+	CALL READ_BIT
+	RET
+A_WD_BIT ENDP
+
+DISP_ON PROC ; Prints day on
+	PUSH DS
+	POP ES
+	MOV AL, 1
+	MOV BH, 0
+	MOV BL, 00000010b
+	MOV AH, 13h
+	INT 10H
+	RET
+DISP_ON ENDP
+
+DISP_OFF PROC ; Prints day OFF
+	PUSH DS
+	POP ES
+	MOV AL, 1
+	MOV BH, 0
+	MOV BL, 00001000b
+	MOV AH, 13h
+	INT 10H
+	RET
+DISP_OFF ENDP
+
+; already merged inm ain code
+; A_DIS_MD PROC ;Displays midday value
+; 	MOV AL, byte ptr [SET_MDDAY]
+; 	CMP AL, 0FFh
+; 	JE MD_PM
+; 	mov dl, 'A'     ; To print /
+; 	mov ah, 02h
+; 	int 21h
+
+; 	mov dl, 'M'     ; To print /
+; 	mov ah, 02h
+; 	int 21h
+; 	RET
+; 	MD_PM:
+; 		mov dl, 'P'     ; To print /
+;         mov ah, 02h
+;         int 21h
+
+; 		mov dl, 'M'     ; To print /
+; 		mov ah, 02h
+; 		int 21h
+; 		RET
+; A_DIS_MD ENDP
+
+; Already moved in main code
+; A_INV_ST PROC ;Inverts alarm status (on/off)
+; 	MOV AL, byte ptr [SET_ALARM]
+; 	NOT AL
+; 	MOV byte ptr [SET_ALARM], AL
+; 	RET
+; A_INV_ST ENDP
+
+; A_DIS_ST PROC ;Displays alarm status (on/off)
+; 	MOV AL, byte ptr [SET_ALARM]
+; 	CMP AL, 0FFh
+; 	JE ALRM_ON
+; 	LEA DX, STAT_OF
+; 	MOV AH, 09H
+; 	INT 21H
+; 	RET
+; 	ALRM_ON:
+; 		LEA DX, STAT_ON
+; 		MOV AH, 09H
+; 		INT 21H
+; 		RET
+; A_DIS_ST ENDP
+
+; A_INV_MD PROC ;Inverts midday value
+; 	MOV AL, byte ptr [SET_MDDAY]
+; 	NOT AL
+; 	MOV byte ptr [SET_MDDAY], AL
+; 	RET
+; A_INV_MD ENDP
+
+; A_INC_HR PROC ; Increment hour for alarm
+; 	MOV AL, byte ptr [SET_HOUR]
+; 	ADD AL, 1
+; 	CMP AL, 12
+; 	JG ABV_12
+; 	MOV byte ptr [SET_HOUR], AL
+; 	RET
+; 	ABV_12:
+; 		MOV AL, 0
+; 		MOV byte ptr [SET_HOUR], AL
+; 		RET
+; A_INC_HR ENDP
+
+; Already moved in main code
+; A_DEC_HR PROC ; Decrement hour for alarm
+; 	MOV AL, byte ptr [SET_HOUR]
+; 	SUB AL, 1
+; 	JS HR_NEGA
+; 	MOV byte ptr [SET_HOUR], AL
+; 	RET
+; 	HR_NEGA:
+; 		MOV AL, 12
+; 		MOV byte ptr [SET_HOUR], AL
+; 		RET	 
+; A_DEC_HR ENDP
+
+; A_INC_MN PROC ; Increment minute for alarm
+; 	MOV AL, byte ptr [SET_MIN]
+; 	ADD AL, 1
+; 	CMP AL, 59
+; 	JG ABV_59
+; 	MOV byte ptr [SET_MIN], AL
+; 	RET
+; 	ABV_59:
+; 		MOV AL, 0
+; 		MOV byte ptr [SET_MIN], AL
+; 		RET
+; A_INC_MN ENDP
+
+; A_DEC_MN PROC ; Decrement minute for alarm
+; 	MOV AL, byte ptr [SET_MIN]
+; 	SUB AL, 1
+; 	JS MN_NEGA
+; 	MOV byte ptr [SET_MIN], AL
+; 	RET
+; 	MN_NEGA:
+; 		MOV AL, 59
+; 		MOV byte ptr [SET_MIN], AL
+; 		RET	
+; A_DEC_MN ENDP
+
+
+
+		
+    	; LEA DX, ALRM1	
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM2
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM3
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM4
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM5
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM6
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM7
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM8
+		; MOV AH, 09H
+		; INT 21H
+
+		; LEA DX, ALRM9
+		; MOV AH, 09H
+		; INT 21H
+
+		; LEA DX, ALRM10
+		; MOV AH, 09H
+		; INT 21H
+
+		; LEA DX, ALRM11
+		; MOV AH, 09H
+		; INT 21H
+
+		; LEA DX, ALRM12
+		; MOV AH, 09H
+		; INT 21H
+		
+		; LEA DX, ALRM13
+		; MOV AH, 09H
+		; INT 21H
+
+		; LEA DX, ALRM14
+		; MOV AH, 09H
+		; INT 21H
+
+		; LEA DX, ALRM15
+		; MOV AH, 09H
+		; INT 21H
+
+        ; LEA DX, ALRM16
+		; MOV AH, 09H
+		; INT 21H
+
+        ; LEA DX, ALRM17
+		; MOV AH, 09H
+		; INT 21H
+
+        ; LEA DX, ALRM18
+		; MOV AH, 09H
+		; INT 21H
+
+        ; LEA DX, ALRM19
+		; MOV AH, 09H
+		; INT 21H
+
+        ; LEA DX, ALRM20
+		; MOV AH, 09H
+		; INT 21H
+
+		

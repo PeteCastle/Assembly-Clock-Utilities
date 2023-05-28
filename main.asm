@@ -34,6 +34,7 @@ include swatch.inc
 include alarm.inc
 include datetime.inc
 include clock.inc
+include math.inc
 
 .STARTUP 
 
@@ -141,7 +142,7 @@ include clock.inc
 	
 		; CALL ENDPROG
 	ALA_WIN:
-		CALL ALARM
+		CALL AL_MAIN
 		JMP TITSCR
 	TIM_WIN:
 		CALL TIMER
