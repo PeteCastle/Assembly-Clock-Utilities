@@ -1,5 +1,5 @@
 CLOCK PROC
-    START:
+    W:
         CALL DELAY
         CALL CLRSCR
 

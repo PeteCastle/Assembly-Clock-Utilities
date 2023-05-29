@@ -21,8 +21,13 @@
     ALRM20 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE",13,10,13,10,13,10,"$"
 
 	;TEMP ONLY REMOVE LATER
-	TEST1 DB "value is true","$"
-	TEST2 DB "value is false","$"
+	TEST1 DB "COND REACHED HERE1","$"
+	TEST2 DB "COND REACHED HERE2","$"
+	TEST3 DB "COND REACHED HERE3","$"
+	TEST4 DB "COND REACHED HERE4","$"
+	TEST5 DB "COND REACHED HERE5","$"
+
+	ALRMMSG DB "ALARM!!!!!!!","$"
 
 	STAT_ON DB "ALARM ON ","$"
 	STAT_OF DB "ALARM OFF","$"
@@ -41,6 +46,7 @@
 
 AL_MAIN PROC
 		INIT:
+			
 			CALL RST_CRSR
 			CALL CLRSCR
 
@@ -117,70 +123,155 @@ AL_MAIN PROC
 			MOV BP, offset STAT_OF
 			CALL DISP_OFF
 
-
 		ALARM:
+			MOV AH, 0CH
+			MOV AL, 0FFH
+			INT 21H
+			
 			CALL DELAY
-			CALL GETKIN
+			
+			; Check if time is equal to alarm
+			MOV AH, 0
+			MOV AL, byte ptr [SET_ALARM] ;Checks if alarm is on
+			CMP AL, 0FFh
+			JNE AL_RET
+			
+			CALL GET_TIME
+			MOV DH, 0
+			MOV DL, CL
+			PUSH DX
+			MOV DH, 0
+			MOV DL, CH
+			PUSH DX
+			CALL GET_DATE
+			MOV DL, AL
+			PUSH DX
 
+			; ;REMOVE LATER
+			; LEA DX, TEST1
+			; MOV AH, 09H
+			; INT 21H
+
+			;Check if within the WEEKDAY
+			MOV AH, 0
+			MOV AL, byte ptr [SET_WKDAY]
+			POP CX
+			CALL READ_BIT
+			CMP AL, 1
+			JNE AL_RET
+
+			; ;REMOVE LATER
+			; LEA DX, TEST2
+			; MOV AH, 09H
+			; INT 21H
+
+			;Check for hour
+			MOV AH, 0
+			MOV AL, byte ptr [SET_HOUR]
+			MOV BL, byte ptr [SET_MDDAY]
+
+			;Special case for 12AM
+			CMP AL, 12
+			JNE NOT_12AM
+			CMP BL, 0
+			JNE NOT_12AM
+			MOV AL, 0
+
+			; Special case for 12pm
+			NOT_12AM:	
+			CMP BL, 0
+			JE NOT_PM
+			CMP AL, 12
+			JGE NOT_PM
+			ADD AL, 12
+			NOT_PM:
+			POP BX
+			
+			CMP AL, BL
+			JNE AL_RET
+
+			
+			; ;REMOVE LATER
+			; LEA DX, TEST3
+			; MOV AH, 09H
+			; INT 21H
+			
+			;Check for minute
+			MOV AH, 0
+			MOV AL, byte ptr [SET_MIN]
+			POP BX
+			CMP AL, BL
+			JNE AL_RET
+
+			LEA DX, ALRMMSG
+			MOV AH, 09H
+			INT 21H
+
+		AL_RET:
+			CALL GETKINAS
+			; CALL GETKIN
+			
 			CMP AL, ';'
 			JE SEMICLN
 
 			CMP AL, '.'
 			JE PERIOD
 
-		; Note that apostrophe may not work for JSDOS TASM
-		; But works for DOSBOX TASM
-		CMP AL, 39 ; Apostrophe
-		JE APSTPHE
+			; CMP AL, 'Q'
+			; JE KEY_Q
 
-		CMP AL, '/'
-		JE SLASH
+			; Note that apostrophe may not work for JSDOS TASM
+			; But works for DOSBOX TASM
+			CMP AL, 39 ; Apostrophe
+			JE APSTPHE
 
-		CMP AL, 'P'
-		JE KEY_P
-		CMP AL, 'p'
-		JE KEY_P
+			CMP AL, '/'
+			JE SLASH
 
-		CMP AL, ' ' ; Space
-		JE KEY_SPCE
+			CMP AL, 'P'
+			JE KEY_P
+			CMP AL, 'p'
+			JE KEY_P
 
-		CMP AL, 'A'
-		JE KEY_A
-		CMP AL, 'a'
-		JE KEY_A
+			CMP AL, ' ' ; Space
+			JE KEY_SPCE
 
-		CMP AL, 'S'
-		JE KEY_S
-		CMP AL, 's'
-		JE KEY_S
+			CMP AL, 'A'
+			JE KEY_A
+			CMP AL, 'a'
+			JE KEY_A
 
-		CMP AL, 'D'
-		JE KEY_D
-		CMP AL, 'd'
-		JE KEY_D
+			CMP AL, 'S'
+			JE KEY_S
+			CMP AL, 's'
+			JE KEY_S
 
-		CMP AL, 'F'
-		JE KEY_F
-		CMP AL, 'f'
-		JE KEY_F
+			CMP AL, 'D'
+			JE KEY_D
+			CMP AL, 'd'
+			JE KEY_D
 
-		CMP AL, 'g'
-		JE KEY_G
-		CMP AL, 'G'
-		JE KEY_G
+			CMP AL, 'F'
+			JE KEY_F
+			CMP AL, 'f'
+			JE KEY_F
 
-		CMP AL, 'H'
-		JE KEY_H
-		CMP AL, 'h'
-		JE KEY_H
+			CMP AL, 'g'
+			JE KEY_G
+			CMP AL, 'G'
+			JE KEY_G
 
-		CMP AL, 'J'
-		JE KEY_J
-		CMP AL, 'j'
-		JE KEY_J
+			CMP AL, 'H'
+			JE KEY_H
+			CMP AL, 'h'
+			JE KEY_H
 
-		JMP ALARM
+			CMP AL, 'J'
+			JE KEY_J
+			CMP AL, 'j'
+			JE KEY_J
 
+			JMP ALARM
 		PERIOD:
 			MOV DH,5 ;Row and Column (DL) for Hour
 			MOV DL,40
@@ -382,8 +473,8 @@ AL_MAIN PROC
 			IS_EQU:
 				CALL DISP_ON
 				JMP ALARM
-        CALL GETKIN
-    RET
+
+    ; RET
 AL_MAIN ENDP
 
 A_WD_BIT PROC ;Inverts and reads weekday bits
@@ -394,6 +485,58 @@ A_WD_BIT PROC ;Inverts and reads weekday bits
 	CALL READ_BIT
 	RET
 A_WD_BIT ENDP
+
+; CHK_ALRM PROC
+; 	MOV AH, 0
+; 	MOV AL, byte ptr [SET_ALARM] ;Checks if alarm is on
+; 	CMP AL, 0FFh
+; 	JNE AL_RET
+	
+; 	CALL GET_TIME
+; 	MOV DH, 0
+; 	MOV DL, CL
+; 	PUSH DX
+; 	MOV DH, 0
+; 	MOV DL, CH
+; 	PUSH DX
+; 	CALL GET_DATE
+; 	MOV DL, AL
+; 	PUSH DX
+
+; 	;Check if within the WEEKDAY
+; 	MOV AH, 0
+; 	MOV AL, byte ptr [SET_WKDAY]
+; 	POP CX
+; 	CALL READ_BIT
+; 	CMP AL, 1
+; 	JNE AL_RET
+
+; 	;Check for hour
+; 	MOV AH, 0
+; 	MOV AL, byte ptr [SET_HOUR]
+; 	MOV BL, byte ptr [SET_MDDAY]
+; 	CMP BL, 0FFh
+; 	JNE NOT_PM
+; 	ADD AL, 12
+; 	NOT_PM:
+; 	POP BX
+; 	CMP AL, BL
+; 	JNE AL_RET
+
+; 	;Check for minute
+; 	MOV AH, 0
+; 	MOV AL, byte ptr [SET_MIN]
+; 	POP BX
+; 	CMP AL, BL
+; 	JNE AL_RET
+
+; 	LEA DX, ALRMMSG
+; 	MOV AH, 09H
+; 	INT 21H
+
+; 	AL_RET:
+; 		RET
+; CHK_ALRM ENDP
 
 DISP_ON PROC ; Prints day on
 	PUSH DS
@@ -416,6 +559,7 @@ DISP_OFF PROC ; Prints day OFF
 	INT 10H
 	RET
 DISP_OFF ENDP
+
 
 ; already merged inm ain code
 ; A_DIS_MD PROC ;Displays midday value
@@ -525,84 +669,4 @@ DISP_OFF ENDP
 
 
 		
-    	; LEA DX, ALRM1	
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM2
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM3
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM4
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM5
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM6
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM7
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM8
-		; MOV AH, 09H
-		; INT 21H
-
-		; LEA DX, ALRM9
-		; MOV AH, 09H
-		; INT 21H
-
-		; LEA DX, ALRM10
-		; MOV AH, 09H
-		; INT 21H
-
-		; LEA DX, ALRM11
-		; MOV AH, 09H
-		; INT 21H
-
-		; LEA DX, ALRM12
-		; MOV AH, 09H
-		; INT 21H
-		
-		; LEA DX, ALRM13
-		; MOV AH, 09H
-		; INT 21H
-
-		; LEA DX, ALRM14
-		; MOV AH, 09H
-		; INT 21H
-
-		; LEA DX, ALRM15
-		; MOV AH, 09H
-		; INT 21H
-
-        ; LEA DX, ALRM16
-		; MOV AH, 09H
-		; INT 21H
-
-        ; LEA DX, ALRM17
-		; MOV AH, 09H
-		; INT 21H
-
-        ; LEA DX, ALRM18
-		; MOV AH, 09H
-		; INT 21H
-
-        ; LEA DX, ALRM19
-		; MOV AH, 09H
-		; INT 21H
-
-        ; LEA DX, ALRM20
-		; MOV AH, 09H
-		; INT 21H
-
-		
+    	

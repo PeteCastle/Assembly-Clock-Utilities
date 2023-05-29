@@ -5,7 +5,9 @@ NTE_DO PROC
     CALL    SOUNDER         
     RET  
 NTE_DO ENDP
-                
+           
+
+           
 NTE_RE PROC
     MOV     AX, 2031        ;Frequency for RE
     MOV     STOR, AX
