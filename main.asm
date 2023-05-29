@@ -8,15 +8,15 @@
 	
 	TIT1 DB 13,10,13,10,13,10,"                               .'`~~~~~~~~~~~`'.                        ","$"
 	TIT2 DB 13,10,"                               (  .'11 12 1'.  )                        ","$"
-	TIT3 DB 13,10,"                               |  :10 \|   2:  |                        ","$" ;HAHAHAHA
+	TIT3 DB 13,10,"                               |  :10 \|   2:  |                        ","$" 
 	TIT4 DB 13,10,"                               |  :9   @   3:  |                        ","$"
 	TIT5 DB 13,10,"                               |  :8       4;  |                        ","$"
 	TIT6 DB 13,10,"                               '. '..7 6 5..' .'                        ","$"
 	TIT7 DB 13,10,"                                ~-------------~                         ","$" 
-	TIT8 DB 13,10,"        __   __     __   ____  _  _         ___  __     __    ___  __ _ ",'$'
-	TIT9 DB 13,10,"       / _\ (  )   / _\ (  _ \( \/ )       / __)(  )   /  \  / __)(  / )",'$'
-   TIT10 DB 13,10,"      /    \/ (_/\/    \ )   // \/ \      ( (__ / (_/\(  O )( (__  )  ( ",'$'
-   TIT11 DB 13,10,"      \_/\_/\____/\_/\_/(__\_)\_)(_/       \___)\____/ \__/  \___)(__\_)",'$'
+	TIT8 DB 13,10,"        __   __     __   ____  _  _         ___  __     __    ___  __ _ ","$"
+	TIT9 DB 13,10,"       / _\ (  )   / _\ (  _ \( \/ )       / __)(  )   /  \  / __)(  / )","$"
+   TIT10 DB 13,10,"      /    \/ (_/\/    \ )   // \/ \      ( (__ / (_/\(  O )( (__  )  ( ","$"
+   TIT11 DB 13,10,"      \_/\_/\____/\_/\_/(__\_)\_)(_/       \___)\____/ \__/  \___)(__\_)","$"
    TIT12 DB 13,10,13,10,"               Made by: Aparici, Cayco, Morales J, Soliven, Villar           ","$"
    TIT13 DB 13,10,13,10,13,10,"       +++            +++             +++             +++           +++ ","$"
    TIT14 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
@@ -35,12 +35,13 @@ include alarm.inc
 include datetime.inc
 include clock.inc
 include math.inc
+include sound.inc
 
 .STARTUP 
-
+	
 	CALL RST_CRSR
 	call color
-
+	
 	; Print title screen
 	TITSCR:
 
@@ -108,7 +109,7 @@ include math.inc
 		MOV AH, 09H
 		INT 21H
 
-
+		CALL RING1
 	TITIN:
 		CALL GETKIN
 
@@ -130,17 +131,6 @@ include math.inc
 		CMP AL,"r"
 		JNE TITIN
 	
-		; CALL CLRSCR
-		; CALL NTE_DO
-		; CALL NTE_RE
-		; CALL NTE_MI
-		; CALL NTE_FA
-		; CALL NTE_SO
-		; CALL NTE_LA
-		; CALL NTE_TI
-		; CALL NTE_DO2
-	
-		; CALL ENDPROG
 	ALA_WIN:
 		CALL AL_MAIN
 		JMP TITSCR
