@@ -41,7 +41,8 @@ include sound.inc
 	
 	CALL RST_CRSR
 	call color
-	
+	CALL RING1
+
 	; Print title screen
 	TITSCR:
 
@@ -109,7 +110,7 @@ include sound.inc
 		MOV AH, 09H
 		INT 21H
 
-		CALL RING1
+		
 	TITIN:
 		CALL GETKIN
 

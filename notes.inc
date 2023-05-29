@@ -16,35 +16,35 @@ NTE_RE PROC
 NTE_RE ENDP
                     
 NTE_MI PROC
-    MOV     AX, 1809        ;Frequency for MI
+    MOV     AX, 1810        ;Frequency for MI
     MOV     STOR, AX
     CALL    SOUNDER         
     RET
 NTE_MI ENDP
 
 NTE_FA PROC
-    MOV     AX, 1715         ;Frequency for FA
+    MOV     AX, 1710         ;Frequency for FA
     MOV     STOR, AX
     CALL    SOUNDER        
     RET
 NTE_FA ENDP
                     
 NTE_SO PROC
-    MOV     AX, 1521        ;Frequency for SO
+    MOV     AX, 1525        ;Frequency for SO
     MOV     STOR, AX
     CALL    SOUNDER        
     RET
 NTE_SO ENDP
 
 NTE_LA PROC
-    MOV     AX, 1355        ;Frequency for LA
+    MOV     AX, 1360        ;Frequency for LA
     MOV     STOR, AX
     CALL    SOUNDER        
     RET
 NTE_LA ENDP
                     
 NTE_TI PROC
-    MOV     AX, 1207        ;Frequency for TI
+    MOV     AX, 1210        ;Frequency for TI
     MOV     STOR, AX
     CALL    SOUNDER        
     RET
@@ -71,6 +71,34 @@ NTE_MI2 PROC
     CALL    SOUNDER       
     RET
 NTE_MI2 ENDP
+
+NTE_FA2 PROC
+    MOV     AX, 0855 ;FREQUENCY FOR FA (2ND OCTAVE)
+    MOV     STOR, AX 
+    CALL    SOUNDER       
+    RET
+NTE_FA2 ENDP
+
+NTE_SO2 PROC
+    MOV     AX, 0763  ;FREQUENCY FOR SO (2ND OCTAVE)
+    MOV     STOR, AX
+    CALL    SOUNDER       
+    RET
+NTE_SO2 ENDP
+
+NTE_LA2 PROC
+    MOV     AX, 0680    ;FREQUENCY FOR LA (2ND OCTAVE)
+    MOV     STOR, AX
+    CALL    SOUNDER       
+    RET
+NTE_LA2 ENDP
+
+NTE_TI2 PROC
+    MOV     AX, 0605    ;FREQUENCY FOR TI (2ND OCTAVE)
+    MOV     STOR, AX
+    CALL    SOUNDER       
+    RET
+NTE_TI2 ENDP
 
 ;Sharp Keys
 NTE_DOS PROC
