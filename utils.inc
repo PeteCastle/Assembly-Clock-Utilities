@@ -26,6 +26,14 @@ DELAY PROC
     RET
 DELAY ENDP
 
+DELAY_1SC PROC
+
+    mov     cx, 0fh
+    mov     dx, 4240h
+    mov     ah, 86h
+    int     15h
+    RET
+DELAY_1SC ENDP
 
 ; sets up the keyboard buffer by initializing the head and tail pointers to the appropriate values, allowing the system to track keyboard input.
 CLR_KEYB PROC ;NEAR

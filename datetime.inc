@@ -112,7 +112,6 @@ PRNT_TME PROC
 
 PRNT_TME ENDP
 
-
 PRNT_DTE PROC
     CALL GET_DATE
 
@@ -333,3 +332,68 @@ DISP_DT PROC
 
     RET
 DISP_DT ENDP
+
+ADD_SEC PROC
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    ADD DH, 1
+
+    CMP DH, 60
+    JGE ADD1
+    RET
+    ADD1:
+        CALL ADD_MIN
+        MOV DH, 0
+        RET
+ADD_SEC ENDP
+
+ADD_MIN PROC
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    ADD CL, 1
+    CMP CL, 60
+    JGE ADD2
+    RET
+    ADD2:
+        CALL ADD_HR
+        MOV CL, 0
+        RET
+    
+
+ADD_MIN ENDP
+
+ADD_HR PROC
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    ADD CH, 1
+    CMP CH, 24
+    JGE ADD3
+    RET
+    ADD3:
+        CALL ADD_DAY
+        MOV CH, 0
+        RET
+ADD_HR ENDP
+    
+ADD_DAY PROC
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    ADD BX,1
+    RET
+ADD_DAY ENDP
+
+SUB_SEC PROC
+        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+
+SUB_SEC ENDP
+
+SUB_MIN PROC
+        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+
+SUB_MIN ENDP
+
+SUB_HR PROC
+        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+
+SUB_HR ENDP
+
+SUB_DAY PROC
+        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+
+SUB_DAY ENDP

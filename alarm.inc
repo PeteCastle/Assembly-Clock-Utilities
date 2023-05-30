@@ -45,7 +45,7 @@
 .CODE
 
 AL_MAIN PROC
-		INIT:
+		ALM_INIT:
 			
 			CALL RST_CRSR
 			CALL CLRSCR
@@ -124,6 +124,7 @@ AL_MAIN PROC
 			CALL DISP_OFF
 
 		ALARM:
+			; Clear Keyboard Buffer
 			MOV AH, 0CH
 			MOV AL, 0FFH
 			INT 21H

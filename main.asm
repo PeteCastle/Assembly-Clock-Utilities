@@ -145,7 +145,7 @@ include math.inc
 		CALL AL_MAIN
 		JMP TITSCR
 	TIM_WIN:
-		CALL TIMER
+		CALL TMR_MAIN
 		JMP TITSCR
 	SWA_WIN:
 		CALL SWATCH
@@ -153,5 +153,6 @@ include math.inc
 	CLK_WIN:
 		CALL CLOCK
 		JMP TITSCR
+
    .EXIT
 END
