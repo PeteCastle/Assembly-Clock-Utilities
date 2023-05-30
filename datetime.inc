@@ -379,21 +379,44 @@ ADD_DAY PROC
 ADD_DAY ENDP
 
 SUB_SEC PROC
-        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    DEC DH
+    CMP DH, 0
+    JL SUB1
+    RET
+    SUB1:
+        CALL SUB_MIN
+        MOV DH, 59
+        RET
 
 SUB_SEC ENDP
 
 SUB_MIN PROC
-        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
-
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    DEC CL
+    CMP CL, 0
+    JL SUB2
+    RET
+    SUB2:
+        CALL SUB_HR
+        MOV CL, 59
+        RET
 SUB_MIN ENDP
 
 SUB_HR PROC
-        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
-
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    DEC CH
+    CMP CH, 0
+    JL SUB3
+    RET
+    SUB3:
+        CALL SUB_DAY
+        MOV CH, 23
+        RET
 SUB_HR ENDP
 
 SUB_DAY PROC
-        ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
-
+    ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
+    DEC BX
+    RET
 SUB_DAY ENDP

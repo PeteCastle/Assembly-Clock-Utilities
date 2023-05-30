@@ -11,9 +11,9 @@
 
 
     SW_RUN DB 0 ; Boolean for stopwatch running
-    DBG_MDE DB 0 ; Boolean for debug mode
-    RUN_MSG DB 'Stopwatch Running','$'
-    PSE_MSG DB 'Stopwatch Paused ','$'
+    SDBG_MDE DB 0 ; Boolean for debug mode
+    SRUN_MSG DB 'Stopwatch Running','$'
+    SPSE_MSG DB 'Stopwatch Paused ','$'
 .CODE
     SW_MAIN PROC
         SW_INIT:
@@ -49,15 +49,15 @@
             JE SW_RST
 
             CMP AL, ']' ;For debugging only, enables 1 second delay
-            JE ENA_DBG
+            JE SENA_DBG
             CMP AL, '\';For debugging only, disables 1 second delay
-            JE DIS_DBG
+            JE SDIS_DBG
 
             JMP STOPWATCH
-        SW_NPR: ;Stopwatch resume
+        SW_NPR: ;Stopwatch no press
             MOV AH, byte ptr [SW_RUN]
             CMP AH, 1
-            JE TICK
+            JE TICK_SW
         SW_PSE: ;Stopwatch pause
             CALL SDIS_OFF
             MOV byte ptr [SW_RUN], 0 
@@ -79,11 +79,11 @@
             MOV  byte ptr [SW_RUN], 0
 
             JMP SW_INIT
-        DIS_DBG:
-            MOV byte ptr [DBG_MDE],0
+        SDIS_DBG:
+            MOV byte ptr [SDBG_MDE],0
             JMP STOPWATCH
-        ENA_DBG:
-            MOV byte ptr [DBG_MDE],1
+        SENA_DBG:
+            MOV byte ptr [SDBG_MDE],1
             JMP STOPWATCH
         LAP:
             CALL DISP_LLT
@@ -94,11 +94,11 @@
             ADD LAP_CNT, 1
             JMP STOPWATCH
         
-        TICK: ; Tick stopwatch (1sec)
-            CMP byte ptr [DBG_MDE], 0
-            JNE NO_DBG
+        TICK_SW: ; Tick stopwatch (1sec)
+            CMP byte ptr [SDBG_MDE], 0 ; If debugging is disabled, skip; enable 1 sec delay)
+            JNE SNO_DBG
             CALL DELAY_1SC
-            NO_DBG:
+            SNO_DBG:
             MOV BX, word ptr [SW_DAY]
             MOV CH, byte ptr [SW_HR]
             MOV CL, byte ptr [SW_MIN]
@@ -250,7 +250,7 @@ SDIS_ON PROC ; Stopwatch status ON
 
     MOV DH,3 ;Row and Column (DL) for Stopwatch Status Label
     MOV DL,40
-    MOV BP, offset RUN_MSG
+    MOV BP, offset SRUN_MSG
     mov CX,17
 
 	PUSH DS
@@ -267,7 +267,7 @@ SDIS_OFF PROC ;Stopwatch status OFF
 
     MOV DH,3 ;Row and Column (DL) for Stopwatch Status Label
     MOV DL,40
-    MOV BP, offset PSE_MSG
+    MOV BP, offset SPSE_MSG
     mov CX,17
 
 	PUSH DS
