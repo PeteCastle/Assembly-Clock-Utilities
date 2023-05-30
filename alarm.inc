@@ -7,18 +7,18 @@
     ALRM2 DB 13,10,"              ,-'`'.   '._     \     ______                 ++++++++++       ","$"
     ALRM3 DB 13,10,"             /    .'  ___ `-._  |    \ .-'`      SET TIME: |   :      |      ","$"
     ALRM4 DB 13,10,"             |   .' ,-' __ `'/.`.'  ___\\                   ++++++++++       ","$"
-    ALRM5 DB 13,10,"    ______  \ .' \',-' 12 '-.  '.  `-._ \        [;]Hour [/]Minute [P]AM/PM   ","$"
+    ALRM5 DB 13,10,"    ______  \ .' \',-' 12 '-.  '.  `-._ \        [;] Hour [/] Minute [P] AM/PM","$"
     ALRM6 DB 13,10,"    '`-. /   ` / / 11    7 1 `.  `.    '.\                       ","$"
     ALRM7 DB 13,10,"       //___  . '10     /    2 \  ;                                 ","$"
-    ALRM8 DB 13,10,"      / _.-'  | |      O      3|  |  ______      [A]Sunday      [G]Thursday ","$"
+    ALRM8 DB 13,10,"      / _.-'  | |      O      3|  |  ______      [A] Sunday     [G] Thursday","$"
     ALRM9 DB 13,10,"     /.'      | |9      \      '  '  '`-. /                         ","$"
-    ALRM10 DB 13,10,"       ______ '  \ 8     \   4/  /      //___    [S]Monday      [H]Friday      ","$"
+    ALRM10 DB 13,10,"       ______ '  \ 8     \   4/  /      //___    [S] Monday     [H] Friday    ","$"
     ALRM11 DB 13,10,"       \ .-'`  '. `'.7  6  5.'  '      / _.-'                  ","$"
-    ALRM12 DB 13,10,"      ___\\       `. _ `'''` _.'\\-.   /.'       [D]Tuesday     [J]Saturday    ","$"
+    ALRM12 DB 13,10,"      ___\\       `. _ `'''` _.'\\-.   /.'       [D] Tuesday    [J] Saturday  ","$"
     ALRM13 DB 13,10,"      `-._ \       .//`''--''   (   )                            ","$"
-    ALRM14 DB 13,10,"          '.\     (   )          '-`             [F]Wednesday                ","$"
+    ALRM14 DB 13,10,"          '.\     (   )          '-`             [F] Wednesday               ","$"
     ALRM15 DB 13,10,"                   `-'                                           ","$" 
-    ALRM16 DB 13,10,"                    ALARM CLOCK                  [U]Ringtone: Sweet Child   ","$"
+    ALRM16 DB 13,10,"                    ALARM CLOCK                  [U] Ringtone: Sweet Child   ","$"
     ALRM17 DB 13,10,13,10,"       +++            +++             +++             +++           +++ ","$"
     ALRM18 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
     ALRM19 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
@@ -88,43 +88,43 @@ AL_MAIN PROC
 		
 			MOV CX, 6
 			MOV BP, offset SUN
-			MOV DL, 52 ; Row and Column (DL) for sun 
+			MOV DL, 53 ; Row and Column (DL) for sun 
 			MOV DH, 9	
 
 			CALL ADIS_OFF
 			MOV CX, 6
 			MOV BP, offset MON
-			MOV DL, 52 ; Row and Column (DL) for Monday
+			MOV DL, 53 ; Row and Column (DL) for Monday
 			MOV DH, 11
 
 			CALL ADIS_OFF
 			MOV CX, 7
 			MOV BP, offset TUE
-			MOV DL, 52 ; Row and Column (DL) for TUE
+			MOV DL, 53 ; Row and Column (DL) for TUE
 			MOV DH, 13
 
 			CALL ADIS_OFF 
 			MOV CX, 9
 			MOV BP, offset WED
-			MOV DL, 52 ; Row and Column (DL) for WED
+			MOV DL, 53 ; Row and Column (DL) for WED
 			MOV DH, 15
 
 			CALL ADIS_OFF
 			MOV CX, 8
 			MOV BP, offset THU
-			MOV DL, 67 ; Row and Column (DL) for WED
+			MOV DL, 68 ; Row and Column (DL) for WED
 			MOV DH, 9
 
 			CALL ADIS_OFF
 			MOV CX, 6
 			MOV BP, offset FRI
-			MOV DL, 67 ; Row and Column (DL) for WED
+			MOV DL, 68 ; Row and Column (DL) for WED
 			MOV DH, 11
 
 			CALL ADIS_OFF
 			MOV CX, 8
 			MOV BP, offset SAT
-			MOV DL, 67 ; Row and Column (DL) for SAT
+			MOV DL, 68 ; Row and Column (DL) for SAT
 			MOV DH, 13
 
 			CALL ADIS_OFF
@@ -413,7 +413,7 @@ AL_MAIN PROC
 
 			MOV CX, 6
 			MOV BP, offset SUN
-			MOV DL, 52 ; Row and Column (DL) for sun 
+			MOV DL, 53 ; Row and Column (DL) for sun 
 			MOV DH, 9	
 
 			JMP WK_COND 
@@ -423,7 +423,7 @@ AL_MAIN PROC
 
 			MOV CX, 6
 			MOV BP, offset MON
-			MOV DL, 52 ; Row and Column (DL) for Monday
+			MOV DL, 53 ; Row and Column (DL) for Monday
 			MOV DH, 11
 
 			JMP WK_COND 
@@ -433,7 +433,7 @@ AL_MAIN PROC
 
 			MOV CX, 7
 			MOV BP, offset TUE
-			MOV DL, 52 ; Row and Column (DL) for TUE
+			MOV DL, 53 ; Row and Column (DL) for TUE
 			MOV DH, 13
 
 			JMP WK_COND 
@@ -443,7 +443,7 @@ AL_MAIN PROC
 
 			MOV CX, 9
 			MOV BP, offset WED
-			MOV DL, 52 ; Row and Column (DL) for WED
+			MOV DL, 53 ; Row and Column (DL) for WED
 			MOV DH, 15
 
 			JMP WK_COND 
@@ -454,7 +454,7 @@ AL_MAIN PROC
 
 			MOV CX, 8
 			MOV BP, offset THU
-			MOV DL, 67 ; Row and Column (DL) for WED
+			MOV DL, 68 ; Row and Column (DL) for WED
 			MOV DH, 9
 
 			JMP WK_COND 
@@ -464,7 +464,7 @@ AL_MAIN PROC
 
 			MOV CX, 6
 			MOV BP, offset FRI
-			MOV DL, 67 ; Row and Column (DL) for WED
+			MOV DL, 68 ; Row and Column (DL) for WED
 			MOV DH, 11
 
 			JMP WK_COND 
@@ -475,7 +475,7 @@ AL_MAIN PROC
 
 			MOV CX, 8
 			MOV BP, offset SAT
-			MOV DL, 67 ; Row and Column (DL) for SAT
+			MOV DL, 68 ; Row and Column (DL) for SAT
 			MOV DH, 13
 
 			JMP WK_COND 
