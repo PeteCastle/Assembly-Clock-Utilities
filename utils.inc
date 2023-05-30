@@ -114,7 +114,11 @@ GETKINAS PROC
         ; AL = ASCII character.
     MOV AH, 01H
     INT 16H
-    ret
+    JZ NOKEY
+    MOV AH, 0
+    INT 16H
+    NOKEY:
+        RET
 GETKINAS ENDP
 
 ENDPROG PROC
@@ -141,3 +145,5 @@ SET_CRSR PROC
     INT 10H
     RET
 SET_CRSR ENDP
+
+

@@ -79,49 +79,49 @@ AL_MAIN PROC
 			MOV DL, 10 ; Row and Column (DL) for sun 
 			MOV DH, 7	
 
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			MOV CX, 6
 			MOV BP, offset MON
 			MOV DL, 10 ; Row and Column (DL) for Monday
 			MOV DH, 8
 
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			MOV CX, 7
 			MOV BP, offset TUE
 			MOV DL, 10 ; Row and Column (DL) for TUE
 			MOV DH, 9
 
-			CALL DISP_OFF 
+			CALL ADIS_OFF 
 			MOV CX, 9
 			MOV BP, offset WED
 			MOV DL, 10 ; Row and Column (DL) for WED
 			MOV DH, 10
 
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			MOV CX, 8
 			MOV BP, offset THU
 			MOV DL, 10 ; Row and Column (DL) for WED
 			MOV DH, 11
 
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			MOV CX, 6
 			MOV BP, offset FRI
 			MOV DL, 10 ; Row and Column (DL) for WED
 			MOV DH, 12
 
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			MOV CX, 8
 			MOV BP, offset SAT
 			MOV DL, 10 ; Row and Column (DL) for SAT
 			MOV DH, 13
 
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			
 			MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
 			MOV DH, 1	
 			MOV CX, 9
 			MOV BP, offset STAT_OF
-			CALL DISP_OFF
+			CALL ADIS_OFF
 
 		ALARM:
 			; Clear Keyboard Buffer
@@ -385,12 +385,12 @@ AL_MAIN PROC
 
 			
 			MOV BP, offset STAT_OF
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			JMP ALARM
 			ALRM_ON:
 	
 				MOV BP, offset STAT_ON
-				CALL DISP_ON
+				CALL ADIS_ON
 				JMP ALARM
 	
 		KEY_A:
@@ -469,10 +469,10 @@ AL_MAIN PROC
 		WK_COND: ;Standard weekday conditions
 			CMP AL, 1
 			JE IS_EQU
-			CALL DISP_OFF
+			CALL ADIS_OFF
 			JMP ALARM
 			IS_EQU:
-				CALL DISP_ON
+				CALL ADIS_ON
 				JMP ALARM
 
     ; RET
@@ -487,59 +487,7 @@ A_WD_BIT PROC ;Inverts and reads weekday bits
 	RET
 A_WD_BIT ENDP
 
-; CHK_ALRM PROC
-; 	MOV AH, 0
-; 	MOV AL, byte ptr [SET_ALARM] ;Checks if alarm is on
-; 	CMP AL, 0FFh
-; 	JNE AL_RET
-	
-; 	CALL GET_TIME
-; 	MOV DH, 0
-; 	MOV DL, CL
-; 	PUSH DX
-; 	MOV DH, 0
-; 	MOV DL, CH
-; 	PUSH DX
-; 	CALL GET_DATE
-; 	MOV DL, AL
-; 	PUSH DX
-
-; 	;Check if within the WEEKDAY
-; 	MOV AH, 0
-; 	MOV AL, byte ptr [SET_WKDAY]
-; 	POP CX
-; 	CALL READ_BIT
-; 	CMP AL, 1
-; 	JNE AL_RET
-
-; 	;Check for hour
-; 	MOV AH, 0
-; 	MOV AL, byte ptr [SET_HOUR]
-; 	MOV BL, byte ptr [SET_MDDAY]
-; 	CMP BL, 0FFh
-; 	JNE NOT_PM
-; 	ADD AL, 12
-; 	NOT_PM:
-; 	POP BX
-; 	CMP AL, BL
-; 	JNE AL_RET
-
-; 	;Check for minute
-; 	MOV AH, 0
-; 	MOV AL, byte ptr [SET_MIN]
-; 	POP BX
-; 	CMP AL, BL
-; 	JNE AL_RET
-
-; 	LEA DX, ALRMMSG
-; 	MOV AH, 09H
-; 	INT 21H
-
-; 	AL_RET:
-; 		RET
-; CHK_ALRM ENDP
-
-DISP_ON PROC ; Prints day on
+ADIS_ON PROC ; Alarm status ON
 	PUSH DS
 	POP ES
 	MOV AL, 1
@@ -548,9 +496,9 @@ DISP_ON PROC ; Prints day on
 	MOV AH, 13h
 	INT 10H
 	RET
-DISP_ON ENDP
+ADIS_ON ENDP
 
-DISP_OFF PROC ; Prints day OFF
+ADIS_OFF PROC ;Alarm status of
 	PUSH DS
 	POP ES
 	MOV AL, 1
@@ -559,114 +507,7 @@ DISP_OFF PROC ; Prints day OFF
 	MOV AH, 13h
 	INT 10H
 	RET
-DISP_OFF ENDP
-
-
-; already merged inm ain code
-; A_DIS_MD PROC ;Displays midday value
-; 	MOV AL, byte ptr [SET_MDDAY]
-; 	CMP AL, 0FFh
-; 	JE MD_PM
-; 	mov dl, 'A'     ; To print /
-; 	mov ah, 02h
-; 	int 21h
-
-; 	mov dl, 'M'     ; To print /
-; 	mov ah, 02h
-; 	int 21h
-; 	RET
-; 	MD_PM:
-; 		mov dl, 'P'     ; To print /
-;         mov ah, 02h
-;         int 21h
-
-; 		mov dl, 'M'     ; To print /
-; 		mov ah, 02h
-; 		int 21h
-; 		RET
-; A_DIS_MD ENDP
-
-; Already moved in main code
-; A_INV_ST PROC ;Inverts alarm status (on/off)
-; 	MOV AL, byte ptr [SET_ALARM]
-; 	NOT AL
-; 	MOV byte ptr [SET_ALARM], AL
-; 	RET
-; A_INV_ST ENDP
-
-; A_DIS_ST PROC ;Displays alarm status (on/off)
-; 	MOV AL, byte ptr [SET_ALARM]
-; 	CMP AL, 0FFh
-; 	JE ALRM_ON
-; 	LEA DX, STAT_OF
-; 	MOV AH, 09H
-; 	INT 21H
-; 	RET
-; 	ALRM_ON:
-; 		LEA DX, STAT_ON
-; 		MOV AH, 09H
-; 		INT 21H
-; 		RET
-; A_DIS_ST ENDP
-
-; A_INV_MD PROC ;Inverts midday value
-; 	MOV AL, byte ptr [SET_MDDAY]
-; 	NOT AL
-; 	MOV byte ptr [SET_MDDAY], AL
-; 	RET
-; A_INV_MD ENDP
-
-; A_INC_HR PROC ; Increment hour for alarm
-; 	MOV AL, byte ptr [SET_HOUR]
-; 	ADD AL, 1
-; 	CMP AL, 12
-; 	JG ABV_12
-; 	MOV byte ptr [SET_HOUR], AL
-; 	RET
-; 	ABV_12:
-; 		MOV AL, 0
-; 		MOV byte ptr [SET_HOUR], AL
-; 		RET
-; A_INC_HR ENDP
-
-; Already moved in main code
-; A_DEC_HR PROC ; Decrement hour for alarm
-; 	MOV AL, byte ptr [SET_HOUR]
-; 	SUB AL, 1
-; 	JS HR_NEGA
-; 	MOV byte ptr [SET_HOUR], AL
-; 	RET
-; 	HR_NEGA:
-; 		MOV AL, 12
-; 		MOV byte ptr [SET_HOUR], AL
-; 		RET	 
-; A_DEC_HR ENDP
-
-; A_INC_MN PROC ; Increment minute for alarm
-; 	MOV AL, byte ptr [SET_MIN]
-; 	ADD AL, 1
-; 	CMP AL, 59
-; 	JG ABV_59
-; 	MOV byte ptr [SET_MIN], AL
-; 	RET
-; 	ABV_59:
-; 		MOV AL, 0
-; 		MOV byte ptr [SET_MIN], AL
-; 		RET
-; A_INC_MN ENDP
-
-; A_DEC_MN PROC ; Decrement minute for alarm
-; 	MOV AL, byte ptr [SET_MIN]
-; 	SUB AL, 1
-; 	JS MN_NEGA
-; 	MOV byte ptr [SET_MIN], AL
-; 	RET
-; 	MN_NEGA:
-; 		MOV AL, 59
-; 		MOV byte ptr [SET_MIN], AL
-; 		RET	
-; A_DEC_MN ENDP
-
+ADIS_OFF ENDP
 
 
 		
