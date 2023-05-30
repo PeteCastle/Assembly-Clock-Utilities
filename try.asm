@@ -1,106 +1,123 @@
-.model small
-.stack 100h
+.MODEL SMALL
+.STACK 100H
 
-.data
-    SFQ dw 440          ; Frequency for sound (A4)
-    BGC dw 2          ; Background color (green and red)
-    BTC db 0            ; Flag to check if button is clicked
-    currentTime db 8, 0, 8 dup ('$') ; Current time string
+.DATA
+    MSB DW 0       ; Most significant byte of elapsed time
+    LSB DW 0       ; Least significant byte of elapsed time
+    START_TIME DW 0 ; Start time in milliseconds
 
-.code
-    ; Entry point of the program
-    start:
-        mov ax, @data
-        mov ds, ax
+.CODE
+	start:
+    MOV AX, @DATA
+    MOV DS, AX
 
-        ; Set video mode to 3 (text mode)
-        mov ax, 0003h
-        int 10h
+    MOV AL, 0B6H   ; Set PIT command register for Channel 0
+    OUT 43H, AL    ; Write the command
 
-        ; Clear the screen
-        mov ax, 0600h
-        mov bh, 0       ; Page number
-        mov cx, 0       ; Starting column
-        mov dx, 184fh   ; Ending column and row
-        int 10h
+    MOV CX, 0      ; Counter for delay
 
-        ; Set background color
-        mov ah, 0Bh     ; Set background color function
-        mov bh, 0       ; Page number
-        mov bl, BGC ; Color (green and red)
-        int 10h
+    ; Initialize the PIT for a 1 ms delay
+    MOV AX, 1192   ; Load the initial count value (65536 - 1192 = 64344)
+    OUT 40H, AL    ; Load least significant byte
+    MOV AL, AH
+    OUT 40H, AL    ; Load most significant byte
 
-        ; Print initial time
-        call printTime
+    ; Start the stopwatch
+    MOV AL, 20H    ; Enable PIT Channel 0
+    OUT 61H, AL    ; Start the PIT
 
-        ; Set up interrupt for button click
-        mov ax, 3511h   ; Mouse event interrupt
-        mov bx, 0       ; Button click event
-        mov cx, 0       ; Disable mouse
-        int 33h
+    MOV AH, 0      ; Clear high byte of AX
+    MOV CX, 1000   ; Set the delay counter to 1000 (1 second)
 
-    ML:
-        ; Check for button click
-        mov ax, 0000h   ; Function 0, check button status
-        int 33h
-        test bx, 01h    ; Check if left button is clicked
-        jnz BTC
+DELAY_LOOP:
+    NOP            ; Delay loop
+    LOOP DELAY_LOOP
 
-        ; Update current time every second
-        mov ah, 2ch     ; Get system time function
-        int 21h
-        cmp ch, 0       ; Check if seconds is zero
-        jnz ML    ; If not zero, continue waiting
+    ; Read the elapsed time
+    IN AL, 40H     ; Read least significant byte
+    MOV AH, AL
+    IN AL, 40H     ; Read most significant byte
 
-        ; Play sound
-        call playSound
+    MOV BL, AL     ; Store most significant byte in BL
+    SUB AL, 20H    ; Subtract the initial count value
+    MOV CL, AL     ; Store least significant byte in CL
+    SBB BL, AH     ; Subtract the carry from most significant byte
 
-        ; Print current time
-        call printTime
+    ; Store the elapsed time in MSB and LSB
+    MOV word ptr [MSB], BX
+    MOV word ptr [LSB], CX
 
-        jmp ML    ; Repeat the main loop
+    ; Display the elapsed time
+    MOV AH, 02H    ; Function to display character
+    MOV DL, ' '    ; Display space
+    INT 21H
 
-    BTC:
-        ; Your method trigger code here
-        ; For example, print a string
-        mov ah, 09h     ; Print string function
-        lea dx, clickMessage    ; Message string
-        int 21h
+    MOV AH, 09H    ; Function to display string
+    LEA DX, START_TIME_MSG
+    INT 21H
 
-        jmp ML    ; Return to the main loop
+    MOV AX, word ptr [MSB]  ; Display most significant byte of elapsed time
+    CALL DISPLAY_HEX
 
-    printTime:
-        ; Get current time
-        mov ah, 2ch     ; Get system time function
-        int 21h
+    MOV AX, word ptr [LSB]  ; Display least significant byte of elapsed time
+    CALL DISPLAY_HEX
 
-        ; Convert hours, minutes, and seconds to ASCII characters
-        add dl, 30h     ; Convert seconds to ASCII
-        mov [currentTime + 6], dl
-        mov dl, dh
-        add dl, 30h     ; Convert minutes to ASCII
-        mov [currentTime + 4], dl
-        mov dl, ch
-        add dl, 30h     ; Convert hours to ASCII
-        mov [currentTime + 2], dl
+    MOV DL, ' '    ; Display space
+    MOV AH, 02H    ; Function to display character
+    INT 21H
 
-        ; Print current time
-        mov ah, 09h     ; Print string function
-        lea dx, currentTime    ; Current time string
-        int 21h
+    MOV AH, 09H    ; Function to display string
+    LEA DX, MS_MSG
+    INT 21H
 
-        ret
+    MOV DL, ' '    ; Display space
+    MOV AH, 02H    ; Function to display character
+    INT 21H
 
-    playSound:
-        ; Play sound
-        mov al, 0B6h    ; Sound command
-        mov bl, SFQ  ; Frequency (low byte)
-        mov bh, SFQ  ; Frequency (high byte)
-        mov cx, 1       ; Duration in ticks
-        int 10h
+    MOV AH, 09H    ; Function to display string
+    LEA DX, LS_MSG
+    INT 21H
 
-        ret
+    MOV AH, 4CH    ; Terminate program
+    INT 21H
 
-    clickMessage db 'Button clicked!', 0
+; Procedure to display a hexadecimal value
+DISPLAY_HEX PROC
+    PUSH AX        ; Save registers
+    PUSH BX
+    PUSH CX
+    PUSH DX
 
-    end start
+    MOV BX, 10     ; Divide by 10 to convert to decimal
+    XOR CX, CX     ; Clear the quotient
+    MOV AX, 0      ; Clear the remainder
+    DIV BX         ; Divide AX by BX
+    ADD DL, '0'    ; Convert the remainder to ASCII
+
+    PUSH DX        ; Save the first digit
+
+    MOV AH, 02H    ; Function to display character
+    INT 21H        ; Display the first digit
+
+    POP DX         ; Restore the first digit
+
+    MOV DL, AH     ; Move the quotient to DL
+    ADD DL, '0'    ; Convert the quotient to ASCII
+
+    MOV AH, 02H    ; Function to display character
+    INT 21H        ; Display the second digit
+
+    POP DX         ; Restore registers
+    POP CX
+    POP BX
+    POP AX
+
+    RET
+DISPLAY_HEX ENDP
+
+; Strings
+START_TIME_MSG DB 'Start Time:', 13, 10, '$'
+MS_MSG DB 'Elapsed Time (MSB):', 13, 10, '$'
+LS_MSG DB 'Elapsed Time (LSB):', 13, 10, '$'
+
+END start

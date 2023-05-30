@@ -1,85 +1,51 @@
 
 .model small            ; assembler directive to allocate memory
                         ; no stack and data segment required here
+
+.DATA 
+  message db "TEST"
 .code                   ; code segment
     start:
-        mov ah, 2ch     ; To get system time [HH in ch, MM in cl, SS in dh]
-        int 21h         ; DOS interrupt to get time
-
-        mov al, ch      ; hour in ch
-        call disp       ; call disp procedure to display hour
-
-        mov dl, ':'     ; copy : to dl to print
-        mov ah, 02h     ; copy 02 to ah
-        int 21h         ; DOS interrupt to display content in dl i.e. : 
-
-        mov al, cl      ; minutes in cl
-        call disp       ; call disp procedure to display minutes
-
-        mov dl, ':'     ; To print : as above
-        mov ah, 02h     
-        int 21h         
-
-        mov al, dh      ; seconds in dh as SS
-        call disp       ; call disp procedure to display seconds
-
-        mov dl, 0Dh     ; To print 0D [0D stands for \r]
-        mov ah, 02h
-        int 21h
-
-        mov dl, 0Ah     ; To print 0A [0A stands for \n]
-        mov ah, 02h
-        int 21h
-
-        mov ah, 2Ah     ; To get system date [DD in dl , MM in dh, YYYY in cx]
-        int 21h         ; DOS interrupt to get date 
-
-        mov al, dl      ; day in dl
-        call disp       ; call disp procedure to display day
-        mov dl, '/'     ; To print /
-        mov ah, 02h
-        int 21h
-
-        mov al, dh      ; month in dh
-        call disp       ; call disp procedure to display month
-        mov dl, '/'     ; To print /
-        mov ah, 02h
-        int 21h
-
-        add cx, 0F830h  ; Add 0F830 to adjust hexadecimal effects on year
-        mov ax, cx      ; year in ax 
-        call disp       ; call disp procedure to display year
-
-        mov dl, 0Dh     ; To print 0D [\r]
-        mov ah, 02h
-        int 21h
-
-        mov dl, 0Ah     ; To print 0A [\n]
-        mov ah, 02h
-        int 21h
-
-        mov ah, 4ch     ; For ending program with return code
-        int 21h         ; DOS Interrupt
-
-        disp proc       ; Beginning of disp procedure
-
-        ;The AAM instruction divides the AX register by 10, 
-        ;resulting in two separate digits: the quotient (AH) 
-        ;and the remainder (AL). It effectively converts a binary 
-        ;value in the range 0-99 to a BCD representation.
+        mov     cx, 0fh
+        mov     dx, 4240h
+        mov     ah, 86h
+        int     15h
         
-          aam           ; ASCII adjust after multiplication [ax register]
-          mov bx, ax    ; loading adjusted value to bx
-          add bx, 3030h ; Add 3030 to properly print the data
+        mov ah, 09h      ; Display a message after the delay
+        lea dx, message
+        int 21h
 
-          mov dl, bh    ; To print first digit of data
-          mov ah, 02h
-          int 21h
-          mov dl, bl    ; To print second digit of data
-          mov ah, 02h
-          int 21h
-          ret           ; return from the procedure
-          disp endp     ; end display procedure
+        mov ah, 4Ch      ; Terminate the program
+        int 21h
+      ; ticks_per_second db 182
+      ; mov ah, 00h
+      ; int 1Ah
+
+      ; ; Calculate the number of clock ticks for 1 second delay
+      ; MOV AX, 0
+      ; MOV AL, DL
+      ; IMUL AX, 0AH
+
+
+
+      ; MOV BH, 0
+      ; MOV BL, byte ptr [ticks_per_second]
+      ; ADD AX, BX
+      ; MOV BX, AX
+
+      ; ; Loop until 1 second delay has elapsed
+      ; loop_agn:
+      ;   MOV AH, 00H
+      ;   INT 1AH
+
+      ;   MOV DH, 0H
+      ;   IMUL DH, 0AH
+
+      ;   CMP DX, BX
+      ;   JL loop_agn 
+
+
+      RET
 
 end start             ; end program
                                                              
