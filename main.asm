@@ -43,7 +43,7 @@ include sound.inc
 	
 	CALL RST_CRSR
 	call color
-	CALL RING1
+	CALL RING4
 
 	; Print title screen
 	TITSCR:
