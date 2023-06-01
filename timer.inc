@@ -1,4 +1,40 @@
 .DATA
+        ;              777777                 
+        ;             77777777                
+        ;               ~~~~                  
+        ;    7777  BBBBBBBBBBBBBB  777        
+        ;     7~BBBB##       5##BBBB~7        
+        ;     BBB#       &&  55555#BBB        
+        ;    BBB         && 55555555BBB       
+        ;   BBB          &&5555555555BBB      
+        ;   BB#          &&5555555555#BB      
+        ;  BBB           BB55555555555BBB     
+        ;  BBB          B  &&         BBB     
+        ;   BB#       B      &&      #BB      
+        ;    BB#                    #BB       
+        ;     BBB#                #BBB        
+        ;      BBBB#            #BBBB         
+        ;         BBBBBBBBBBBBBBBB            
+        ;              BBBBBB 
+        
+    TMR1 DB 13,10,13,10,"                                           777777                  ", "$"                
+    TMR2 DB 13,10,"                                          77777777                 ", "$"             
+    TMR3 DB 13,10,"                                           ~~~~                    ", "$"            
+    TMR4 DB 13,10,"                                 7777  BBBBBBBBBBBBBB  777         ", "$"  
+    TMR5 DB 13,10,"                                  7~BBBB##       5##BBBB~7         ", "$" 
+    TMR6 DB 13,10,"                                  BBB#       &&  55555#BBB         ", "$" 
+    TMR7 DB 13,10,"                                 BBB         && 55555555BBB        ", "$" 
+    TMR8 DB 13,10,"                               BBB          &&5555555555BBB        ", "$" 
+    TMR9 DB 13,10,"                               BB#          &&5555555555#BB        ", "$" 
+    TMR10 DB 13,10,"                              BBB           BB55555555555BBB       ", "$" 
+    TMR11 DB 13,10,"                              BBB          B  &&         BBB       ", "$" 
+    TMR12 DB 13,10,"                               BB#       B      &&      #BB        ", "$" 
+    TMR13 DB 13,10,"                                BB#        TIMER       #BB         ", "$" 
+    TMR14 DB 13,10,"                                 BBB#                #BBB          ", "$" 
+    TMR15 DB 13,10,"                                  BBBB#            #BBBB           ", "$" 
+    TMR16 DB 13,10,"                                      BBBBBBBBBBBBBBBB             ", "$" 
+    TMR17 DB 13,10,"                                           BBBBBB                  ", "$" 
+  
     TMR_SDAY DW 0 ;Timer Set Day
     TMR_SHR DB 0 ;Timer Set Hour
     TMR_SMIN DB 0 ;Timer Set Minute
@@ -22,7 +58,11 @@
 .CODE
 TMR_MAIN PROC
     TMR_INIT:
+
+        CALL RST_CRSR
         CALL CLRSCR
+        CALL COLOR
+	    CALL TIMRGUI
         CALL DIS_STMR
         CALL TDIS_SET
     TIMER:
@@ -436,3 +476,77 @@ TDIS_UP PROC ;Timer status UP
 	INT 10H
 	RET
 TDIS_UP ENDP
+
+TIMRGUI PROC ;Timer Gui
+
+		LEA DX, TMR1
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR2
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR3
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR4
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR5
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR6
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR7
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR8
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR9
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR10
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR11
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR12
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR13
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR14
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR15
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR16
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR17
+		MOV AH, 09H
+		INT 21H
+
+        ret
+
+TIMRGUI ENDP
