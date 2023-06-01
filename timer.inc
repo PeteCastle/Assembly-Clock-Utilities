@@ -18,7 +18,7 @@
     ;         BBBBBBBBBBBBBBBB            
     ;              BBBBBB 
     
-TMR1 DB 13,10,"                                                        777777             ", "$"                
+TMR1 DB 13,10,"                                                         777777             ", "$"                
 TMR2 DB 13,10,"                                                       77777777            ", "$"             
 TMR3 DB 13,10,"                                                        ~~~~               ", "$"            
 TMR4 DB 13,10,"                                              7777  BBBBBBBBBBBBBB  777    ", "$"  
