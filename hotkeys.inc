@@ -31,7 +31,7 @@
     ; HK_LSB "[","$"
     HK_BL DB "\","$"
 
-; X - Start/Reset Timer
+; X - Start/Reset  Timer
 ; Z - Stop Timer
 ; Space - Toggle Pause/Unpause
 ; K - Increase day by 1

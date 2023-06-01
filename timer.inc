@@ -101,7 +101,7 @@ TMR_MAIN PROC
             JE T_KEY_SN
 
             CMP AL, '.'
-            JE T_KEY_DT
+            JE T_KEY_DT 
 
             CMP AL, 39
             JE T_KEY_AE
