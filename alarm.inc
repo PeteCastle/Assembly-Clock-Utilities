@@ -1,35 +1,31 @@
 .DATA
-	; SPACE1 DB 13,10,"               		     										  +++++++++				","$"
-    ; SPACE2 DB 13,10,"                            									     |           | 				","$"
-    ; SPACE3 DB 13,10,"                         														++++++++++ 				","$"
-	SPACE DB 13,10, "                                                      		     [SPACE] ", "$"
+	ALRM0 DB 13,10, "                                                      		     [SPACE] ", "$"
     ALRM1 DB 13,10,"                        .-'`'-.               ______________________________ ", "$"
     ALRM2 DB 13,10,"              ,-'`'.   '._     \     ______                 ++++++++++       ","$"
     ALRM3 DB 13,10,"             /    .'  ___ `-._  |    \ .-'`      SET TIME: |   :      |      ","$"
     ALRM4 DB 13,10,"             |   .' ,-' __ `'/.`.'  ___\\                   ++++++++++       ","$"
-    ALRM5 DB 13,10,"    ______  \ .' \',-' 12 '-.  '.  `-._ \        [;] Hour [/] Minute [P] AM/PM","$"
-    ALRM6 DB 13,10,"    '`-. /   ` / / 11    7 1 `.  `.    '.\                       ","$"
-    ALRM7 DB 13,10,"       //___  . '10     /    2 \  ;                                 ","$"
-    ALRM8 DB 13,10,"      / _.-'  | |      O      3|  |  ______      [A] Sunday     [G] Thursday","$"
-    ALRM9 DB 13,10,"     /.'      | |9      \      '  '  '`-. /                         ","$"
-    ALRM10 DB 13,10,"       ______ '  \ 8     \   4/  /      //___    [S] Monday     [H] Friday    ","$"
-    ALRM11 DB 13,10,"       \ .-'`  '. `'.7  6  5.'  '      / _.-'                  ","$"
-    ALRM12 DB 13,10,"      ___\\       `. _ `'''` _.'\\-.   /.'       [D] Tuesday    [J] Saturday  ","$"
-    ALRM13 DB 13,10,"      `-._ \       .//`''--''   (   )                            ","$"
-    ALRM14 DB 13,10,"          '.\     (   )          '-`             [F] Wednesday               ","$"
-    ALRM15 DB 13,10,"                   `-'                                           ","$" 
-    ALRM16 DB 13,10,"                    ALARM CLOCK                  [U] Ringtone: Sweet Child   ","$"
-    ALRM17 DB 13,10,13,10,"       +++            +++             +++             +++           +++ ","$"
-    ALRM18 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
-    ALRM19 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
-    ALRM20 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
+    ALRM5 DB 13,10,"    ______  \ .' \',-' 12 '-.  '.  `-._ \   		[.] - Hour + [;]","$"
+    ALRM6 DB 13,10,"    '`-. /   ` / / 11    7 1 `.  `.    '.\  		[/] - Minute + [']","$" ;
+    ALRM7 DB 13,10,"       //___  . '10     /    2 \  ;            		[P] AM/PM","$"
+    ALRM8 DB 13,10,"      / _.-'  | |      O      3|  |  ______      ","$"
+    ALRM9 DB 13,10,"     /.'      | |9      \      '  '  '`-. /      ","$"          
+    ALRM10 DB 13,10,"       ______ '  \ 8     \   4/  /      //___   ","$"
+    ALRM11 DB 13,10,"       \ .-'`  '. `'.7  6  5.'  '      / _.-'   ","$"
+    ALRM12 DB 13,10,"      ___\\       `. _ `'''` _.'\\-.   /.'      ","$"
+    ALRM13 DB 13,10,"      `-._ \       .//`''--''   (   )           ","$"
+    ALRM14 DB 13,10,"          '.\     (   )          '-`            ","$"
+    ALRM15 DB 13,10,"                   `-'                          ","$" 
+    ALRM16 DB 13,10,"                    ALARM CLOCK                 ","$"
+	ALRM17 DB 13,10,13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+    ALRM18 DB "       +++            +++             +++             +++           +++ ","$"
+    ALRM19 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
+    ALRM20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
+    ALRM21 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
 
 	ALRMMSG DB "ALARM!!!!!!!","$"
 
-	STAT_ON DB "ALARM ON ","$"
-	STAT_OF DB "ALARM OFF","$"
-
-	colon DB ":", "$"
+	STAT_ON DB "ALARM ON  ","$"
+	STAT_OF DB "ALARM OFF ","$"
 
 	SET_ALARM DB 0 ; Set alarm
 	SET_WKDAY DB 0 ; Set weekday
@@ -51,7 +47,9 @@ AL_MAIN PROC
 			CALL CLRSCR
 			CALL COLOR
 			CALL ALRM_GUI
+			CALL ALRM_HKY
 
+			CALL COLOR_MA 
 			MOV DH,4 ;Row and Column (DL) for Hour
 			MOV DL,61
 			CALL SET_CRSR
@@ -76,53 +74,54 @@ AL_MAIN PROC
 			mov ah, 02h
 			int 21h
 
-		
+			; CALL COLOR_MA ; Reset
+
 			MOV CX, 6
 			MOV BP, offset SUN
 			MOV DL, 53 ; Row and Column (DL) for sun 
-			MOV DH, 9	
+			MOV DH, 10	
 
 			CALL ADIS_OFF
 			MOV CX, 6
 			MOV BP, offset MON
 			MOV DL, 53 ; Row and Column (DL) for Monday
-			MOV DH, 11
+			MOV DH, 12
 
 			CALL ADIS_OFF
 			MOV CX, 7
 			MOV BP, offset TUE
 			MOV DL, 53 ; Row and Column (DL) for TUE
-			MOV DH, 13
+			MOV DH, 14
 
 			CALL ADIS_OFF 
 			MOV CX, 9
 			MOV BP, offset WED
 			MOV DL, 53 ; Row and Column (DL) for WED
-			MOV DH, 15
+			MOV DH, 16
 
 			CALL ADIS_OFF
 			MOV CX, 8
 			MOV BP, offset THU
-			MOV DL, 68 ; Row and Column (DL) for WED
-			MOV DH, 9
+			MOV DL, 68 ; Row and Column (DL) for THU
+			MOV DH, 10
 
 			CALL ADIS_OFF
 			MOV CX, 6
 			MOV BP, offset FRI
-			MOV DL, 68 ; Row and Column (DL) for WED
-			MOV DH, 11
+			MOV DL, 68 ; Row and Column (DL) for FRI
+			MOV DH, 12
 
 			CALL ADIS_OFF
 			MOV CX, 8
 			MOV BP, offset SAT
 			MOV DL, 68 ; Row and Column (DL) for SAT
-			MOV DH, 13
+			MOV DH, 14
 
 			CALL ADIS_OFF
 			
 			MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
 			MOV DH, 1	
-			MOV CX, 9
+			MOV CX, 10
 			MOV BP, offset STAT_OF
 			CALL ADIS_OFF
 
@@ -151,11 +150,6 @@ AL_MAIN PROC
 			MOV DL, AL
 			PUSH DX
 
-			; ;REMOVE LATER
-			; LEA DX, TEST1
-			; MOV AH, 09H
-			; INT 21H
-
 			;Check if within the WEEKDAY
 			MOV AH, 0
 			MOV AL, byte ptr [SET_WKDAY]
@@ -163,11 +157,6 @@ AL_MAIN PROC
 			CALL READ_BIT
 			CMP AL, 1
 			JNE AL_RET
-
-			; ;REMOVE LATER
-			; LEA DX, TEST2
-			; MOV AH, 09H
-			; INT 21H
 
 			;Check for hour
 			MOV AH, 0
@@ -414,7 +403,7 @@ AL_MAIN PROC
 			MOV CX, 6
 			MOV BP, offset SUN
 			MOV DL, 53 ; Row and Column (DL) for sun 
-			MOV DH, 9	
+			MOV DH, 10	
 
 			JMP WK_COND 
 		KEY_S:
@@ -424,7 +413,7 @@ AL_MAIN PROC
 			MOV CX, 6
 			MOV BP, offset MON
 			MOV DL, 53 ; Row and Column (DL) for Monday
-			MOV DH, 11
+			MOV DH, 12
 
 			JMP WK_COND 
 		KEY_D:
@@ -434,7 +423,7 @@ AL_MAIN PROC
 			MOV CX, 7
 			MOV BP, offset TUE
 			MOV DL, 53 ; Row and Column (DL) for TUE
-			MOV DH, 13
+			MOV DH, 14
 
 			JMP WK_COND 
 		KEY_F:
@@ -443,8 +432,8 @@ AL_MAIN PROC
 
 			MOV CX, 9
 			MOV BP, offset WED
-			MOV DL, 53 ; Row and Column (DL) for WED
-			MOV DH, 15
+			MOV DL, 53 ; Row and Column (DL) for THU
+			MOV DH, 16
 
 			JMP WK_COND 
 
@@ -454,8 +443,8 @@ AL_MAIN PROC
 
 			MOV CX, 8
 			MOV BP, offset THU
-			MOV DL, 68 ; Row and Column (DL) for WED
-			MOV DH, 9
+			MOV DL, 68 ; Row and Column (DL) for FRI
+			MOV DH, 10
 
 			JMP WK_COND 
 		KEY_H:
@@ -465,7 +454,7 @@ AL_MAIN PROC
 			MOV CX, 6
 			MOV BP, offset FRI
 			MOV DL, 68 ; Row and Column (DL) for WED
-			MOV DH, 11
+			MOV DH, 12
 
 			JMP WK_COND 
 
@@ -476,7 +465,7 @@ AL_MAIN PROC
 			MOV CX, 8
 			MOV BP, offset SAT
 			MOV DL, 68 ; Row and Column (DL) for SAT
-			MOV DH, 13
+			MOV DH, 14
 
 			JMP WK_COND 
 
@@ -524,26 +513,9 @@ ADIS_OFF PROC ;Alarm status of
 ADIS_OFF ENDP
 
 ALRM_GUI PROC ;Alarm Gui
-
-		; LEA DX, SPACE3
-		; MOV AH, 09H
-		; INT 21H 
-
-		LEA DX, SPACE
+		LEA DX, ALRM0
 		MOV AH, 09H
-		INT 21H 
-
-		; LEA DX, SPACE2
-		; MOV AH, 09H
-		; INT 21H 
-
-		; LEA DX, SPACE3
-		; MOV AH, 09H
-		; INT 21H 
-
-		; LEA DX, SPACE4
-		; MOV AH, 09H
-		; INT 21H 
+		INT 21H
 
 		LEA DX, ALRM1
 		MOV AH, 09H
@@ -625,6 +597,117 @@ ALRM_GUI PROC ;Alarm Gui
 		MOV AH, 09H
 		INT 21H
 
+		LEA DX, ALRM21
+		MOV AH, 09H
+		INT 21H
 ALRM_GUI ENDP
+
+ALRM_HKY PROC ; Displays alarm hotkey
+ 
+	MOV DL, 49  
+	MOV DH, 10	
+    MOV BP, offset HK_A
+    mov CX,3
+	PUSH DS
+	POP ES
+	MOV AL, 1
+	MOV BH, 0
+	MOV BL, 00001110b
+	MOV AH, 13h
+	INT 10H
+
+	MOV DL, 49 
+	MOV DH, 12	
+    MOV BP, offset HK_S
+	INT 10H
+
+	MOV DL, 49 
+	MOV DH, 14	
+    MOV BP, offset HK_d
+	INT 10H
+
+	MOV DL, 49 
+	MOV DH, 16
+    MOV BP, offset HK_F
+	INT 10H
+
+	MOV DL, 49 
+	MOV DH, 18	
+    MOV BP, offset HK_U
+	INT 10H
+
+	MOV DL, 64 
+	MOV DH, 10
+    MOV BP, offset HK_G
+	INT 10H
+
+	MOV DL, 64 
+	MOV DH, 12	
+    MOV BP, offset HK_H
+	INT 10H
+	
+	MOV DL, 64 
+	MOV DH, 14
+    MOV BP, offset HK_J
+	INT 10H
+
+	MOV DL, 7
+	MOV DH, 22	
+    MOV BP, offset HK_Q
+	INT 10H
+
+	MOV DL, 22
+	MOV DH, 22	
+    MOV BP, offset HK_W
+	INT 10H
+
+	MOV DL, 38
+	MOV DH, 22	
+    MOV BP, offset HK_E
+	INT 10H
+
+	MOV DL, 54
+	MOV DH, 22	
+    MOV BP, offset HK_R
+	INT 10H
+
+	MOV DL, 68
+	MOV DH, 22	
+    MOV BP, offset HK_T
+	INT 10H
+
+	MOV DL, 56 
+	MOV DH, 6	
+    MOV BP, offset HK_DT
+	INT 10H
+
+	MOV DL, 56 
+	MOV DH, 7	
+    MOV BP, offset HK_SH
+	INT 10H
+
+	MOV DL, 56 
+	MOV DH, 8	
+    MOV BP, offset HK_P
+	INT 10H
+
+	MOV DL, 69 
+	MOV DH, 6	
+    MOV BP, offset HK_SN
+	INT 10H
+
+	MOV DL, 71 
+	MOV DH, 7	
+    MOV BP, offset HK_CA
+	INT 10H
+
+	MOV CX,7
+	MOV DL, 70 
+	MOV DH, 1	
+    MOV BP, offset HK_SE
+	INT 10H
+
+	RET
+ALRM_HKY ENDP
 		
     	

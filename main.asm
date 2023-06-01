@@ -23,6 +23,8 @@
    TIT15 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
    TIT16 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE",13,10,13,10,13,10,"$"
 
+	include hotkeys.inc
+
 	;User Input Variables
 	INPUT DB 128 (?) ; User input
 	STOR DW 0                       
@@ -110,12 +112,10 @@ include sound.inc
 		MOV AH, 09H
 		INT 21H
 
-		
 	TITIN:
 		CALL GETKIN
 		CALL MODE_MGR
 		JMP TITIN
-	
 	ALA_WIN:
 		CALL AL_MAIN
 		JMP TITSCR
@@ -134,3 +134,30 @@ include sound.inc
 
    .EXIT
 END
+
+MENU_HKY PROC
+	MOV DL, 7
+	MOV DH, 22	
+    MOV BP, offset HK_Q
+	INT 10H
+
+	MOV DL, 22
+	MOV DH, 22	
+    MOV BP, offset HK_W
+	INT 10H
+
+	MOV DL, 38
+	MOV DH, 22	
+    MOV BP, offset HK_E
+	INT 10H
+
+	MOV DL, 54
+	MOV DH, 22	
+    MOV BP, offset HK_R
+	INT 10H
+
+	MOV DL, 68
+	MOV DH, 22	
+    MOV BP, offset HK_T
+	INT 10H
+MENU_HKY ENDP
