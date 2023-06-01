@@ -599,6 +599,8 @@ ALRM_GUI PROC ;Alarm Gui
 		LEA DX, ALRM21
 		MOV AH, 09H
 		INT 21H
+
+		RET
 ALRM_GUI ENDP
 
 ALRM_HKY PROC ; Displays alarm hotkey

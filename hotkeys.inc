@@ -31,6 +31,36 @@
     ; HK_LSB "[","$"
     HK_BL DB "\","$"
 
+; X - Start/Reset Timer
+; Z - Stop Timer
+; Space - Toggle Pause/Unpause
+; K - Increase day by 1
+; M - Increase day by 1
+; L - Increase hour by 1
+; , - Decrease hour by 1
+; ; - Increase minute by 1
+; . - Decrease minute by 1
+; ' - Increase second by 1
+; / - Decrease second by 1
+
+    ; Hotkeys for Timer
+    HKT_ST DB "[X]","$"     ;start
+    HKT_S DB "[Z]","$"      ;stop
+    HKT_SP DB "[SPACE]","$"    ;pause
+    HKT_K DB "[K]","$"      ;inc. day
+    HKT_M DB "[M]","$"      ;dec. day
+    HKT_L DB "[L]","$"      ;inc. hour
+    HKT_DC DB "[,]","$"     ;dec. hour
+    HKT_IM DB "[;]","$"       ;inc. minute
+    HKT_DM DB "[.]","$"     ;dec. mnute
+    HKT_IS DB "[']","$"     ;inc. second
+    HKT_DS DB "[/]","$"     ;dec. second
+
+
+
+
+
+
 ; .CODE
 ;     MENU_HKY PROC
 ;     PUSH DS
