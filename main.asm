@@ -113,24 +113,8 @@ include sound.inc
 		
 	TITIN:
 		CALL GETKIN
-
-		CMP AL,"q"
-		JE CLK_WIN
-
-		CMP AL,"w"
-		JE ALA_WIN
-
-		CMP AL,"e"
-		JE TIM_WIN
-
-		CMP AL,"r"
-		JE SWA_WIN
-
-		CMP AL, "t"
-		JE ENDPROG
-
-		CMP AL,"r"
-		JNE TITIN
+		CALL MODE_MGR
+		JMP TITIN
 	
 	ALA_WIN:
 		CALL AL_MAIN
@@ -142,8 +126,11 @@ include sound.inc
 		CALL SW_MAIN
 		JMP TITSCR
 	CLK_WIN:
-		CALL CLOCK
+		CALL CK_MAIN
 		JMP TITSCR
+	END_WIN:
+		CALL ENDPROG
+
 
    .EXIT
 END

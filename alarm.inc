@@ -24,17 +24,8 @@
     ALRM19 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
     ALRM20 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
 
-	;TEMP ONLY REMOVE LATER
-	TEST1 DB "COND REACHED HERE1","$"
-	TEST2 DB "COND REACHED HERE2","$"
-	TEST3 DB "COND REACHED HERE3","$"
-	TEST4 DB "COND REACHED HERE4","$"
-	TEST5 DB "COND REACHED HERE5","$"
-
 	ALRMMSG DB "ALARM!!!!!!!","$"
 
-
-	
 	STAT_ON DB "ALARM ON ","$"
 	STAT_OF DB "ALARM OFF","$"
 
@@ -223,9 +214,14 @@ AL_MAIN PROC
 			CALL RING2
 
 		AL_RET:
-			CALL GETKINAS
+			MOV AH, 01H
+			INT 16H
+			JZ ALM_NPR
+			MOV AH, 0
+			INT 16H
+			JMP ALM_KYPR
 			; CALL GETKIN
-			
+			ALM_KYPR:	;Alarm Key press
 			CMP AL, ';'
 			JE SEMICLN
 
@@ -286,6 +282,10 @@ AL_MAIN PROC
 			CMP AL, 'j'
 			JE KEY_J
 
+			CALL MODE_MGR
+
+			JMP ALARM
+		ALM_NPR:
 			JMP ALARM
 		PERIOD:
 			MOV DH,4 ;Row and Column (DL) for Hour

@@ -53,6 +53,8 @@
             CMP AL, '\';For debugging only, disables 1 second delay
             JE SDIS_DBG
 
+            CALL MODE_MGR
+
             JMP STOPWATCH
         SW_NPR: ;Stopwatch no press
             MOV AH, byte ptr [SW_RUN]

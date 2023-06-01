@@ -1,8 +1,11 @@
-CLOCK PROC
-    START:
-        CALL DELAY
+CK_MAIN PROC
+    CK_INIT:
         CALL CLRSCR
 
+    CLOCK:
+
+        CALL DELAY
+        
         MOV DX, 0508H
         CALL SET_CRSR
         CALL PRNT_TME
@@ -15,10 +18,18 @@ CLOCK PROC
         CALL SET_CRSR
         CALL PRNT_DOW
 
-        CALL GETKINAS
 
-        JZ START
+        MOV AH, 01H
+        INT 16H
+        JZ CLK_NPR
+        MOV AH, 0
+        INT 16H
+        JMP CLK_KYPR
 
+        CLK_KYPR:	;Alarm Key press
+            CALL MODE_MGR
+        CLK_NPR: ; Clock  no press
+            JMP CLOCK
 
         ; MOV AH, 01H
         ; INT 16H
@@ -26,4 +37,4 @@ CLOCK PROC
         ; JMP START
 
     RET
-CLOCK ENDP
+CK_MAIN ENDP

@@ -80,6 +80,8 @@ TMR_MAIN PROC
             JE TENA_DBG
             CMP AL, '\';For debugging only, disables 1 second delay
             JE TDIS_DBG
+            
+            CALL MODE_MGR
 
             JMP TIMER
         T_KEY_K:

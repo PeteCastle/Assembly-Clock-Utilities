@@ -12,7 +12,7 @@ CURS_ON PROC ;NEAR
     RET
 CURS_ON ENDP
 
-DELAY PROC
+DELAY PROC ; Delay (loop based_
     MOV     AH, 00H         
     INT     01AH            ;Get system time
     ADD     DX,  4          ;Delay amount (in loops)
@@ -26,10 +26,10 @@ DELAY PROC
     RET
 DELAY ENDP
 
-DELAY_1SC PROC
+DELAY_1SC PROC ; Delay (time based)
 
     mov     cx, 0fh
-    mov     dx, 4240h
+    mov     dx, 4240h   ; 1 000 000 microseconds 
     mov     ah, 86h
     int     15h
     RET
@@ -123,7 +123,10 @@ GETKINAS ENDP
 
 ENDPROG PROC
     ; MOV AH, 08H
-    INT 20H
+    CALL CLRSCR
+    CALL RST_CRSR
+    MOV AX, 4C00h
+    INT 21H
     RET
 ENDPROG ENDP
 
@@ -146,4 +149,30 @@ SET_CRSR PROC
     RET
 SET_CRSR ENDP
 
+MODE_MGR PROC
+    CMP AL,"q"
+    JE CLK_WIN
+    CMP AL,"Q"
+    JE CLK_WIN
 
+    CMP AL,"w"
+    JE ALA_WIN
+    CMP AL,"W"
+    JE ALA_WIN
+
+    CMP AL,"e"
+    JE TIM_WIN
+    CMP AL,"E"
+    JE TIM_WIN
+
+    CMP AL,"r"
+    JE SWA_WIN
+    CMP AL,"R"
+    JE SWA_WIN
+
+    CMP AL, "t"
+    JE END_WIN
+    CMP AL, "T"
+    JE END_WIN
+    RET
+MODE_MGR ENDP
