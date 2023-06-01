@@ -49,7 +49,6 @@ AL_MAIN PROC
 			CALL ALRM_GUI
 			CALL ALRM_HKY
 
-			CALL COLOR_MA 
 			MOV DH,4 ;Row and Column (DL) for Hour
 			MOV DL,61
 			CALL SET_CRSR
