@@ -96,7 +96,7 @@ TMR_MAIN PROC
 
             CMP AL, ','
             JE T_KEY_CM
-
+ 
             CMP AL, ';'
             JE T_KEY_SN
 
