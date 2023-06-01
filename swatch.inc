@@ -1,4 +1,29 @@
 .DATA
+
+SW0 DB 13,10,"             .7JJJJ7.             .---------------------. .-----------------.","$"                  
+SW1 DB 13,10,"              !5PP5!              |                     | |   [Your Laps]   |","$" 
+SW2 DB 13,10,"          :^!7?5555?7!^:   :^.    |                     | |                 |","$" 
+SW3 DB 13,10,"       ^7JJ?7~^:~~:^~7?JJ7^YP5!   |  Dy   Hr   Sc   Mn  | |                 |","$"
+SW4 DB 13,10,"     ~JY7^^!    7!    !^^75P57!   |                     | |                 |","$" 
+SW5 DB 13,10,"   .J5!.  .!:        :!.  .!5?.   |                     | |                 |","$" 
+SW6 DB 13,10,"  :Y5^^!:          .!.   :!^:5Y:  |     :    :    :     | |                 |","$"   
+SW7 DB 13,10,"  JP^ .^:         ^?:    :^. ^PJ  |                     | |                 |","$"    
+SW8 DB 13,10," ^P? .         .:!J:        . ?P^ |     :    :    :     | |                 |","$"      
+SW9 DB 13,10," ~P!.7!.       ~PP~       .!7.!P~ |                     | |                 |","$" 
+SW10 DB 13,10," ^P?           .::.           ?P^ |                     | |                 |","$" 
+SW11 DB 13,10,"  JP^ .^:                :^. ^PJ  |     [X] - Start     | |                 |","$" 
+SW12 DB 13,10,"  :Y5:^!:                :!^:5Y:  |     [Z] - Stop      | |                 |","$" 
+SW13 DB 13,10,"   .J5!.  .!:        :!.  .!5J.   |     [C] - Lap       | |                 |","$" 
+SW14 DB 13,10,"     ~JY7^^!    77    !^^7YJ~     |     [V] - Reset     | |                 |","$" 
+SW15 DB 13,10,"       ^7JJ?7~^:~~:^~7?JJ7^       |                     | |                 |","$" 
+SW16 DB 13,10,"          :^!7??????7!^:          .---------------------. .-----------------.","$" 
+SW17 DB 13,10,"             STOPWATCH                 ","$"
+SW18 DB 13,10,13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+SW19 DB "       +++            +++             +++             +++           +++ ","$"
+SW20 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
+SW21 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
+SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
+    
     SW_DAY DW 0
     SW_HR DB 0 
     SW_MIN DB 0
@@ -18,8 +43,7 @@
     SW_MAIN PROC
         SW_INIT:
             CALL CLRSCR
-            CALL DISP_SW
-            CALL SDIS_OFF
+            CALL STPW_GUI
         STOPWATCH:
             MOV AH, 01H
             INT 16H
@@ -130,29 +154,29 @@
 
 
 DISP_SW PROC ;Displays stopwatch (normal)
-    MOV DH,5 ;Row and Column (DL) for Stopwatch Day
-    MOV DL,40
+    MOV DH,7 ;Row and Column (DL) for Stopwatch Day
+    MOV DL,37
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [SW_DAY]
     CALL DISP_DT	
 
-    MOV DH,5 ;Row and Column (DL) for Stopwatch Hour
-    MOV DL,45
+    MOV DH,7 ;Row and Column (DL) for Stopwatch Hour
+    MOV DL,42
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [SW_HR]
     CALL DISP_DT	
 
-    MOV DH,5 ;Row and Column (DL) for Stopwatch Minute
-    MOV DL,50
+    MOV DH,7 ;Row and Column (DL) for Stopwatch Minute
+    MOV DL,47
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [SW_MIN]
     CALL DISP_DT	
 
-    MOV DH,5 ;Row and Column (DL) for Stopwatch Second
-    MOV DL,55
+    MOV DH,7 ;Row and Column (DL) for Stopwatch Second
+    MOV DL,52
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [SW_SEC]
@@ -161,29 +185,29 @@ DISP_SW PROC ;Displays stopwatch (normal)
 DISP_SW ENDP
 
 DISP_LTR PROC ; Displays lap stopwatch
-    MOV DH,8 ;Row and Column (DL) for Lap Stopwatch Day
-    MOV DL,40
+    MOV DH,9 ;Row and Column (DL) for Lap Stopwatch Day
+    MOV DL,37
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [LAP_DAY]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Lap Stopwatch Hour
-    MOV DL,45
+    MOV DH,9 ;Row and Column (DL) for Lap Stopwatch Hour
+    MOV DL,42
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [LAP_HR]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Lap Stopwatch Minute
-    MOV DL,50
+    MOV DH,9 ;Row and Column (DL) for Lap Stopwatch Minute
+    MOV DL,47
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [LAP_MIN]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Lap Stopwatch Second
-    MOV DL,55
+    MOV DH,9 ;Row and Column (DL) for Lap Stopwatch Second
+    MOV DL,52
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [LAP_SEC]
@@ -192,9 +216,9 @@ DISP_LTR PROC ; Displays lap stopwatch
 DISP_LTR ENDP
 
 DISP_LLT PROC ; Displays row in laps list
-    MOV DH, 2 ;Row and Column (DL) for Laps List (first row)
+    MOV DH, 5 ;Row and Column (DL) for Laps List (first row)
     ADD DH, byte ptr [LAP_CNT]
-    MOV DL, 10
+    MOV DL, 60
     CALL SET_CRSR
 
     mov dl, '#'     ; To print #
@@ -251,7 +275,7 @@ DISP_LLT ENDP
 SDIS_ON PROC ; Stopwatch status ON
 
     MOV DH,3 ;Row and Column (DL) for Stopwatch Status Label
-    MOV DL,40
+    MOV DL,37
     MOV BP, offset SRUN_MSG
     mov CX,17
 
@@ -268,7 +292,7 @@ SDIS_ON ENDP
 SDIS_OFF PROC ;Stopwatch status OFF
 
     MOV DH,3 ;Row and Column (DL) for Stopwatch Status Label
-    MOV DL,40
+    MOV DL,37
     MOV BP, offset SPSE_MSG
     mov CX,17
 
@@ -282,5 +306,90 @@ SDIS_OFF PROC ;Stopwatch status OFF
 	RET
 SDIS_OFF ENDP
 
+STPW_GUI PROC ;stopwatch gui function(print)
+		LEA DX, SW0
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, SW1
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW2
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW3
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW4
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW5
+		MOV AH, 09H
+		INT 21
+		LEA DX, SW6
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW7
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW8
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW9
+		MOV AH, 09H
+		INT 21H
+
+		LEA DX, SW10
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW11
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW12
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, SW13
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW14
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW15
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW16
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW17
+		MOV AH, 09H
+		INT 21
+		LEA DX, SW18
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW19
+		MOV AH, 09H
+		INT 21H
+		LEA DX, SW20
+		MOV AH, 09H
+		INT 21H
+        
+        LEA DX, SW21
+		MOV AH, 09H
+		INT 21H
+
+		LEA DX, SW22
+		MOV AH, 09H
+		INT 21H
+        RET
+    STPW_GUI ENDP
 
     
