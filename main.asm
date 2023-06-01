@@ -129,7 +129,6 @@ include sound.inc
 		CALL CK_MAIN
 		JMP TITSCR
 	END_WIN:
-		CALL RINGOUT
 		CALL ENDPROG
 
 
