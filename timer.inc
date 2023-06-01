@@ -18,23 +18,27 @@
     ;         BBBBBBBBBBBBBBBB            
     ;              BBBBBB 
     
-TMR1 DB 13,10,13,10,"                                           777777                  ", "$"                
-TMR2 DB 13,10,"                                          77777777                 ", "$"             
-TMR3 DB 13,10,"                                           ~~~~                    ", "$"            
-TMR4 DB 13,10,"                                 7777  BBBBBBBBBBBBBB  777         ", "$"  
-TMR5 DB 13,10,"                                  7~BBBB##       5##BBBB~7         ", "$" 
-TMR6 DB 13,10,"                                  BBB#       &&  55555#BBB         ", "$" 
-TMR7 DB 13,10,"                                 BBB         && 55555555BBB        ", "$" 
-TMR8 DB 13,10,"                               BBB          &&5555555555BBB        ", "$" 
-TMR9 DB 13,10,"                               BB#          &&5555555555#BB        ", "$" 
-TMR10 DB 13,10,"                              BBB           BB55555555555BBB       ", "$" 
-TMR11 DB 13,10,"                              BBB          B  &&         BBB       ", "$" 
-TMR12 DB 13,10,"                               BB#       B      &&      #BB        ", "$" 
-TMR13 DB 13,10,"                                BB#        TIMER       #BB         ", "$" 
-TMR14 DB 13,10,"                                 BBB#                #BBB          ", "$" 
-TMR15 DB 13,10,"                                  BBBB#            #BBBB           ", "$" 
-TMR16 DB 13,10,"                                      BBBBBBBBBBBBBBBB             ", "$" 
-TMR17 DB 13,10,"                                           BBBBBB                  ", "$" 
+TMR1 DB 13,10,"                                                        777777             ", "$"                
+TMR2 DB 13,10,"                                                       77777777            ", "$"             
+TMR3 DB 13,10,"                                                        ~~~~               ", "$"            
+TMR4 DB 13,10,"                                              7777  BBBBBBBBBBBBBB  777    ", "$"  
+TMR5 DB 13,10,"                                               7~BBBB##       5##BBBB~7    ", "$" 
+TMR6 DB 13,10,"                                               BBB#       &&  55555#BBB    ", "$" 
+TMR7 DB 13,10,"                                              BBB         && 55555555BBB   ", "$" 
+TMR8 DB 13,10,"                                            BBB          &&5555555555BBB   ", "$" 
+TMR9 DB 13,10,"                                            BB#          &&5555555555#BB   ", "$" 
+TMR10 DB 13,10,"                                          BBB           BB55555555555BBB  ", "$" 
+TMR11 DB 13,10,"                                          BBB          B  &&         BBB  ", "$" 
+TMR12 DB 13,10,"                                            BB#       B      &&      #BB   ", "$" 
+TMR13 DB 13,10,"                                             BB#                    #BB    ", "$" 
+TMR14 DB 13,10,"                                              BBB#      TIMER     #BBB     ", "$" 
+TMR15 DB 13,10,"                                               BBBB#            #BBBB      ", "$" 
+TMR16 DB 13,10,"                                                   BBBBBBBBBBBBBBBB        ", "$" 
+TMR17 DB 13,10,"                                                        BBBBBB             ", "$"
+TMR18 DB 13,10,13,10,"       +++            +++             +++             +++           +++ ","$"
+TMR19 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
+TMR20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
+TMR21 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
   
     TMR_SDAY DW 0 ;Timer Set Day
     TMR_SHR DB 0 ;Timer Set Hour
@@ -549,5 +553,23 @@ TIMRGUI PROC ;Timer Gui
         LEA DX, TMR17
 		MOV AH, 09H
 		INT 21H
+
+         LEA DX, TMR18
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR19
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR20
+		MOV AH, 09H
+		INT 21H
+
+        LEA DX, TMR21
+		MOV AH, 09H
+		INT 21H
+
+        ret
 
 TIMRGUI ENDP
