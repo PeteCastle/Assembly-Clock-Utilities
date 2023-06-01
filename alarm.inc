@@ -201,6 +201,14 @@ AL_MAIN PROC
 			
 			CALL RING2
 
+			MOV byte ptr[SET_ALARM], 0
+			MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
+			MOV DH, 1	
+			MOV CX, 10
+			MOV BP, offset STAT_OF
+			CALL ADIS_OFF
+			JMP ALARM
+
 		AL_RET:
 			MOV AH, 01H
 			INT 16H
