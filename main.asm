@@ -43,7 +43,7 @@ include sound.inc
 	
 	CALL RST_CRSR
 	call color
-	CALL RING4
+	CALL RING1
 
 	; Print title screen
 	TITSCR:
@@ -129,6 +129,7 @@ include sound.inc
 		CALL CK_MAIN
 		JMP TITSCR
 	END_WIN:
+		CALL RINGOUT
 		CALL ENDPROG
 
 
