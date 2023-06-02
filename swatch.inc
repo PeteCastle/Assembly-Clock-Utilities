@@ -90,9 +90,11 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
             JMP STOPWATCH
         SW_SRT: ; Stopwatch start
             CALL SDIS_ON
+            CALL NTE_DO2
             MOV byte ptr [SW_RUN],1    
             JMP STOPWATCH
         SW_RST: ; Stopwatch reset
+            CALL NTE_DO
             MOV  word ptr [SW_DAY], 0
             MOV  byte ptr [SW_HR], 0
             MOV  byte ptr [SW_MIN], 0
@@ -113,6 +115,7 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
             JMP STOPWATCH
         LAP:
             CALL DISP_LLT
+            CALL NTE_FA
             MOV  word ptr [LAP_DAY], 0
             MOV  byte ptr [LAP_HR], 0
             MOV  byte ptr [LAP_MIN], 0

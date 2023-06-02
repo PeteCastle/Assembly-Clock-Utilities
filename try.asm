@@ -1,26 +1,15 @@
-.model small
-.stack 100h
+.MODEL small
+.STACK 100h
 
-.data
+.DATA
+    myVariable DW -10    ; Declare a word-sized variable with a negative value (-10)
+    negativeSign DB '-'   ; Negative sign character
 
-.code
+.CODE
 start:
-    mov ax, @data
-    mov ds, ax
-    
-    call COLOR_MA   ; Call the COLOR_MA procedure
-    
-    ; Rest of your program goes here
-    
-    mov ah, 4Ch     ; Exit program function
-    int 21h         ; Call DOS interrupt 21h
-    
-COLOR_MA proc
-    MOV BH, 0
-    MOV BL, 05h    ; MAGENTA text only
-    MOV AH, 0Bh
-    INT 10H
-    ret
-COLOR_MA endp
+    mov ax,5
+    ADD AX, myVariable  ; Add the value of myVariable to AX
 
-end start
+    INT 1
+
+END start

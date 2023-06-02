@@ -403,7 +403,7 @@ SUB_MIN PROC
         RET
 SUB_MIN ENDP
 
-SUB_HR PROC
+SUB_HR PROC ; For timer
     ; Input: BX = Days, CH = Hour, CL = Minute, DH = Second
     DEC CH
     CMP CH, 0

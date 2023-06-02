@@ -88,7 +88,7 @@ COLOR proc
     XOR AL, AL     ; Clear entire screen
     XOR CX, CX     ; Upper left corner CH=row, CL=column
     MOV DX, 184FH  ; lower right corner DH=row, DL=column 
-    MOV BH, 04H   ; red text only
+    MOV BH, 0FH   ; red text only
     INT 10H
     ret
 COLOR endp

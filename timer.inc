@@ -246,6 +246,8 @@ TMR_MAIN PROC
             CMP AH, 1
             JE TIMER
 
+            CALL NTE_DO2
+
             ; If timer set is empty (all zero), ignore keypress
             MOV AX, word ptr [TMR_SDAY]
             MOV AH, 0
@@ -272,6 +274,7 @@ TMR_MAIN PROC
             CALL TDIS_ON
             JMP TIMER
         T_STP: ; Timer stop
+            CALL NTE_DO
             MOV byte ptr [TMR_RUN], 0
             MOV byte ptr [TMR_ACT], 0
             CALL DIS_STMR
@@ -292,6 +295,7 @@ TMR_MAIN PROC
         T_TGLE: ; Timer toggle
             CMP byte ptr [TMR_ACT], 0
             JE TIMER
+            CALL NTE_FA
             MOV AL, byte ptr [TMR_RUN]
             CMP AL, 1
             JE T_OFF
@@ -581,7 +585,7 @@ TMR_HKY PROC ; Displays alarm hotkey
  
 	MOV DL, 3  ; column/row
 	MOV DH, 5	
-    MOV BP, offset HKT_ST
+    MOV BP, offset HK_X
     mov CX,3
 	PUSH DS
 	POP ES
@@ -618,53 +622,53 @@ TMR_HKY PROC ; Displays alarm hotkey
 
 	MOV DL, 14 
 	MOV DH, 5	
-    MOV BP, offset HKT_S
+    MOV BP, offset HK_Z
 	INT 10H
 
     MOV DL, 3 
 	MOV DH, 11	
-    MOV BP, offset HKT_M
+    MOV BP, offset HK_M
 	INT 10H
 
     MOV DL, 15 
 	MOV DH, 11	
-    MOV BP, offset HKT_K
+    MOV BP, offset HK_K
 	INT 10H
 
     MOV DL, 3 
 	MOV DH, 13	
-    MOV BP, offset HKT_DC
+    MOV BP, offset HK_CA
 	INT 10H
 
     MOV DL, 16 
 	MOV DH, 13	
-    MOV BP, offset HKT_L
+    MOV BP, offset HK_L
 	INT 10H
 
     MOV DL, 21 
 	MOV DH, 11	
-    MOV BP, offset HKT_DM
+    MOV BP, offset HK_DT
 	INT 10H
 
     MOV DL, 36
 	MOV DH, 11	
-    MOV BP, offset HKT_IM
+    MOV BP, offset HK_SN
 	INT 10H
 
     MOV DL, 21 
 	MOV DH, 13	
-    MOV BP, offset HKT_DS
+    MOV BP, offset HK_SH
 	INT 10H
 
     MOV DL, 36
 	MOV DH, 13	
-    MOV BP, offset HKT_IS
+    MOV BP, offset HK_AE
 	INT 10H
 
     MOV CX, 7
     MOV DL, 24 
 	MOV DH, 5	
-    MOV BP, offset HKT_SP
+    MOV BP, offset HK_SE
 	INT 10H
 
 	RET

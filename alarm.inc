@@ -381,6 +381,7 @@ AL_MAIN PROC
 				int 21h
 				JMP ALARM
 		KEY_SPCE: 
+			CALL NTE_DO2
 			MOV AL, byte ptr [SET_ALARM]
 			NOT AL
 			MOV byte ptr [SET_ALARM], AL
