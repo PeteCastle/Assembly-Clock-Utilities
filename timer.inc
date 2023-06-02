@@ -16,24 +16,25 @@
         ;      BBBB#            #BBBB         
         ;         BBBBBBBBBBBBBBBB            
         ;              BBBBBB 
-    TMR1 DB 13,10,"                                                         777777             ", "$"                
-    TMR2 DB 13,10,"              ****TIMER****                             77777777           ", "$"             
-    TMR3 DB 13,10,"                                                          ++++             ", "$"            
-    TMR4 DB 13,10,"                                              7777  BBBBBBBBBBBBBB  777    ", "$"  
-    TMR5 DB 13,10,"       START      STOP          PAUSE/UNPAUSE  7~BBBB##       5##BBBB~7", "$" 
-    TMR6 DB 13,10,"                                                 BBB#       &&  55555#BBB    ", "$" 
-    TMR7 DB 13,10,"        ++++   ++++   ++++   ++++               BBB         && 55555555BBB   ", "$" 
-    TMR8 DB 13,10,"       | 00 | | 00 | | 00 | | 00 |            BBB          &&5555555555BBB   ", "$" 
-    TMR9 DB 13,10,"        ++++   ++++   ++++   ++++             BB#          &&5555555555#BB   ", "$" 
-    TMR10 DB 13,10,"                                             BBB           BB55555555555BBB  ", "$" 
-    TMR11 DB 13,10,"       - DAY +           - MINUTE +          BBB          B  &&         BBB  ", "$" 
+    TMR1 DB 13,10,"       TTTTT  III   M   M  EEEEE  RRRR                   777777             ", "$"                
+    TMR2 DB 13,10,"         T     I    MM MM  E___   R  R                  77777777           ", "$"             
+    TMR3 DB 13,10,"         T     I    M M M  E      RRR                     ++++             ", "$"            
+    TMR4 DB 13,10,"         T    III   M   M  EEEEE  R  R        7777  BBBBBBBBBBBBBB  777    ", "$"  
+    TMR5 DB 13,10,"                                               7~BBBB##       5##BBBB~7", "$" 
+    TMR6 DB 13,10,"       START      STOP          PAUSE/UNPAUSE    BBB#       &&  55555#BBB    ", "$" 
+    TMR7 DB 13,10,"                                                BBB         && 55555555BBB   ", "$" 
+    TMR8 DB 13,10,"        DAYS   HOURS  MINS   SECS             BBB          &&5555555555BBB   ", "$" 
+    TMR9 DB 13,10,"        ++++   ++++   ++++   ++++              BB#          &&5555555555#BB   ", "$" 
+    TMR10 DB 13,10,"       | 00 | | 00 | | 00 | | 00 |            BBB           BB55555555555BBB  ", "$" 
+    TMR11 DB 13,10,"        ++++   ++++   ++++   ++++             BBB          B  &&         BBB  ", "$" 
     TMR12 DB 13,10,"                                               BB#       B      &&      #BB   ", "$" 
-    TMR13 DB 13,10,"       - HOUR +          - SECOND +             BB#                    #BB    ", "$" 
+    TMR13 DB 13,10,"       - DAY +           - MINUTE +             BB#                    #BB    ", "$" 
     TMR14 DB 13,10,"                                                 BBB#      CLOCK     #BBB     ", "$" 
-    TMR15 DB 13,10,"                                                    BBBB#            #BBBB    ", "$" 
-    TMR16 DB 13,10,"          STATUS:                                     BBBBBBBBBBBBBBBB        ", "$" 
+    TMR15 DB 13,10,"       - HOUR +          - SECOND +                 BBBB#            #BBBB    ", "$" 
+    TMR22 DB 13,10,"                                                        BBBBBBBBBBBBBB        ", "$"
+    TMR16 DB 13,10,"          STATUS:                                      BBBBBBBBBBBBBBBB       ", "$" 
     TMR17 DB 13,10,"          CHANGE RINGTONE: Sweet Child                     BBBBBB             ", "$"
-    LINE1 DB 13,10,13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+    LINE1 DB 13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
     TMR18 DB "       +++            +++             +++             +++           +++ ","$"
     TMR19 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
     TMR20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
@@ -359,28 +360,28 @@ TMR_MAIN PROC
 TMR_MAIN ENDP
 
 DIS_RTMR PROC ; Display Remaining Timer
-    MOV DH,8 ;Row and Column (DL) for Timer Day
+    MOV DH,10 ;Row and Column (DL) for Timer Day
     MOV DL,9
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [TMR_RDAY]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Timer Hour
+    MOV DH,10 ;Row and Column (DL) for Timer Hour
     MOV DL,16
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [TMR_RHR]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Timer Minute
+    MOV DH,10 ;Row and Column (DL) for Timer Minute
     MOV DL,23
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [TMR_RMIN]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Timer Second
+    MOV DH,10 ;Row and Column (DL) for Timer Second
     MOV DL,30
     CALL SET_CRSR
     MOV AH, 0
@@ -391,28 +392,28 @@ DIS_RTMR PROC ; Display Remaining Timer
 DIS_RTMR ENDP
 
 DIS_STMR PROC ; Display Set Timer
-    MOV DH,8 ;Row and Column (DL) for Timer Day
+    MOV DH,10 ;Row and Column (DL) for Timer Day
     MOV DL,9
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [TMR_SDAY]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Timer Hour
+    MOV DH,10 ;Row and Column (DL) for Timer Hour
     MOV DL,16
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [TMR_SHR]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Timer Minute
+    MOV DH,10 ;Row and Column (DL) for Timer Minute
     MOV DL,23
     CALL SET_CRSR
     MOV AH, 0
     MOV AL, byte ptr [TMR_SMIN]
     CALL DISP_DT	
 
-    MOV DH,8 ;Row and Column (DL) for Timer Second
+    MOV DH,10 ;Row and Column (DL) for Timer Second
     MOV DL,30
     CALL SET_CRSR
     MOV AH, 0
@@ -422,7 +423,7 @@ DIS_STMR PROC ; Display Set Timer
 DIS_STMR ENDP
 
 TDIS_ON PROC ; Timer status ON
-    MOV DH,16 ;Row and Column (DL) for Timer Status Label ON
+    MOV DH,17 ;Row and Column (DL) for Timer Status Label ON
     MOV DL,18
     MOV BP, offset TRUN_MSG
     mov CX,13
@@ -438,7 +439,7 @@ TDIS_ON PROC ; Timer status ON
 TDIS_ON ENDP
 
 TDIS_SET PROC ; Timer status SET
-    MOV DH,16 ;Row and Column (DL) for Timer Status Label SET
+    MOV DH,17 ;Row and Column (DL) for Timer Status Label SET
     MOV DL,18
     MOV BP, offset TSET_MSG
     mov CX,13
@@ -455,7 +456,7 @@ TDIS_SET ENDP
 
 TDIS_OFF PROC ;Timer status OFF
 
-    MOV DH,16 ;Row and Column (DL) for Timer Status Label OFF
+    MOV DH,17 ;Row and Column (DL) for Timer Status Label OFF
     MOV DL,18
     MOV BP, offset TPSE_MSG
     mov CX,13
@@ -472,7 +473,7 @@ TDIS_OFF ENDP
 
 TDIS_UP PROC ;Timer status UP
 
-    MOV DH,16 ;Row and Column (DL) for Timer Status Label UP
+    MOV DH,17 ;Row and Column (DL) for Timer Status Label UP
     MOV DL,18
     MOV BP, offset TTUP_MSG
     mov CX,13
@@ -549,6 +550,10 @@ TIMRGUI PROC ;Timer Gui
 		MOV AH, 09H
 		INT 21H
 
+        LEA DX, TMR22
+		MOV AH, 09H
+		INT 21H
+
         LEA DX, TMR16
 		MOV AH, 09H
 		INT 21H
@@ -584,7 +589,7 @@ TIMRGUI ENDP
 TMR_HKY PROC ; Displays alarm hotkey
  
 	MOV DL, 3  ; column/row
-	MOV DH, 5	
+	MOV DH, 6	
     MOV BP, offset HK_X
     mov CX,3
 	PUSH DS
@@ -621,53 +626,53 @@ TMR_HKY PROC ; Displays alarm hotkey
 	INT 10H
 
 	MOV DL, 14 
-	MOV DH, 5	
+	MOV DH, 6	
     MOV BP, offset HK_Z
 	INT 10H
 
     MOV DL, 3 
-	MOV DH, 11	
+	MOV DH, 13	
     MOV BP, offset HK_M
 	INT 10H
 
     MOV DL, 15 
-	MOV DH, 11	
+	MOV DH, 13	
     MOV BP, offset HK_K
 	INT 10H
 
     MOV DL, 3 
-	MOV DH, 13	
+	MOV DH, 15	
     MOV BP, offset HK_CA
 	INT 10H
 
     MOV DL, 16 
-	MOV DH, 13	
+	MOV DH, 15	
     MOV BP, offset HK_L
 	INT 10H
 
     MOV DL, 21 
-	MOV DH, 11	
+	MOV DH, 13	
     MOV BP, offset HK_DT
 	INT 10H
 
     MOV DL, 36
-	MOV DH, 11	
+	MOV DH, 13	
     MOV BP, offset HK_SN
 	INT 10H
 
     MOV DL, 21 
-	MOV DH, 13	
+	MOV DH, 15	
     MOV BP, offset HK_SH
 	INT 10H
 
     MOV DL, 36
-	MOV DH, 13	
+	MOV DH, 15	
     MOV BP, offset HK_AE
 	INT 10H
 
     MOV CX, 7
     MOV DL, 24 
-	MOV DH, 5	
+	MOV DH, 6	
     MOV BP, offset HK_SE
 	INT 10H
 
