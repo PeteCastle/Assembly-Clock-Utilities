@@ -13,10 +13,12 @@
     ALRM11 DB 13,10,"       \ .-'`  '. `'.7  6  5.'  '      / _.-'   ","$"
     ALRM12 DB 13,10,"      ___\\       `. _ `'''` _.'\\-.   /.'      ","$"
     ALRM13 DB 13,10,"      `-._ \       .//`''--''   (   )           ","$"
-    ALRM14 DB 13,10,"          '.\     (   )          '-`            ","$"
-    ALRM15 DB 13,10,"                   `-'                          ","$" 
-    ALRM16 DB 13,10,"                    ALARM CLOCK                 ","$"
-	ALRM17 DB 13,10,13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+    ALRM14 DB 13,10,"          '.\     (___)          '-`            ","$"
+    ALRM15 DB 13,10,"         AAAAA  L      AAAAA  RRRR   M   M      ","$"
+	ALRM16 DB 13,10,"        A     A L     A     A R   R  MM MM      ","$"
+	ALRM22 DB 13,10,"        AAAAAA  L     AAAAAA  RRR    M M M           RINGTONE:        ","$"
+	ALRM23 DB 13,10,"        A     A LLLLL A     A R  R   M   M     ","$" 
+	ALRM17 DB 13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
     ALRM18 DB "       +++            +++             +++             +++           +++ ","$"
     ALRM19 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
     ALRM20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
@@ -603,6 +605,14 @@ ALRM_GUI PROC ;Alarm Gui
 		INT 21H
 
 		LEA DX, ALRM16
+		MOV AH, 09H
+		INT 21H
+
+		LEA DX, ALRM22
+		MOV AH, 09H
+		INT 21H
+
+		LEA DX, ALRM23
 		MOV AH, 09H
 		INT 21H
 

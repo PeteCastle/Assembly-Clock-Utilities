@@ -172,66 +172,122 @@
     RTONE_2 ENDP
 
     RTONE_3 PROC ; MAGBALIK
-        CALL NTE_DO 
+        CALL NTE_DO2 
         CALL DELAY
-        CALL NTE_SO
+        CALL NTE_SO2
         CALL DELAY
-        CALL NTE_RE
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO
-        CALL DELAY
-        CALL NTE_RE
-        CALL NTE_MI
-        CALL NTE_RE
+        CALL NTE_RE2
         CALL DELAY
         CALL DELAY
-        CALL NTE_DO
+        CALL NTE_DO2
         CALL DELAY
-        CALL NTE_SO
-        CALL DELAY
-        CALL NTE_RE
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO
-        CALL DELAY
-        CALL NTE_RE
-        CALL NTE_MI
-        CALL NTE_RE
+        CALL NTE_RE2
+        CALL NTE_MI2
+        CALL NTE_RE2
         CALL DELAY
         CALL DELAY
-        CALL NTE_DO
+        CALL NTE_DO2
         CALL DELAY
-        CALL NTE_SO
+        CALL NTE_SO2
         CALL DELAY
-        CALL NTE_RE
-        CALL DELAY
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO
-        CALL DELAY
-        CALL NTE_RE
-        CALL DELAY
-        CALL NTE_MI
-        CALL DELAY
-        CALL NTE_FA
+        CALL NTE_RE2
         CALL DELAY
         CALL DELAY
-        CALL NTE_MI
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL NTE_MI2
+        CALL NTE_RE2
         CALL DELAY
         CALL DELAY
-        CALL NTE_DO
+        CALL NTE_DO2
         CALL DELAY
-        CALL NTE_FA
+        CALL NTE_SO2
         CALL DELAY
-        CALL DELAY
-        CALL NTE_MI
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO
+        CALL NTE_RE2
         CALL DELAY
         CALL DELAY
         CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL DELAY
+        CALL NTE_MI2
+        CALL DELAY
+        CALL NTE_FA2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_MI2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_FA2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_MI2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2 
+        CALL DELAY
+        CALL NTE_SO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL NTE_MI2
+        CALL NTE_RE2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_SO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL NTE_MI2
+        CALL NTE_RE2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_SO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL DELAY
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_RE2
+        CALL DELAY
+        CALL NTE_MI2
+        CALL DELAY
+        CALL NTE_FA2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_MI2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_FA2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_MI2
+        CALL DELAY
+        CALL DELAY
+        CALL NTE_DO2
         RET
     RTONE_3 ENDP
 

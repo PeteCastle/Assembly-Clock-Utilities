@@ -6,12 +6,12 @@ SW2 DB 13,10,"         :^!7?5555?7!^:   :^.    |                      | |   [YOU
 SW3 DB 13,10,"      ^7JJ?7~^:~~:^~7?JJ7^YP5!   |                      | |                 |","$"
 SW4 DB 13,10,"    ~JY7^^!    7!    !^^75P57!   |   Dy   Hr   Sc   Mn  | |                 |","$" 
 SW5 DB 13,10,"  .J5!.  .!:        :!.  .!5?.   |                      | |                 |","$" 
-SW6 DB 13,10," :Y5^^!:          .!.   :!^:5Y:  |     :    :    :      | |                 |","$"   
+SW6 DB 13,10," :Y5^^!:          .!.   :!^:5Y:  |          :    :      | |                 |","$"   
 SW7 DB 13,10," JP^ .^:         ^?:    :^. ^PJ  |                      | |                 |","$"    
-SW8 DB 13,10,"^P? .         .:!J:        . ?P^ |     :    :    :      | |                 |","$"      
+SW8 DB 13,10,"^P? .         .:!J:        . ?P^ |          :    :      | |                 |","$"      
 SW9 DB 13,10,"~P!.7!.       ~PP~       .!7.!P~ |                      | |                 |","$" 
-SW10 DB 13,10,"^P?           .::.           ?P^ |     [X] - Start      | |                 |","$" 
-SW11 DB 13,10," JP^ .^:                :^. ^PJ  |     [Z] - Stop       | |                 |","$" 
+SW10 DB 13,10,"^P?           .::.           ?P^ |     [X] - Stop       | |                 |","$" 
+SW11 DB 13,10," JP^ .^:                :^. ^PJ  |     [Z] - Start      | |                 |","$" 
 SW12 DB 13,10," :Y5:^!:                :!^:5Y:  |     [C] - Lap        | |                 |","$" 
 SW13 DB 13,10,"  .J5!.  .!:        :!.  .!5J.   |     [V] - Reset      | |                 |","$" 
 SW14 DB 13,10,"    ~JY7^^!    77    !^^7YJ~     |______________________| |_________________|","$" 
@@ -42,8 +42,13 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
 .CODE
     SW_MAIN PROC
         SW_INIT:
+
+            CALL RST_CRSR
             CALL CLRSCR
+            CALL COLOR
             CALL STPW_GUI
+            CALL STPW_HKY
+
         STOPWATCH:
             MOV AH, 01H
             INT 16H
@@ -57,9 +62,9 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
             CMP AL, 'Z'
             JE SW_PSE
            
-            CMP AL, 'x'
-            JE SW_SRT
             CMP AL, 'X'
+            JE SW_SRT
+            CMP AL, 'x'
             JE SW_SRT
 
             CMP AL, 'c'
@@ -402,3 +407,60 @@ STPW_GUI PROC ;stopwatch gui function(print)
     STPW_GUI ENDP
 
     
+STPW_HKY PROC ; DISPLAYS STOPWATCH HOTKEYS
+
+MOV CX,3
+PUSH DS
+POP ES
+MOV AL, 1
+MOV BH, 0
+MOV BL, 00001110b
+MOV AH, 13h
+
+MOV DL, 7
+MOV DH, 22	
+MOV BP, offset HK_Q
+INT 10H
+
+MOV DL, 22
+MOV DH, 22	
+MOV BP, offset HK_W
+INT 10H
+
+MOV DL, 38
+MOV DH, 22	
+MOV BP, offset HK_E
+INT 10H
+
+MOV DL, 54
+MOV DH, 22	
+MOV BP, offset HK_R
+INT 10H
+
+MOV DL, 68
+MOV DH, 22	
+MOV BP, offset HK_T
+INT 10H
+
+MOV DL, 39
+MOV DH, 11	
+MOV BP, offset HK_Z
+INT 10H
+
+MOV DL, 39
+MOV DH, 12	
+MOV BP, offset HK_X
+INT 10H
+
+MOV DL, 39
+MOV DH, 13	
+MOV BP, offset HK_C
+INT 10H
+
+MOV DL, 39
+MOV DH, 14	
+MOV BP, offset HK_V
+INT 10H
+
+RET
+STPW_HKY ENDP
