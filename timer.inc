@@ -30,11 +30,10 @@
     TMR12 DB 13,10,"                                               BB#       B      &&      #BB   ", "$" 
     TMR13 DB 13,10,"       - DAY +           - MINUTE +             BB#                    #BB    ", "$" 
     TMR14 DB 13,10,"                                                 BBB#      CLOCK     #BBB     ", "$" 
-    TMR15 DB 13,10,"       - HOUR +          - SECOND +                 BBBB#            #BBBB    ", "$" 
-    TMR22 DB 13,10,"                                                        BBBBBBBBBBBBBB        ", "$"
-    TMR16 DB 13,10,"          STATUS:                                      BBBBBBBBBBBBBBBB       ", "$" 
-    TMR17 DB 13,10,"          CHANGE RINGTONE: Sweet Child                     BBBBBB             ", "$"
-    LINE1 DB 13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+    TMR15 DB 13,10,"                                                    BBBB#            #BBBB    ", "$" 
+    TMR16 DB 13,10,"          STATUS:                                     BBBBBBBBBBBBBBBB        ", "$" 
+    TMR17 DB 13,10,"        RINGTONE:                                          BBBBBB             ", "$"
+    LINE1 DB 13,10,13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
     TMR18 DB "       +++            +++             +++             +++           +++ ","$"
     TMR19 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
     TMR20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
@@ -120,6 +119,11 @@ TMR_MAIN PROC
             CMP AL, 'X'
             JE T_SRT
 
+            CMP AL, 'u'
+			JE T_KEY_U
+			CMP AL, 'U'
+			JE T_KEY_U
+
             CMP AL, ' '
             JE T_TGLE
 
@@ -128,6 +132,7 @@ TMR_MAIN PROC
             CMP AL, '\';For debugging only, disables 1 second delay
             JE TDIS_DBG
             
+
             CALL MODE_MGR
 
             JMP TIMER
@@ -293,6 +298,13 @@ TMR_MAIN PROC
                 MOV byte ptr [TMR_SSEC], 59
                 CALL DIS_STMR
                 JMP TIMER
+        T_KEY_U: ;Change ringtone
+            CALL CHG_RINDX
+			MOV DL, 18 ; Row and Column (DL) for RINGTONE NAME
+			MOV DH, 17	
+			CALL DIS_RTONE
+			JMP TIMER
+
         T_TGLE: ; Timer toggle
             CMP byte ptr [TMR_ACT], 0
             JE TIMER
@@ -346,7 +358,7 @@ TMR_MAIN PROC
 
             ;Timer expired
             CALL TDIS_UP
-            CALL RING2
+            CALL TRIG_ALM
             JMP T_STP    
             
         TMR_NPR: ;Stopwatch no press

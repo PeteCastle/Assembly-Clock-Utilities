@@ -11,7 +11,7 @@
 	TIT3 DB 13,10,"                               |  :10 \|   2:  |                        ","$" 
 	TIT4 DB 13,10,"                               |  :9   @   3:  |                        ","$"
 	TIT5 DB 13,10,"                               |  :8       4;  |                        ","$"
-	TIT6 DB 13,10,"                               '. '..7 6 5..' .'                        ","$"
+	TIT6 DB 13,10,"                                '. '..7 6 5..' .'                        ","$"
 	TIT7 DB 13,10,"                                ~-------------~                         ","$" 
 	TIT8 DB 13,10,"        __   __     __   ____  _  _         ___  __     __    ___  __ _ ","$"
 	TIT9 DB 13,10,"       / _\ (  )   / _\ (  _ \( \/ )       / __)(  )   /  \  / __)(  / )","$"
@@ -24,26 +24,31 @@
    TIT16 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE",13,10,13,10,13,10,"$"
 
 	include hotkeys.inc
+	
 
+	
 	;User Input Variables
 	INPUT DB 128 (?) ; User input
 	STOR DW 0                       
+
 .CODE
 include utils.inc
 include notes.inc
+include sound.inc
 include timer.inc
 include swatch.inc
 include alarm.inc
 include datetime.inc
 include clock.inc
 include math.inc
-include sound.inc
+
 
 .STARTUP 
 	
 	CALL RST_CRSR
 	call color
-	CALL RING1
+	CALL INTRO
+
 
 	; Print title screen
 	TITSCR:

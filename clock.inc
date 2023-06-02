@@ -1,9 +1,9 @@
 CK_MAIN PROC
     CK_INIT:
         CALL CLRSCR
+        
 
     CLOCK:
-
         CALL DELAY
         
         MOV DX, 0508H
