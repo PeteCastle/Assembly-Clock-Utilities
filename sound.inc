@@ -167,6 +167,57 @@
         CALL NTE_DO
         CALL NTE_RE
         CALL NTE_FA
+
+        CALL NTE_DO ;2ND BAR
+        CALL NTE_RE
+        CALL NTE_FA
+        CALL NTE_LA
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_LA
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_FA
+
+        CALL NTE_DO ;3RD BAR
+        CALL NTE_RE
+        CALL NTE_FA
+        CALL NTE_LA
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_LA
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_FA
+
+        CALL NTE_DO ;LAST BAR
+        CALL NTE_RE
+        CALL NTE_FA
+        CALL NTE_LA
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_DO2
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_LA
+        CALL DELAY
+        CALL NTE_DO
+        CALL NTE_RE
+        CALL NTE_FA
         CALL DELAY
         RET
     RTONE_2 ENDP
