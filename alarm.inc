@@ -48,6 +48,10 @@ AL_MAIN PROC
 			CALL COLOR
 			CALL ALRM_GUI
 			CALL ALRM_HKY
+			
+			MOV DL, 56 ; Row and Column (DL) for RINGTONE NAME
+			MOV DH, 18	
+			CALL DIS_RTONE
 
 			MOV DH,4 ;Row and Column (DL) for Hour
 			MOV DL,61
@@ -199,7 +203,7 @@ AL_MAIN PROC
 			MOV AH, 09H
 			INT 21H
 			
-			CALL RING2
+			CALL TRIG_ALM
 
 			MOV byte ptr[SET_ALARM], 0
 			MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
@@ -277,6 +281,12 @@ AL_MAIN PROC
 			JE KEY_J
 			CMP AL, 'j'
 			JE KEY_J
+
+			CMP AL, 'u'
+			JE KEY_U
+			CMP AL, 'U'
+			JE KEY_U
+
 
 			CALL MODE_MGR
 
@@ -477,6 +487,13 @@ AL_MAIN PROC
 
 			JMP WK_COND 
 
+		KEY_U:
+			CALL CHG_RINDX
+			MOV DL, 56 ; Row and Column (DL) for RINGTONE NAME
+			MOV DH, 18	
+			CALL DIS_RTONE
+			JMP WK_COND
+
 		WK_COND: ;Standard weekday conditions
 			CMP AL, 1
 			JE IS_EQU
@@ -612,12 +629,14 @@ ALRM_GUI PROC ;Alarm Gui
 		RET
 ALRM_GUI ENDP
 
+
 ALRM_HKY PROC ; Displays alarm hotkey
  
 	MOV DL, 49  
 	MOV DH, 10	
     MOV BP, offset HK_A
     mov CX,3
+
 	PUSH DS
 	POP ES
 	MOV AL, 1
