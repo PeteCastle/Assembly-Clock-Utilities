@@ -30,15 +30,17 @@
     TMR12 DB 13,10,"                                               BB#       B      &&      #BB   ", "$" 
     TMR13 DB 13,10,"       - DAY +           - MINUTE +             BB#                    #BB    ", "$" 
     TMR14 DB 13,10,"                                                 BBB#      CLOCK     #BBB     ", "$" 
-    TMR15 DB 13,10,"                                                    BBBB#            #BBBB    ", "$" 
-    TMR16 DB 13,10,"          STATUS:                                     BBBBBBBBBBBBBBBB        ", "$" 
+    TMR15 DB 13,10,"       - HOUR +          - SECOND +                 BBBB#            #BBBB    ", "$" 
+    TMR22 DB 13,10,"                                                        BBBBBBBBBBBBBB        ", "$"
+    TMR16 DB 13,10,"          STATUS:                                      BBBBBBBBBBBBBBBB       ", "$" 
     TMR17 DB 13,10,"        RINGTONE:                                          BBBBBB             ", "$"
-    LINE1 DB 13,10,13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+    LINE1 DB 13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
     TMR18 DB "       +++            +++             +++             +++           +++ ","$"
     TMR19 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
     TMR20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
     TMR21 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
-    
+
+
     TMR_SDAY DW 0 ;Timer Set Day
     TMR_SHR DB 0 ;Timer Set Hour
     TMR_SMIN DB 0 ;Timer Set Minute
@@ -301,7 +303,7 @@ TMR_MAIN PROC
         T_KEY_U: ;Change ringtone
             CALL CHG_RINDX
 			MOV DL, 18 ; Row and Column (DL) for RINGTONE NAME
-			MOV DH, 17	
+			MOV DH, 18	
 			CALL DIS_RTONE
 			JMP TIMER
 
