@@ -23,6 +23,30 @@
     TMR20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
     TMR21 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
 
+    TMR_UP1 DB 13,10,"                        :7Y!         .JJ.         !Y7:                         ", "$"                
+    TMR_UP2 DB 13,10,"                      .!YJ~. ::      .YY.      :: .~JY!.                       ", "$"             
+    TMR_UP3 DB 13,10,"                     :JY!  ~JY7   :~!7YY7!~:   7YJ~  !YJ:                      ", "$"            
+    TMR_UP4 DB 13,10,"                    :JY^ .?Y7: :!JJ?!~~~~!?JJ!: :7Y?. ^YJ:                     ", "$"  
+    TMR_UP5 DB 13,10,"                   .?Y~ .?Y!  !YJ~.        .~JY!  !Y?. ~Y?.                    ", "$" 
+    TMR_UP6 DB 13,10,"                   !Y?  7Y7  7Y7              7Y7  7Y7  ?Y!                    ", "$" 
+    TMR_UP7 DB 13,10,"                   ?Y~ .JJ: ^Y?.              .?Y^ :JJ. ~Y?                    ", "$" 
+    TMR_UP8 DB 13,10,"                   !?: .77. ~J7                7J~ .77. :?!                    ", "$" 
+    TMR_UP9 DB 13,10,"                            ~J7                7J~                             ", "$" 
+    TMR_UP10 DB 13,10,"                            ~J7                7J~                             ", "$" 
+    TMR_UP11 DB 13,10,"                            ~J7                7J~                             ", "$" 
+    TMR_UP12 DB 13,10,"                            !J!                !J!                             ", "$" 
+    TMR_UP13 DB 13,10,"                           .?J^                ^J?                             ", "$" 
+    TMR_UP14 DB 13,10,"                          !J7                  7J!                             ", "$" 
+    TMR_UP15 DB 13,10,"                         !?7.                  .7?!                            ", "$" 
+    TMR_UP16 DB 13,10,"                       ^7??^:^^^^^:::^^:::^^^^^:^??7^                          ", "$"
+    TMR_UP17 DB 13,10,"                      .!!!!!!!!!!!7??!!??7!!!!!!!!!!!.                         ", "$" 
+    TMR_UP18 DB 13,10,"                                  ^?7..7?^                                     ", "$"
+    TMR_UP19 DB 13,10,"                                   ^7??7^                                      ", "$"
+    TMR_UP20 DB 13,10,"                   _____ ___ __  __ ___ _ ___   _   _ ___ _ _                  ", "$"
+    TMR_UP21 DB 13,10,"                  |_   _|_ _|  \/  | __( / __| | | | | _ | | |                 ", "$"
+    TMR_UP22 DB 13,10,"                    | |  | || |\/| | _||/\__ \ | |_| |  _|_|_|                 ", "$"
+    TMR_UP23 DB 13,10,"                    |_| |___|_|  |_|___| |___/  \___/|_| (_(_)                 ", "$"
+
     TMR_SDAY DW 0 ;Timer Set Day
     TMR_SHR DB 0 ;Timer Set Hour
     TMR_SMIN DB 0 ;Timer Set Minute
@@ -38,22 +62,13 @@
     TRUN_MSG DB 'Timer Running','$'
     TPSE_MSG DB 'Timer Paused ','$'
     TSET_MSG DB 'Set Timer    ','$'
-    TTUP_MSG DB 'Times Up!    ','$'
+
 .CODE
 TMR_MAIN PROC
     TMR_INIT:
-        CALL RST_CRSR
-        CALL CLRSCR
-        CALL COLOR
-        CALL CURS_OFF
-	    CALL TIMRGUI
+	    CALL TMR_GUI
         CALL DIS_STMR
         CALL TDIS_SET
-        CALL TMR_HKY
-        MOV DL, 18 ; Row and Column (DL) for RINGTONE NAME
-		MOV DH, 18	
-		CALL DIS_RTONE
-
     TIMER:
         MOV AH, 01H
         INT 16H
@@ -336,8 +351,10 @@ TMR_MAIN PROC
             JNE TIMER
 
             ;Timer expired
-            CALL TDIS_UP
+            CALL TMR_UP
             CALL TRIG_ALM
+            
+            CALL TMR_GUI
             JMP T_STP    
             
         TMR_NPR: ;Stopwatch no press
@@ -462,24 +479,13 @@ TDIS_OFF PROC ;Timer status OFF
 	RET
 TDIS_OFF ENDP
 
-TDIS_UP PROC ;Timer status UP
+TMR_GUI PROC ;Timer Gui
 
-    MOV DH,17 ;Row and Column (DL) for Timer Status Label UP
-    MOV DL,18
-    MOV BP, offset TTUP_MSG
-    MOV CX,13
+    CALL RST_CRSR
+    CALL CLRSCR
+    CALL CURS_OFF
+    CALL COLOR
 
-	PUSH DS
-	POP ES
-	MOV AL, 1
-	MOV BH, 0
-	MOV BL, 00000100b
-	MOV AH, 13h
-	INT 10H
-	RET
-TDIS_UP ENDP
-
-TIMRGUI PROC ;Timer Gui
     LEA DX, TMR1
     MOV AH, 09H
     INT 21H
@@ -572,8 +578,14 @@ TIMRGUI PROC ;Timer Gui
     MOV AH, 09H
     INT 21H
 
+    MOV DL, 18 ; Row and Column (DL) for RINGTONE NAME
+    MOV DH, 18	
+    CALL DIS_RTONE
+
+    CALL TMR_HKY
+
     RET
-TIMRGUI ENDP
+TMR_GUI ENDP
 
 TMR_HKY PROC ; Displays alarm hotkey
 	MOV DL, 3  ; column/row
@@ -666,3 +678,104 @@ TMR_HKY PROC ; Displays alarm hotkey
 
 	RET
 TMR_HKY ENDP
+
+TMR_UP PROC
+    CALL RST_CRSR
+    CALL CLRSCR
+    CALL COLOR
+    CALL CURS_OFF
+
+    LEA DX, TMR_UP1
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP2
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP3
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP4
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP5
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP6
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP7
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP8
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP9
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP10
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP11
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP12
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP13
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP14
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP15
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP16
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP17
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP18
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP19
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP20
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP21
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP22
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, TMR_UP23
+    MOV AH, 09H
+    INT 21H
+
+    RET
+TMR_UP ENDP

@@ -24,7 +24,29 @@
     ALRM20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
     ALRM21 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
 
-	ALRMMSG DB "ALARM!!!!!!!","$"
+	ALM_UP1 DB 13,10,"                        :7Y!         .JJ.         !Y7:                         ", "$"                
+    ALM_UP2 DB 13,10,"                      .!YJ~. ::      .YY.      :: .~JY!.                       ", "$"             
+    ALM_UP3 DB 13,10,"                     :JY!  ~JY7   :~!7YY7!~:   7YJ~  !YJ:                      ", "$"            
+    ALM_UP4 DB 13,10,"                    :JY^ .?Y7: :!JJ?!~~~~!?JJ!: :7Y?. ^YJ:                     ", "$"  
+    ALM_UP5 DB 13,10,"                   .?Y~ .?Y!  !YJ~.        .~JY!  !Y?. ~Y?.                    ", "$" 
+    ALM_UP6 DB 13,10,"                   !Y?  7Y7  7Y7              7Y7  7Y7  ?Y!                    ", "$" 
+    ALM_UP7 DB 13,10,"                   ?Y~ .JJ: ^Y?.              .?Y^ :JJ. ~Y?                    ", "$" 
+    ALM_UP8 DB 13,10,"                   !?: .77. ~J7                7J~ .77. :?!                    ", "$" 
+    ALM_UP9 DB 13,10,"                            ~J7                7J~                             ", "$" 
+    ALM_UP10 DB 13,10,"                            ~J7                7J~                             ", "$" 
+    ALM_UP11 DB 13,10,"                            ~J7                7J~                             ", "$" 
+    ALM_UP12 DB 13,10,"                            !J!                !J!                             ", "$" 
+    ALM_UP13 DB 13,10,"                           .?J^                ^J?                             ", "$" 
+    ALM_UP14 DB 13,10,"                          !J7                  7J!                             ", "$" 
+    ALM_UP15 DB 13,10,"                         !?7.                  .7?!                            ", "$" 
+    ALM_UP16 DB 13,10,"                       ^7??^:^^^^^:::^^:::^^^^^:^??7^                          ", "$"
+    ALM_UP17 DB 13,10,"                      .!!!!!!!!!!!7??!!??7!!!!!!!!!!!.                         ", "$" 
+    ALM_UP18 DB 13,10,"                                  ^?7..7?^                                     ", "$"
+    ALM_UP19 DB 13,10,"                                   ^7??7^                                      ", "$"
+    ALM_UP20 DB 13,10,"                       _   _     _   ___ _   _  _  _  _  __ ||||               ", "$"
+    ALM_UP21 DB 13,10,"                      / \ | |   / \ | o \ \_/ || || \| |/ _|L|L|               ", "$"
+    ALM_UP22 DB 13,10,"                     | o || |_ | o ||   / \_/ || || \\ ( |_n                   ", "$"
+    ALM_UP23 DB 13,10,"                     |_n_||___||_n_||_|\\_| |_||_||_|\_|\__/()()               ", "$"
 
 	STAT_ON DB "ALARM ON  ","$"
 	STAT_OF DB "ALARM OFF ","$"
@@ -41,90 +63,8 @@
 .CODE
 AL_MAIN PROC
 	ALM_INIT:
-		CALL RST_CRSR
-		CALL CLRSCR
-		CALL COLOR
-		CALL CURS_OFF
 		CALL ALRM_GUI
-		CALL ALRM_HKY
 		
-		MOV DL, 63 ; Row and Column (DL) for RINGTONE NAME
-		MOV DH, 18	
-		CALL DIS_RTONE
-
-		MOV DH,4 ;Row and Column (DL) for Hour
-		MOV DL,61
-		CALL SET_CRSR
-		MOV AH, 0
-		MOV AL, byte ptr [SET_HOUR]
-		CALL DISP_DT	
-
-		MOV DH,4 ;Row and Column (DL) for Minute
-		MOV DL,64
-		CALL SET_CRSR
-		MOV AH, 0
-		MOV AL, byte ptr [SET_MIN]
-		CALL DISP_DT
-
-		MOV DH,4 ;Row and Column (DL) for Midday
-		MOV DL, 67
-		CALL SET_CRSR
-		MOV dl, 'A'     ; To print A
-		MOV ah, 02h
-		INT 21h
-		MOV dl, 'M'     ; To print M
-		MOV ah, 02h
-		INT 21h
-
-		MOV CX, 6
-		MOV BP, offset SUN
-		MOV DL, 53 ; Row and Column (DL) for sun 
-		MOV DH, 10	
-
-		CALL ADIS_OFF
-		MOV CX, 6
-		MOV BP, offset MON
-		MOV DL, 53 ; Row and Column (DL) for Monday
-		MOV DH, 12
-
-		CALL ADIS_OFF
-		MOV CX, 7
-		MOV BP, offset TUE
-		MOV DL, 53 ; Row and Column (DL) for TUE
-		MOV DH, 14
-
-		CALL ADIS_OFF 
-		MOV CX, 9
-		MOV BP, offset WED
-		MOV DL, 53 ; Row and Column (DL) for WED
-		MOV DH, 16
-
-		CALL ADIS_OFF
-		MOV CX, 8
-		MOV BP, offset THU
-		MOV DL, 68 ; Row and Column (DL) for THU
-		MOV DH, 10
-
-		CALL ADIS_OFF
-		MOV CX, 6
-		MOV BP, offset FRI
-		MOV DL, 68 ; Row and Column (DL) for FRI
-		MOV DH, 12
-
-		CALL ADIS_OFF
-		MOV CX, 8
-		MOV BP, offset SAT
-		MOV DL, 68 ; Row and Column (DL) for SAT
-		MOV DH, 14
-
-		CALL ADIS_OFF
-		
-		MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
-		MOV DH, 1	
-		MOV CX, 10
-		MOV BP, offset STAT_OF
-		CALL ADIS_OFF
-
 	ALARM:
 		; Clear Keyboard Buffer
 		MOV AH, 0CH
@@ -189,12 +129,10 @@ AL_MAIN PROC
 		POP BX
 		CMP AL, BL
 		JNE AL_RET
-
-		LEA DX, ALRMMSG
-		MOV AH, 09H
-		INT 21H
 		
+		CALL ALRM_UP
 		CALL TRIG_ALM
+		CALL ALRM_GUI
 
 		MOV byte ptr[SET_ALARM], 0
 		MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
@@ -518,6 +456,11 @@ ADIS_OFF PROC ;Alarm status of
 ADIS_OFF ENDP
 
 ALRM_GUI PROC ;Alarm Gui
+	CALL RST_CRSR
+	CALL CLRSCR
+	CALL COLOR
+	CALL CURS_OFF
+
 	LEA DX, ALRM0
 	MOV AH, 09H
 	INT 21H
@@ -614,7 +557,86 @@ ALRM_GUI PROC ;Alarm Gui
 	MOV AH, 09H
 	INT 21H
 
+	MOV DL, 63 ; Row and Column (DL) for RINGTONE NAME
+	MOV DH, 18	
+	CALL DIS_RTONE
+
+	MOV DH,4 ;Row and Column (DL) for Hour
+	MOV DL,61
+	CALL SET_CRSR
+	MOV AH, 0
+	MOV AL, byte ptr [SET_HOUR]
+	CALL DISP_DT	
+
+	MOV DH,4 ;Row and Column (DL) for Minute
+	MOV DL,64
+	CALL SET_CRSR
+	MOV AH, 0
+	MOV AL, byte ptr [SET_MIN]
+	CALL DISP_DT
+
+	MOV DH,4 ;Row and Column (DL) for Midday
+	MOV DL, 67
+	CALL SET_CRSR
+	MOV dl, 'A'     ; To print A
+	MOV ah, 02h
+	INT 21h
+	MOV dl, 'M'     ; To print M
+	MOV ah, 02h
+	INT 21h
+
+	MOV CX, 6
+	MOV BP, offset SUN
+	MOV DL, 53 ; Row and Column (DL) for sun 
+	MOV DH, 10	
+
+	CALL ADIS_OFF
+	MOV CX, 6
+	MOV BP, offset MON
+	MOV DL, 53 ; Row and Column (DL) for Monday
+	MOV DH, 12
+
+	CALL ADIS_OFF
+	MOV CX, 7
+	MOV BP, offset TUE
+	MOV DL, 53 ; Row and Column (DL) for TUE
+	MOV DH, 14
+
+	CALL ADIS_OFF 
+	MOV CX, 9
+	MOV BP, offset WED
+	MOV DL, 53 ; Row and Column (DL) for WED
+	MOV DH, 16
+
+	CALL ADIS_OFF
+	MOV CX, 8
+	MOV BP, offset THU
+	MOV DL, 68 ; Row and Column (DL) for THU
+	MOV DH, 10
+
+	CALL ADIS_OFF
+	MOV CX, 6
+	MOV BP, offset FRI
+	MOV DL, 68 ; Row and Column (DL) for FRI
+	MOV DH, 12
+
+	CALL ADIS_OFF
+	MOV CX, 8
+	MOV BP, offset SAT
+	MOV DL, 68 ; Row and Column (DL) for SAT
+	MOV DH, 14
+
+	CALL ADIS_OFF
+	
+	MOV DL, 60 ; Row and Column (DL) for ALARM OF/ON 
+	MOV DH, 1	
+	MOV CX, 10
+	MOV BP, offset STAT_OF
+	CALL ADIS_OFF
+
+	CALL ALRM_HKY
 	RET
+	
 ALRM_GUI ENDP
 
 
@@ -725,5 +747,105 @@ ALRM_HKY PROC ; Displays alarm hotkey
 
 	RET
 ALRM_HKY ENDP
-		
+
+ALRM_UP PROC
+	CALL RST_CRSR
+	CALL CLRSCR
+	CALL COLOR
+	CALL CURS_OFF
+
+	LEA DX, ALM_UP1
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP2
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP3
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP4
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP5
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP6
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP7
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP8
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP9
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP10
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP11
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP12
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP13
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP14
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP15
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP16
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP17
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP18
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP19
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP20
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP21
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP22
+    MOV AH, 09H
+    INT 21H
+
+    LEA DX, ALM_UP23
+    MOV AH, 09H
+    INT 21H
+
+    RET
+ALRM_UP ENDP
     	
