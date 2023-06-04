@@ -1,6 +1,14 @@
 # Assembly Clock Utilities
 ![](resources/images/2023-06-04-22-53-55.png)
 
+### Reproduction Steps
+#### Compilation
+Within your DOSBOX TASM emulator, enter the following commands:
+* Change directory `cd` to the current working directory.
+* Compile the program using `tasm main.asm`.
+* Link the program using `tlink main.obj`.
+#### Execution
+* Run the program using `main.exe`.
 ### Objectives
 * 10 interrupts with functions
 * Create a clock using assembly language.
