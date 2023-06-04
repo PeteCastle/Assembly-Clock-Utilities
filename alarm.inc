@@ -51,7 +51,7 @@ AL_MAIN PROC
 			CALL ALRM_GUI
 			CALL ALRM_HKY
 			
-			MOV DL, 56 ; Row and Column (DL) for RINGTONE NAME
+			MOV DL, 63 ; Row and Column (DL) for RINGTONE NAME
 			MOV DH, 18	
 			CALL DIS_RTONE
 
@@ -475,7 +475,7 @@ AL_MAIN PROC
 			JMP WK_COND 
 		KEY_U:
 			CALL CHG_RINDX
-			MOV DL, 56 ; Row and Column (DL) for RINGTONE NAME
+			MOV DL, 63 ; Row and Column (DL) for RINGTONE NAME
 			MOV DH, 18	
 			CALL DIS_RTONE
 			JMP WK_COND
