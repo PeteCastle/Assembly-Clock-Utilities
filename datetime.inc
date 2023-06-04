@@ -46,18 +46,7 @@ PRNT_TME PROC
     CMP CH, 12
     JB X
     IS_PM:
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
-        DEC AL
+        SUB AL, 12
     X:
         CALL DISP_DT
         MOV DL, ':'
@@ -320,15 +309,6 @@ DEC_EQV PROC
 DEC_EQV ENDP
 
 DISP_DT PROC
-    PUSH AX
-
-    ; MOV ah, 09h
-    ; MOV AL, 0
-    ; MOV BL, 06H
-    ; INT 10h
-
-    POP AX
-
     CALL DEC_EQV
 
     MOV DL, BH

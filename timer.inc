@@ -1,21 +1,4 @@
 .DATA
-        ;              777777                 
-        ;             77777777                
-        ;               ~~~~                  
-        ;    7777  BBBBBBBBBBBBBB  777        
-        ;     7~BBBB##       5##BBBB~7        
-        ;     BBB#       &&  55555#BBB        
-        ;    BBB         && 55555555BBB       
-        ;   BBB          &&5555555555BBB      
-        ;   BB#          &&5555555555#BB      
-        ;  BBB           BB55555555555BBB     
-        ;  BBB          B  &&         BBB     
-        ;   BB#       B      &&      #BB      
-        ;    BB#                    #BB       
-        ;     BBB#                #BBB        
-        ;      BBBB#            #BBBB         
-        ;         BBBBBBBBBBBBBBBB            
-        ;              BBBBBB 
     TMR1 DB 13,10,"       TTTTT  III   M   M  EEEEE  RRRR                   777777             ", "$"                
     TMR2 DB 13,10,"         T     I    MM MM  E___   R  R                  77777777           ", "$"             
     TMR3 DB 13,10,"         T     I    M M M  E      RRR                     ++++             ", "$"            
@@ -40,7 +23,6 @@
     TMR20 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
     TMR21 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
 
-
     TMR_SDAY DW 0 ;Timer Set Day
     TMR_SHR DB 0 ;Timer Set Hour
     TMR_SMIN DB 0 ;Timer Set Minute
@@ -57,10 +39,6 @@
     TPSE_MSG DB 'Timer Paused ','$'
     TSET_MSG DB 'Set Timer    ','$'
     TTUP_MSG DB 'Times Up!    ','$'
-
-
-
-
 .CODE
 TMR_MAIN PROC
     TMR_INIT:
@@ -72,6 +50,9 @@ TMR_MAIN PROC
         CALL DIS_STMR
         CALL TDIS_SET
         CALL TMR_HKY
+        MOV DL, 18 ; Row and Column (DL) for RINGTONE NAME
+		MOV DH, 18	
+		CALL DIS_RTONE
 
     TIMER:
         MOV AH, 01H
@@ -313,10 +294,9 @@ TMR_MAIN PROC
             MOV AL, byte ptr [TMR_RUN]
             CMP AL, 1
             JE T_OFF
-            ; T_ON:
-                MOV byte ptr [TMR_RUN], 1
-                CALL TDIS_ON
-                JMP TIMER
+            MOV byte ptr [TMR_RUN], 1
+            CALL TDIS_ON
+            JMP TIMER
             T_OFF:
                 CALL TDIS_OFF
                 MOV byte ptr[TMR_RUN], 0
@@ -327,17 +307,16 @@ TMR_MAIN PROC
             JNE TNO_DBG
             CALL DELAY_1SC
             TNO_DBG:
-
-            MOV BX, word ptr [TMR_RDAY]
-            MOV CH, byte ptr [TMR_RHR]
-            MOV CL, byte ptr [TMR_RMIN]
-            MOV DH, byte ptr [TMR_RSEC]
-            CALL SUB_SEC
-            MOV word ptr [TMR_RDAY], BX
-            MOV byte ptr [TMR_RHR], CH
-            MOV byte ptr [TMR_RMIN], CL
-            MOV byte ptr [TMR_RSEC], DH
-            CALL DIS_RTMR
+                MOV BX, word ptr [TMR_RDAY]
+                MOV CH, byte ptr [TMR_RHR]
+                MOV CL, byte ptr [TMR_RMIN]
+                MOV DH, byte ptr [TMR_RSEC]
+                CALL SUB_SEC
+                MOV word ptr [TMR_RDAY], BX
+                MOV byte ptr [TMR_RHR], CH
+                MOV byte ptr [TMR_RMIN], CL
+                MOV byte ptr [TMR_RSEC], DH
+                CALL DIS_RTMR
             
             ;Checks if timer expired (from seconds to day)
             MOV AL, byte ptr [TMR_RSEC]
