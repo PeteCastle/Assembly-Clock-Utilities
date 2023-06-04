@@ -1,5 +1,5 @@
 .DATA
-	 TLRM1 DB 13,10,"                     :7Y!         .JJ.         !Y7:                         ", "$"                
+	 TLRM1 DB 13,10,13,10,"                     :7Y!         .JJ.         !Y7:                         ", "$"                
      TLRM2 DB 13,10,"                   .!YJ~. ::      .YY.      :: .~JY!.                       ", "$"             
      TLRM3 DB 13,10,"                  :JY!  ~JY7   :~!7YY7!~:   7YJ~  !YJ:                      ", "$"            
      TLRM4 DB 13,10,"                 :JY^ .?Y7: :!JJ?!~~~~!?JJ!: :7Y?. ^YJ:                     ", "$"  
@@ -36,95 +36,95 @@
 
 
     TLRM_GUI PROC ;Timer Gui
-    LEA DX, TMR1
+    LEA DX, TLRM1
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR2
+    LEA DX, TLRM2
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR3
+    LEA DX, TLRM3
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR4
+    LEA DX, TLRM4
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR5
+    LEA DX, TLRM5
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR6
+    LEA DX, TLRM6
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR7
+    LEA DX, TLRM7
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR8
+    LEA DX, TLRM8
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR9
+    LEA DX, TLRM9
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR10
+    LEA DX, TLRM10
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR11
+    LEA DX, TLRM11
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR12
+    LEA DX, TLRM12
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR13
+    LEA DX, TLRM13
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR14
+    LEA DX, TLRM14
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR15
+    LEA DX, TLRM15
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR22
+    LEA DX, TLRM16
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR16
+    LEA DX, TLRM17
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR17
+    LEA DX, TLRM18
     MOV AH, 09H
     INT 21H
 
-    LEA DX, LINE1
+    LEA DX, TLRM19
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR18
+    LEA DX, TLRM20
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR19
+    LEA DX, TLRM21
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR20
+    LEA DX, TLRM22
     MOV AH, 09H
     INT 21H
 
-    LEA DX, TMR21
+    LEA DX, TLRM23
     MOV AH, 09H
     INT 21H
 
