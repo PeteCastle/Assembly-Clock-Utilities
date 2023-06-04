@@ -215,32 +215,32 @@ PRNT_DTE PROC
         JMP YEAR
 
     YEAR:
-        mov dl, ' '     ; To print /
-        mov ah, 02h
-        int 21h
+        MOV dl, ' '     ; To print /
+        MOV ah, 02h
+        INT 21h
 
         POP DX
-        mov al, dl      ; day in dl
+        MOV al, dl      ; day in dl
         CALL DISP_DT
 
-        mov dl, ','     ; To print /
-        mov ah, 02h
-        int 21h
+        MOV dl, ','     ; To print /
+        MOV ah, 02h
+        INT 21h
 
-        mov dl, ' '     ; To print /
-        mov ah, 02h
-        int 21h
+        MOV dl, ' '     ; To print /
+        MOV ah, 02h
+        INT 21h
 
-        mov dl, '2'     ; To print /
-        mov ah, 02h
-        int 21h
+        MOV dl, '2'     ; To print /
+        MOV ah, 02h
+        INT 21h
 
-        mov dl, '0'     ; To print /
-        mov ah, 02h
-        int 21h
+        MOV dl, '0'     ; To print /
+        MOV ah, 02h
+        INT 21h
 
         ADD cx, 0F830h  ; To negate the effects of 16bit value,
-        mov ax, cx      ; year in ax 
+        MOV ax, cx      ; year in ax 
         CALL DISP_DT       ; call disp procedure to display year
     RET
 PRNT_DTE ENDP
@@ -320,6 +320,15 @@ DEC_EQV PROC
 DEC_EQV ENDP
 
 DISP_DT PROC
+    PUSH AX
+
+    ; MOV ah, 09h
+    ; MOV AL, 0
+    ; MOV BL, 06H
+    ; INT 10h
+
+    POP AX
+
     CALL DEC_EQV
 
     MOV DL, BH

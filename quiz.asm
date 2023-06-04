@@ -3,15 +3,15 @@
 .stack 100h
 .code
     start:
-    mov cx, 10      ; Loop Counter
+    MOV cx, 10      ; Loop Counter
 
     print_loop:
-        mov ah, 02h ; Interrupt to print char
-        mov dl, '*' ; Character to print
-        int 21h     ; 
+        MOV ah, 02h ; Interrupt to print char
+        MOV dl, '*' ; Character to print
+        INT 21h     ; 
         loop print_loop
 
-    mov ah, 4Ch    ; Exit program
-    int 21h
+    MOV ah, 4Ch    ; Exit program
+    INT 21h
 
 end START

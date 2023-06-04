@@ -64,10 +64,10 @@
 .CODE
 TMR_MAIN PROC
     TMR_INIT:
-
         CALL RST_CRSR
         CALL CLRSCR
         CALL COLOR
+        CALL CURS_OFF
 	    CALL TIMRGUI
         CALL DIS_STMR
         CALL TDIS_SET
@@ -134,7 +134,6 @@ TMR_MAIN PROC
             CMP AL, '\';For debugging only, disables 1 second delay
             JE TDIS_DBG
             
-
             CALL MODE_MGR
 
             JMP TIMER
@@ -340,7 +339,6 @@ TMR_MAIN PROC
             MOV byte ptr [TMR_RSEC], DH
             CALL DIS_RTMR
             
-
             ;Checks if timer expired (from seconds to day)
             MOV AL, byte ptr [TMR_RSEC]
             CMP AL, 0
@@ -440,7 +438,7 @@ TDIS_ON PROC ; Timer status ON
     MOV DH,17 ;Row and Column (DL) for Timer Status Label ON
     MOV DL,18
     MOV BP, offset TRUN_MSG
-    mov CX,13
+    MOV CX,13
 
 	PUSH DS
 	POP ES
@@ -456,7 +454,7 @@ TDIS_SET PROC ; Timer status SET
     MOV DH,17 ;Row and Column (DL) for Timer Status Label SET
     MOV DL,18
     MOV BP, offset TSET_MSG
-    mov CX,13
+    MOV CX,13
 
 	PUSH DS
 	POP ES
@@ -473,7 +471,7 @@ TDIS_OFF PROC ;Timer status OFF
     MOV DH,17 ;Row and Column (DL) for Timer Status Label OFF
     MOV DL,18
     MOV BP, offset TPSE_MSG
-    mov CX,13
+    MOV CX,13
 
 	PUSH DS
 	POP ES
@@ -490,7 +488,7 @@ TDIS_UP PROC ;Timer status UP
     MOV DH,17 ;Row and Column (DL) for Timer Status Label UP
     MOV DL,18
     MOV BP, offset TTUP_MSG
-    mov CX,13
+    MOV CX,13
 
 	PUSH DS
 	POP ES
@@ -503,109 +501,106 @@ TDIS_UP PROC ;Timer status UP
 TDIS_UP ENDP
 
 TIMRGUI PROC ;Timer Gui
+    LEA DX, TMR1
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, TMR1
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR2
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR2
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR3
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR3
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR4
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR4
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR5
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR5
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR6
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR6
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR7
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR7
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR8
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR8
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR9
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR9
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR10
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR10
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR11
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR11
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR12
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR12
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR13
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR13
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR14
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR14
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR15
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR15
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR22
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR22
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR16
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR16
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR17
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR17
-		MOV AH, 09H
-		INT 21H
+    LEA DX, LINE1
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, LINE1
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR18
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR18
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR19
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR19
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR20
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR20
-		MOV AH, 09H
-		INT 21H
+    LEA DX, TMR21
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, TMR21
-		MOV AH, 09H
-		INT 21H
-
-        ret
-
+    RET
 TIMRGUI ENDP
 
 TMR_HKY PROC ; Displays alarm hotkey
- 
 	MOV DL, 3  ; column/row
 	MOV DH, 6	
     MOV BP, offset HK_X
-    mov CX,3
+    MOV CX,3
 	PUSH DS
 	POP ES
 	MOV AL, 1

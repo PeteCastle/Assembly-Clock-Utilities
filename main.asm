@@ -42,14 +42,9 @@ include datetime.inc
 include clock.inc
 include math.inc
 
-
 .STARTUP 
-	
 	CALL RST_CRSR
 	call color
-	CALL INTRO
-
-
 	; Print title screen
 	TITSCR:
 
@@ -116,6 +111,8 @@ include math.inc
 		LEA DX, TIT16
 		MOV AH, 09H
 		INT 21H
+		CALL CURS_OFF
+		CALL INTRO
 
 	TITIN:
 		CALL GETKIN

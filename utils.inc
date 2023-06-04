@@ -1,5 +1,5 @@
  CURS_OFF PROC ;NEAR
-    MOV     CH, 10h         ;Hides cursor
+    MOV     CH, 31H         ;Hides cursor
     MOV     AH, 01H         ;Interrupt for set text-mode sursor shape
     INT     10h             
     RET
@@ -27,11 +27,10 @@ DELAY PROC ; Delay (loop based_
 DELAY ENDP
 
 DELAY_1SC PROC ; Delay (time based)
-
-    mov     cx, 0fh
-    mov     dx, 4240h   ; 1 000 000 microseconds 
-    mov     ah, 86h
-    int     15h
+    MOV     cx, 0fh
+    MOV     dx, 4240h   ; 1 000 000 microseconds 
+    MOV     ah, 86h
+    INT     15h
     RET
 DELAY_1SC ENDP
 
@@ -90,18 +89,14 @@ COLOR proc
     MOV DX, 184FH  ; lower right corner DH=row, DL=column 
     MOV BH, 0BH   ; BLACK BG CYAN TEXT
     INT 10H
-    ret
+    RET
 COLOR endp
-
-COL_RED PROC ; Red Text Only
-
-COL_RED ENDP
 
 GETKIN PROC ;Get Key Input ( blocking; synchronous) -> Stores input in INPUT variable (AL)
     MOV AH, 08H         ;Interrupt for get keyboard input
     MOV INPUT, AL
     INT 21H
-    ret
+    RET
 GETKIN ENDP
 
 GETKINAS PROC

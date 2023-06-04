@@ -1,29 +1,28 @@
 .DATA
-
-SW0 DB 13,10,"            .7JJJJ7.       ","$"                  
-SW1 DB 13,10,"             !5PP5!               ______________________   _________________","$" 
-SW2 DB 13,10,"         :^!7?5555?7!^:   :^.    |                      | |   [YOUR LAPS]   |","$" 
-SW3 DB 13,10,"      ^7JJ?7~^:~~:^~7?JJ7^YP5!   |                      | |                 |","$"
-SW4 DB 13,10,"    ~JY7^^!    7!    !^^75P57!   |   Dy   Hr   Sc   Mn  | |                 |","$" 
-SW5 DB 13,10,"  .J5!.  .!:        :!.  .!5?.   |                      | |                 |","$" 
-SW6 DB 13,10," :Y5^^!:          .!.   :!^:5Y:  |          :    :      | |                 |","$"   
-SW7 DB 13,10," JP^ .^:         ^?:    :^. ^PJ  |                      | |                 |","$"    
-SW8 DB 13,10,"^P? .         .:!J:        . ?P^ |          :    :      | |                 |","$"      
-SW9 DB 13,10,"~P!.7!.       ~PP~       .!7.!P~ |                      | |                 |","$" 
-SW10 DB 13,10,"^P?           .::.           ?P^ |     [X] - Stop       | |                 |","$" 
-SW11 DB 13,10," JP^ .^:                :^. ^PJ  |     [Z] - Start      | |                 |","$" 
-SW12 DB 13,10," :Y5:^!:                :!^:5Y:  |     [C] - Lap        | |                 |","$" 
-SW13 DB 13,10,"  .J5!.  .!:        :!.  .!5J.   |     [V] - Reset      | |                 |","$" 
-SW14 DB 13,10,"    ~JY7^^!    77    !^^7YJ~     |______________________| |_________________|","$" 
-SW15 DB 13,10,"      ^7JJ?7~^:~~:^~7?JJ7^__  _____  ___   ___  _        __   _____  __    _   ","$" 
-SW16 DB 13,10,"         :^!7??????7!^:  ( (`  | |  / / \ | |_)\ \    / / /\   | |  / /`  | |_|","$" 
-SW17 DB 13,10,"                         _)_)  |_|  \_\_/ |_|   \_\/\/ /_/--\  |_|  \_\_, |_| |","$"    
-SW18 DB 13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
-SW19 DB "       +++            +++             +++             +++           +++ ","$"
-SW20 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
-SW21 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
-SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
-    
+    SW0 DB 13,10,"            .7JJJJ7.       ","$"                  
+    SW1 DB 13,10,"             !5PP5!               ______________________   _________________","$" 
+    SW2 DB 13,10,"         :^!7?5555?7!^:   :^.    |                      | |   [YOUR LAPS]   |","$" 
+    SW3 DB 13,10,"      ^7JJ?7~^:~~:^~7?JJ7^YP5!   |                      | |                 |","$"
+    SW4 DB 13,10,"    ~JY7^^!    7!    !^^75P57!   |   Dy   Hr   Sc   Mn  | |                 |","$" 
+    SW5 DB 13,10,"  .J5!.  .!:        :!.  .!5?.   |                      | |                 |","$" 
+    SW6 DB 13,10," :Y5^^!:          .!.   :!^:5Y:  |          :    :      | |                 |","$"   
+    SW7 DB 13,10," JP^ .^:         ^?:    :^. ^PJ  |                      | |                 |","$"    
+    SW8 DB 13,10,"^P? .         .:!J:        . ?P^ |          :    :      | |                 |","$"      
+    SW9 DB 13,10,"~P!.7!.       ~PP~       .!7.!P~ |                      | |                 |","$" 
+    SW10 DB 13,10,"^P?           .::.           ?P^ |     [X] - Stop       | |                 |","$" 
+    SW11 DB 13,10," JP^ .^:                :^. ^PJ  |     [Z] - Start      | |                 |","$" 
+    SW12 DB 13,10," :Y5:^!:                :!^:5Y:  |     [C] - Lap        | |                 |","$" 
+    SW13 DB 13,10,"  .J5!.  .!:        :!.  .!5J.   |     [V] - Reset      | |                 |","$" 
+    SW14 DB 13,10,"    ~JY7^^!    77    !^^7YJ~     |______________________| |_________________|","$" 
+    SW15 DB 13,10,"      ^7JJ?7~^:~~:^~7?JJ7^__  _____  ___   ___  _        __   _____  __    _   ","$" 
+    SW16 DB 13,10,"         :^!7??????7!^:  ( (`  | |  / / \ | |_)\ \    / / /\   | |  / /`  | |_|","$" 
+    SW17 DB 13,10,"                         _)_)  |_|  \_\_/ |_|   \_\/\/ /_/--\  |_|  \_\_, |_| |","$"    
+    SW18 DB 13,10,13,10,".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==-=-.","$"
+    SW19 DB "       +++            +++             +++             +++           +++ ","$"
+    SW20 DB 13,10,"      | Q |          | W +           | E |           | R |         | T |","$"
+    SW21 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
+    SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE","$"
+        
     SW_DAY DW 0
     SW_HR DB 0 
     SW_MIN DB 0
@@ -34,7 +33,6 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
     LAP_SEC DB 0
     LAP_CNT DB 0
 
-
     SW_RUN DB 0 ; Boolean for stopwatch running
     SDBG_MDE DB 0 ; Boolean for debug mode
     SRUN_MSG DB 'Stopwatch Running','$'
@@ -42,13 +40,12 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
 .CODE
     SW_MAIN PROC
         SW_INIT:
-
             CALL RST_CRSR
             CALL CLRSCR
+            CALL CURS_OFF
             CALL COLOR
             CALL STPW_GUI
             CALL STPW_HKY
-
         STOPWATCH:
             MOV AH, 01H
             INT 16H
@@ -160,7 +157,6 @@ SW22 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH     
                 JMP STOPWATCH
     SW_MAIN ENDP
 
-
 DISP_SW PROC ;Displays stopwatch (normal)
     MOV DH,7 ;Row and Column (DL) for Stopwatch Day
     MOV DL,37
@@ -229,18 +225,18 @@ DISP_LLT PROC ; Displays row in laps list
     MOV DL, 60
     CALL SET_CRSR
 
-    mov dl, '#'     ; To print #
-    mov ah, 02h
-    int 21h
+    MOV dl, '#'     ; To print #
+    MOV ah, 02h
+    INT 21h
 
     MOV AH, 0
-    mov AL, byte ptr [LAP_CNT]
-    add AL, 1
+    MOV AL, byte ptr [LAP_CNT]
+    ADD AL, 1
     CALL DISP_DT
 
-    mov dl, ' '     ; To print  
-    mov ah, 02h
-    int 21h
+    MOV dl, ' '     ; To print  
+    MOV ah, 02h
+    INT 21h
 
     ; If Lap day is zero, it is not displayed
     MOV AH, 0
@@ -249,43 +245,40 @@ DISP_LLT PROC ; Displays row in laps list
     JE LLC1
     CALL DISP_DT	
 
-    mov dl, ' '     ; To print  
-    mov ah, 02h
-    int 21h
-
+    MOV dl, ' '     ; To print  
+    MOV ah, 02h
+    INT 21h
     ; If lap hour is zero, it is not displat]yed
     LLC1:
-    MOV AH, 0
-    MOV AL, byte ptr [LAP_HR]
-    CMP AL, 0
-    JE LLC2
-    CALL DISP_DT
+        MOV AH, 0
+        MOV AL, byte ptr [LAP_HR]
+        CMP AL, 0
+        JE LLC2
+        CALL DISP_DT
 
-    mov dl, ':'     ; To print :
-    mov ah, 02h
-    int 21h
-
+        MOV dl, ':'     ; To print :
+        MOV ah, 02h
+        INT 21h
     LLC2:
-    MOV AH, 0
-    MOV AL, byte ptr [LAP_MIN]
-    CALL DISP_DT
+        MOV AH, 0
+        MOV AL, byte ptr [LAP_MIN]
+        CALL DISP_DT
 
-    mov dl, ':'     ; To print :
-    mov ah, 02h
-    int 21h
+        MOV dl, ':'     ; To print :
+        MOV ah, 02h
+        INT 21h
 
-    MOV AH, 0
-    MOV AL, byte ptr [LAP_SEC]
-    CALL DISP_DT
+        MOV AH, 0
+        MOV AL, byte ptr [LAP_SEC]
+        CALL DISP_DT
     RET
 DISP_LLT ENDP
 
 SDIS_ON PROC ; Stopwatch status ON
-
     MOV DH,3 ;Row and Column (DL) for Stopwatch Status Label
     MOV DL,37
     MOV BP, offset SRUN_MSG
-    mov CX,17
+    MOV CX,17
 
 	PUSH DS
 	POP ES
@@ -298,11 +291,10 @@ SDIS_ON PROC ; Stopwatch status ON
 SDIS_ON ENDP
 
 SDIS_OFF PROC ;Stopwatch status OFF
-
     MOV DH,3 ;Row and Column (DL) for Stopwatch Status Label
     MOV DL,37
     MOV BP, offset SPSE_MSG
-    mov CX,17
+    MOV CX,17
 
 	PUSH DS
 	POP ES
@@ -315,152 +307,151 @@ SDIS_OFF PROC ;Stopwatch status OFF
 SDIS_OFF ENDP
 
 STPW_GUI PROC ;stopwatch gui function(print)
-		LEA DX, SW0
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW0
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, SW1
-		MOV AH, 09H
-		INT 21H
-		LEA DX, SW2
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW3
-		MOV AH, 09H
-		INT 21H
-		LEA DX, SW4
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW5
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW1
+    MOV AH, 09H
+    INT 21H
+    LEA DX, SW2
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW3
+    MOV AH, 09H
+    INT 21H
+    LEA DX, SW4
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW5
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW6
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW7
-		MOV AH, 09H
-		INT 21H
-		LEA DX, SW8
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW9
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW6
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW7
+    MOV AH, 09H
+    INT 21H
+    LEA DX, SW8
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW9
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW10
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW11
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW10
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW11
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW12
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW12
+    MOV AH, 09H
+    INT 21H
 
-        LEA DX, SW13
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW13
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW14
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW15
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW14
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW15
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW16
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW17
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW16
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW17
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW18
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW19
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW18
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW19
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW20
-		MOV AH, 09H
-		INT 21H
-        
-        LEA DX, SW21
-		MOV AH, 09H
-		INT 21H
+    LEA DX, SW20
+    MOV AH, 09H
+    INT 21H
+    
+    LEA DX, SW21
+    MOV AH, 09H
+    INT 21H
 
-		LEA DX, SW22
-		MOV AH, 09H
-		INT 21H
-        RET
+    LEA DX, SW22
+    MOV AH, 09H
+    INT 21H
+    RET
     STPW_GUI ENDP
 
     
 STPW_HKY PROC ; DISPLAYS STOPWATCH HOTKEYS
+    MOV CX,3
+    PUSH DS
+    POP ES
+    MOV AL, 1
+    MOV BH, 0
+    MOV BL, 00001110b
+    MOV AH, 13h
 
-MOV CX,3
-PUSH DS
-POP ES
-MOV AL, 1
-MOV BH, 0
-MOV BL, 00001110b
-MOV AH, 13h
+    MOV DL, 7
+    MOV DH, 22	
+    MOV BP, offset HK_Q
+    INT 10H
 
-MOV DL, 7
-MOV DH, 22	
-MOV BP, offset HK_Q
-INT 10H
+    MOV DL, 22
+    MOV DH, 22	
+    MOV BP, offset HK_W
+    INT 10H
 
-MOV DL, 22
-MOV DH, 22	
-MOV BP, offset HK_W
-INT 10H
+    MOV DL, 38
+    MOV DH, 22	
+    MOV BP, offset HK_E
+    INT 10H
 
-MOV DL, 38
-MOV DH, 22	
-MOV BP, offset HK_E
-INT 10H
+    MOV DL, 54
+    MOV DH, 22	
+    MOV BP, offset HK_R
+    INT 10H
 
-MOV DL, 54
-MOV DH, 22	
-MOV BP, offset HK_R
-INT 10H
+    MOV DL, 68
+    MOV DH, 22	
+    MOV BP, offset HK_T
+    INT 10H
 
-MOV DL, 68
-MOV DH, 22	
-MOV BP, offset HK_T
-INT 10H
+    MOV DL, 39
+    MOV DH, 11	
+    MOV BP, offset HK_Z
+    INT 10H
 
-MOV DL, 39
-MOV DH, 11	
-MOV BP, offset HK_Z
-INT 10H
+    MOV DL, 39
+    MOV DH, 12	
+    MOV BP, offset HK_X
+    INT 10H
 
-MOV DL, 39
-MOV DH, 12	
-MOV BP, offset HK_X
-INT 10H
+    MOV DL, 39
+    MOV DH, 13	
+    MOV BP, offset HK_C
+    INT 10H
 
-MOV DL, 39
-MOV DH, 13	
-MOV BP, offset HK_C
-INT 10H
+    MOV DL, 39
+    MOV DH, 14	
+    MOV BP, offset HK_V
+    INT 10H
 
-MOV DL, 39
-MOV DH, 14	
-MOV BP, offset HK_V
-INT 10H
-
-RET
+    RET
 STPW_HKY ENDP

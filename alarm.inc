@@ -44,10 +44,10 @@
 
 AL_MAIN PROC
 		ALM_INIT:
-			
 			CALL RST_CRSR
 			CALL CLRSCR
 			CALL COLOR
+			CALL CURS_OFF
 			CALL ALRM_GUI
 			CALL ALRM_HKY
 			
@@ -72,14 +72,12 @@ AL_MAIN PROC
 			MOV DH,4 ;Row and Column (DL) for Midday
 			MOV DL, 67
 			CALL SET_CRSR
-			mov dl, 'A'     ; To print /
-			mov ah, 02h
-			int 21h
-			mov dl, 'M'     ; To print /
-			mov ah, 02h
-			int 21h
-
-			; CALL COLOR_MA ; Reset
+			MOV dl, 'A'     ; To print A
+			MOV ah, 02h
+			INT 21h
+			MOV dl, 'M'     ; To print M
+			MOV ah, 02h
+			INT 21h
 
 			MOV CX, 6
 			MOV BP, offset SUN
@@ -188,12 +186,6 @@ AL_MAIN PROC
 			CMP AL, BL
 			JNE AL_RET
 
-			
-			; ;REMOVE LATER
-			; LEA DX, TEST3
-			; MOV AH, 09H
-			; INT 21H
-			
 			;Check for minute
 			MOV AH, 0
 			MOV AL, byte ptr [SET_MIN]
@@ -222,16 +214,13 @@ AL_MAIN PROC
 			MOV AH, 0
 			INT 16H
 			JMP ALM_KYPR
-			; CALL GETKIN
+
 			ALM_KYPR:	;Alarm Key press
 			CMP AL, ';'
 			JE SEMICLN
 
 			CMP AL, '.'
 			JE PERIOD
-
-			; CMP AL, 'Q'
-			; JE KEY_Q
 
 			; Note that apostrophe may not work for JSDOS TASM
 			; But works for DOSBOX TASM
@@ -288,7 +277,6 @@ AL_MAIN PROC
 			JE KEY_U
 			CMP AL, 'U'
 			JE KEY_U
-
 
 			CALL MODE_MGR
 
@@ -375,22 +363,22 @@ AL_MAIN PROC
 			MOV AL, byte ptr [SET_MDDAY]
 			CMP AL, 0FFh
 			JE MD_PM
-			mov dl, 'A'     ; To print /
-			mov ah, 02h
-			int 21h
+			MOV dl, 'A'     ; To print A
+			MOV ah, 02h
+			INT 21h
 
-			mov dl, 'M'     ; To print /
-			mov ah, 02h
-			int 21h
+			MOV dl, 'M'     ; To print M
+			MOV ah, 02h
+			INT 21h
 			JMP ALARM
 			MD_PM:
-				mov dl, 'P'     ; To print /
-				mov ah, 02h
-				int 21h
+				MOV dl, 'P'     ; To print /
+				MOV ah, 02h
+				INT 21h
 
-				mov dl, 'M'     ; To print /
-				mov ah, 02h
-				int 21h
+				MOV dl, 'M'     ; To print /
+				MOV ah, 02h
+				INT 21h
 				JMP ALARM
 		KEY_SPCE: 
 			CALL NTE_DO2
@@ -406,7 +394,6 @@ AL_MAIN PROC
 			CMP AL, 0FFh
 			JE ALRM_ON
 
-			
 			MOV BP, offset STAT_OF
 			CALL ADIS_OFF
 			JMP ALARM
@@ -456,7 +443,6 @@ AL_MAIN PROC
 			MOV DH, 16
 
 			JMP WK_COND 
-
 		KEY_G:
 			MOV CX, 4
 			CALL A_WD_BIT
@@ -477,7 +463,6 @@ AL_MAIN PROC
 			MOV DH, 12
 
 			JMP WK_COND 
-
 		KEY_J:
 			MOV CX, 6
 			CALL A_WD_BIT
@@ -488,14 +473,12 @@ AL_MAIN PROC
 			MOV DH, 14
 
 			JMP WK_COND 
-
 		KEY_U:
 			CALL CHG_RINDX
 			MOV DL, 56 ; Row and Column (DL) for RINGTONE NAME
 			MOV DH, 18	
 			CALL DIS_RTONE
 			JMP WK_COND
-
 		WK_COND: ;Standard weekday conditions
 			CMP AL, 1
 			JE IS_EQU
@@ -504,8 +487,6 @@ AL_MAIN PROC
 			IS_EQU:
 				CALL ADIS_ON
 				JMP ALARM
-
-    ; RET
 AL_MAIN ENDP
 
 A_WD_BIT PROC ;Inverts and reads weekday bits
@@ -645,7 +626,7 @@ ALRM_HKY PROC ; Displays alarm hotkey
 	MOV DL, 49  
 	MOV DH, 10	
     MOV BP, offset HK_A
-    mov CX,3
+    MOV CX,3
 
 	PUSH DS
 	POP ES
