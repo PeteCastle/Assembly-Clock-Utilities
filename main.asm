@@ -23,7 +23,7 @@
    TIT15 DB 13,10,"       +++            +++             +++             +++           +++ ","$"
    TIT16 DB 13,10,"      CLOCK          ALARM           TIMER         STOPWATCH       CLOSE",13,10,13,10,13,10,"$"
 
-	include hotkeys.inc
+	include deps/hotkeys.inc
 	
 
 	
@@ -32,15 +32,15 @@
 	STOR DW 0                       
 
 .CODE
-include utils.inc
-include notes.inc
-include sound.inc
-include timer.inc
-include swatch.inc
-include alarm.inc
-include datetime.inc
-include clock.inc
-include math.inc
+include deps/utils.inc
+include deps/notes.inc
+include deps/sound.inc
+include core/timer.inc
+include core/swatch.inc
+include core/alarm.inc
+include deps/datetime.inc
+include core/clock.inc
+include deps/math.inc
 
 .STARTUP 
 	CALL RST_CRSR
