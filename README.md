@@ -52,21 +52,6 @@ The **Stopwatch** function handles stopwatch functionality. It displays the stop
 
 In each function, after the respective actions are performed, the program loops back to waiting for keyboard input, allowing the user to interact with the menu and choose different options.
 
-
-#### Core Files
-`main.asm` - Program's entry point
-`clock.inc` - All functionalities of the clock
-`alarm.inc` - All functionalities of the alarm
-`swatch.inc` - All functionalities of the stopwatch
-`timer.inc` - All functionalities of the timer
-### Dependencices
-`datetime.inc` - Provides date and time information and its associated arithmetic operations.
-`hotkeys.inc` - Data file for displaying GUI hotkeys.
-`notes.inc` - Procedures pertaining to different nodes needed for musics.
-`sound.inc` - Procedures for playing all musics available in the program.  Also responsible for determining the current music.
-`utils.inc` - Utilities for improvement of user experience including but not limited to cursor movement, screen clearing, and string printing.
-`math.inc` - Provides arithmetic operations for the program.
-
 ### List of Interrupts
 |     Method                   |     Used   For                                                 |     Details                                                              |     Found   In                                              |
 |------------------------------|----------------------------------------------------------------|--------------------------------------------------------------------------|-------------------------------------------------------------|
