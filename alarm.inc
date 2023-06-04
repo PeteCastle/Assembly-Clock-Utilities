@@ -714,7 +714,7 @@ ALRM_HKY PROC ; Displays alarm hotkey
 
 	MOV DL, 71 
 	MOV DH, 7	
-    MOV BP, offset HK_CA
+    MOV BP, offset HK_AE
 	INT 10H
 
 	MOV CX,7
