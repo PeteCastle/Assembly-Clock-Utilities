@@ -650,6 +650,11 @@ TMR_HKY PROC ; Displays alarm hotkey
     MOV BP, offset HK_L
 	INT 10H
 
+    MOV DL, 4 
+	MOV DH, 18	
+    MOV BP, offset HK_U
+	INT 10H
+
     MOV DL, 21 
 	MOV DH, 13	
     MOV BP, offset HK_DT
