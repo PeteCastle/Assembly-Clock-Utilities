@@ -2,14 +2,14 @@
     RTONE1_N DB "Sweet Child", "$"
     RTONE2_N DB "Mundo      ", "$"
     RTONE3_N DB "Magbalik   ", "$"
-
+    RTONE4_N DB "JetLag     ", "$"
     RTONE_ID DB 1 ; Alarm sound index -> Used to determine which sound to play
 	
 .CODE
     CHG_RINDX PROC
         MOV AL, byte ptr [RTONE_ID]
         INC AL
-        CMP AL, 4
+        CMP AL, 5
         JE RST_RIDX
         MOV byte ptr [RTONE_ID], AL
         RET
@@ -34,6 +34,8 @@
         JE D_RT2
         CMP AL, 3
         JE D_RT3
+        CMP AL, 4
+        JE D_RT4
         RET
         D_RT1:
             MOV BP, offset RTONE1_N
@@ -43,6 +45,9 @@
             JMP D_RSTR
         D_RT3:
             MOV BP, offset RTONE3_N
+            JMP D_RSTR
+        D_rt4:
+            MOV BP, offset RTONE4_N
             JMP D_RSTR
         D_RSTR:
             MOV AL, 1
@@ -59,6 +64,8 @@
         JE RTONE_2
         CMP AL, 3
         JE RTONE_3
+        CMP AL, 4
+        JE RTONE_4
         RET
         C_RT1:
             CALL RTONE_1
@@ -69,6 +76,8 @@
         C_RT3:
             CALL RTONE_3
             RET
+        C_RT4:
+            CALL RTONE_4
     TRIG_ALM ENDP
 
     INTRO PROC ; INTRO
@@ -284,6 +293,44 @@
         CALL DELAY
         RET
     RTONE_3 ENDP
+
+    RTONE_4 PROC
+        CALL NTE_DO2
+        CALL NTE_SO
+        CALL NTE_DO2
+        CALL NTE_TI
+        CALL NTE_SO
+        CALL NTE_TI
+        CALL NTE_DO2
+        CALL NTE_SO
+        CALL NTE_DO2
+        CALL NTE_RE2
+        CALL NTE_SO
+        CALL NTE_SO ;CALL DELAY
+        CALL NTE_MI2
+        CALL NTE_SO
+        CALL NTE_RE2
+        CALL NTE_SO
+        ;CALL DELAY
+        CALL NTE_DO2
+        CALL NTE_SO
+        CALL NTE_DO2
+        CALL NTE_TI
+        CALL NTE_SO
+        CALL NTE_TI
+        CALL NTE_DO2
+        CALL NTE_SO
+        CALL NTE_DO2
+        CALL NTE_RE2
+        CALL NTE_SO
+        CALL NTE_SO;CALL DELAY
+        CALL NTE_MI2
+        CALL NTE_SO
+        CALL NTE_RE2
+        CALL NTE_SO
+        CALL DELAY
+        RET
+    RTONE_4 ENDP
 
     OUTRO PROC ; OUTRO FOR EXIT PROGRAM
         CALL NTE_DO2
