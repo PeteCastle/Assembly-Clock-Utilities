@@ -282,63 +282,6 @@
         CALL NTE_DO2
         CALL DELAY
         CALL DELAY
-        CALL NTE_DO2 
-        CALL DELAY
-        CALL NTE_SO2
-        CALL DELAY
-        CALL NTE_RE2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
-        CALL DELAY
-        CALL NTE_RE2
-        CALL NTE_MI2
-        CALL NTE_RE2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
-        CALL DELAY
-        CALL NTE_SO2
-        CALL DELAY
-        CALL NTE_RE2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
-        CALL DELAY
-        CALL NTE_RE2
-        CALL NTE_MI2
-        CALL NTE_RE2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
-        CALL DELAY
-        CALL NTE_SO2
-        CALL DELAY
-        CALL NTE_RE2
-        CALL DELAY
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
-        CALL DELAY
-        CALL NTE_RE2
-        CALL DELAY
-        CALL NTE_MI2
-        CALL DELAY
-        CALL NTE_FA2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_MI2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
-        CALL DELAY
-        CALL NTE_FA2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_MI2
-        CALL DELAY
-        CALL DELAY
-        CALL NTE_DO2
         RET
     RTONE_3 ENDP
 
